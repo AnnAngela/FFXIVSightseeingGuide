@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [
+            "es5",
+            "dom",
+            "es2015.promise",
+            "es2015.iterable"
+        ],
+        "module": "es2015",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules"
+    ],
+    "compileOnSave": false
+}
