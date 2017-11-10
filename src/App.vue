@@ -49,6 +49,7 @@ import EorzeaClock from "./EorzeaTime"
 @Component
 export default class App extends Vue {
     eorzeaclock: string = "00:00";
+    _lastWeatherChangeKey: number = 0;
     get currentLang(){
         return this.$i18n.locale;
     }
@@ -57,6 +58,12 @@ export default class App extends Vue {
         this.$i18n.locale = localStorage.getItem("lang") || "zh-CN";
         setInterval(function(){
             let nowet = new EorzeaClock(undefined);
+
+            let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
+            if(self._lastWeatherChangeKey != weatherChangeKey){
+                self.$gBus.$emit("weatherChange", 0);
+            }
+
             let hour = nowet.getHours();
             let hs = "";
             if(hour < 10){

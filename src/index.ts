@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueI18n from 'vue-i18n'
+import GlobalBus from './globalBus'
 
 import App from './App.vue'
 import HomePage from './components/home.vue'
@@ -13,8 +14,9 @@ import ja_JP from './locales/ja-JP'
 import 'jquery'
 import 'bootstrap'
 
-Vue.use(VueRouter)
-Vue.use(VueI18n)
+Vue.use(VueRouter);
+Vue.use(VueI18n);
+Vue.use(GlobalBus);
 
 const routerOption = {
     "routes": [

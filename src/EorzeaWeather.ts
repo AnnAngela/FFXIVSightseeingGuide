@@ -11,14 +11,14 @@ export default class EorzeaWeather{
         tempDate.date.setSeconds(0);
         return tempDate;
     }
-    static forecastSeed(time: EorzeaClock){
+    static forecastSeed(time: EorzeaClock, initSeeds: number[] = [0]){
         function calcSeed(base: number){
             let step1 = (base << 11 ^ base) >>> 0;
             let step2 = (step1 >>> 8 ^ step1) >>> 0;
             return step2 % 100;
         }
-        return [-8, 0, 8, 16, 24, 32, 40, 48, 56, 64]
-        .map(x => time.addHours(x))
+        return initSeeds
+        .map(x => time.addHours(8 * x))
         .map(t => t.getDays() * 100 + ((t.getHours() + 8 - t.getHours() % 8) % 24))
         .map(i => calcSeed(i));
     }

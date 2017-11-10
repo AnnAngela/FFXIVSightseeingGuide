@@ -49,14 +49,17 @@ export default class WeatherOverviewPage extends Vue {
     hourString:string[] = []; //基准时间
     weatherResult: AreaWeatherForecast[] = [];
     created(){
-        this.weatherchange()
+        this.weatherchange();
+        this.$gBus.$on("weatherChange", (s: number) => {
+            this.weatherchange();
+        });
     }
     weatherchange(){
         let eorzeaNow = new EorzeaClock(undefined);
         let baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(eorzeaNow);
         let baseHour = baseTime.getHours() / 8;
         this.hourString = [-1, 0, 1, 2, 3, 4, 5].map(i => baseHour + i).map(bh => timeTag[(bh + 3) % 3]);
-        let weatherSeeds = EorzeaWeather.forecastSeed(eorzeaNow);
+        let weatherSeeds = EorzeaWeather.forecastSeed(eorzeaNow, [-1, 0, 1, 2, 3, 4, 5]);
 
         this.weatherResult = [];
         for(let area in EorzeaWeatherData){
