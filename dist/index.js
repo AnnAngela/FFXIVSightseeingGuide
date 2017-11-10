@@ -24088,7 +24088,8 @@ var App = /** @class */ (function (_super) {
             var nowet = new __WEBPACK_IMPORTED_MODULE_2__EorzeaTime__["a" /* default */](undefined);
             var weatherChangeKey = (nowet.getHours() / 8) >>> 0;
             if (self._lastWeatherChangeKey != weatherChangeKey) {
-                self.$gBus.$emit("weatherChange", 0);
+                self.$gBus.$emit("weatherChange", weatherChangeKey);
+                self._lastWeatherChangeKey = weatherChangeKey;
             }
             var hour = nowet.getHours();
             var hs = "";
@@ -24529,7 +24530,7 @@ var WeatherOverviewPage = /** @class */ (function (_super) {
     WeatherOverviewPage.prototype.created = function () {
         var _this = this;
         this.weatherchange();
-        this.$gBus.$on("weatherChange", function (s) {
+        this.$gBus.$on("weatherChange", function (_) {
             _this.weatherchange();
         });
     };

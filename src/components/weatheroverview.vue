@@ -50,7 +50,7 @@ export default class WeatherOverviewPage extends Vue {
     weatherResult: AreaWeatherForecast[] = [];
     created(){
         this.weatherchange();
-        this.$gBus.$on("weatherChange", (s: number) => {
+        this.$gBus.$on("weatherChange", (_: number) => {
             this.weatherchange();
         });
     }

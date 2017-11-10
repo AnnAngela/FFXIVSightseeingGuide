@@ -61,7 +61,8 @@ export default class App extends Vue {
 
             let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
             if(self._lastWeatherChangeKey != weatherChangeKey){
-                self.$gBus.$emit("weatherChange", 0);
+                self.$gBus.$emit("weatherChange", weatherChangeKey);
+                self._lastWeatherChangeKey = weatherChangeKey;
             }
 
             let hour = nowet.getHours();
