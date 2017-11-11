@@ -9,10 +9,17 @@ const en_US = {
         weatheroverview: "Weather Overview",
         area: "Area",
         before: "Before",
-        now: "Now"
+        now: "Now",
+        soonToComplete: "Soon to compelete",
+        fewHoursToComplete: "Few hours to complete",
+        moreTimeToComplete: "More time to complete",
+        longTimeToComplete: "Long time to complete",
+        completed: "Completed"
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
+        LimsaLominsaUpper: "Limsa Lominsa Upper Decks",
+        LimsaLominsaLower: "Limsa Lominsa Lower Decks",
         MiddleLa: "Middle La Noscea",
         LowerLa: "Lower La Noscea",
         EasternLa: "Eastern La Noscea",
@@ -22,12 +29,15 @@ const en_US = {
         Mist: "Mist",
         Wolves: "Wolves' Den Pier",
         Gridania: "Gridania",
+        OldGridania: "Old Gridania",
+        NewGridania: "New Gridania",
         CentralShroud: "Central Shroud",
         EastShroud: "East Shroud",
         SouthShroud: "South Shroud",
         NorthShroud: "North Shroud",
         TheLavenderBeds: "The Lavender Beds",
         Uldah: "Ul'dah",
+        UldahThal: "Ul'dah - Steps of Thal",
         WesternThanalan: "Western Thanalan",
         CentralThanalan: "Central Thanalan",
         EasternThanalan: "Eastern Thanalan",
@@ -72,6 +82,15 @@ const en_US = {
         Gloom: "Gloom",
         UmbralWind: "Umbral Wind",
         UmbralStatic: "Umbral Static",
+    },
+    action: {
+        Lookout: "Lookout",
+        Pray: "Pray",
+        Sit: "Sit",
+        Salute: "Salute",
+        Comfort: "Comfort",
+        Point: "Point",
+        Psych: "Psych"
     }
 }
 export default en_US;

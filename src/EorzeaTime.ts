@@ -23,5 +23,23 @@ class EorzeaClock {
     getLocalTime(){
         return new Date(this.date.getTime() / EorzeaClock.ratio);
     }
+    toHourMinuteString(){
+        let hour = this.getHours();
+        let hs = "";
+        if(hour < 10){
+            hs = "0" + hour;
+        }else{
+            hs += hour;
+        }
+        let min = this.getMinutes();
+        let ms = "";
+        if(min < 10){
+            ms = "0" + min;
+        }
+        else{
+            ms += min;
+        }
+        return hs + ":" + ms;
+    }
 }
 export default EorzeaClock;

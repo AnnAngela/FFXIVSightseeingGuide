@@ -22,7 +22,7 @@ export default class EorzeaWeather{
         .map(t => t.getDays() * 100 + ((t.getHours() + 8 - t.getHours() % 8) % 24))
         .map(i => calcSeed(i));
     }
-    static getForecast(areaName: string, time: EorzeaClock, seeds: number[]){
+    static getForecast(areaName: string, seeds: number[]){
         function getWeather(rates: WeatherRate[], seed: number){
             for (let r of rates) {
                 if(r.rate == -1){

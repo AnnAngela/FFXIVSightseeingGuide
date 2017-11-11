@@ -9,10 +9,17 @@ const zh_CN = {
         weatheroverview: "天气总览",
         area: "区域",
         before: "之前",
-        now: "现在"
+        now: "现在",
+        soonToComplete: "很快就能完成",
+        fewHoursToComplete: "几小时内就能完成",
+        moreTimeToComplete: "多等一会就能完成",
+        longTimeToComplete: "可能要等很久",
+        completed: "已完成"
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
+        LimsaLominsaUpper: "利姆萨·罗敏萨上层甲板",
+        LimsaLominsaLower: "利姆萨·罗敏萨下层甲板",
         MiddleLa: "中拉诺西亚",
         LowerLa: "拉诺西亚低地",
         EasternLa: "东拉诺西亚",
@@ -22,13 +29,16 @@ const zh_CN = {
         Mist: "海雾村",
         Wolves: "狼狱停船场",
         Gridania: "格里达尼亚",
+        OldGridania: "格里达尼亚旧街",
+        NewGridania: "格里达尼亚新街",
         CentralShroud: "黑衣森林中央林区",
         EastShroud: "黑衣森林东部林区",
         SouthShroud: "黑衣森林南部林区",
         NorthShroud: "黑衣森林北部林区",
         TheLavenderBeds: "薰衣草苗圃",
         Uldah: "乌尔达哈",
-        WesternThanalan: "西撒纳兰",
+        UldahThal: "乌尔达哈来生回廊",
+        WesternThanalan: "西萨纳兰",
         CentralThanalan: "中萨纳兰",
         EasternThanalan: "东萨纳兰",
         SouthernThanalan: "南萨纳兰",
@@ -72,6 +82,15 @@ const zh_CN = {
         Gloom: "妖雾",
         UmbralWind: "灵风",
         UmbralStatic: "灵电",
+    },
+    action: {
+        Lookout: "张望",
+        Pray: "祈祷",
+        Sit: "坐下",
+        Salute: "敬礼",
+        Comfort: "安慰",
+        Point: "指向",
+        Psych: "激励"
     }
 }
 export default zh_CN;

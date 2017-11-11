@@ -14,8 +14,8 @@
 
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><router-link to="/">{{$t("info.home")}}</router-link></li>
-                        <li><router-link to="/weatheroverview">{{$t("info.weatheroverview")}}</router-link></li>
+                        <li :class="{active: $route.path == '/'}"><router-link to="/">{{$t("info.home")}}</router-link></li>
+                        <li :class="{active: $route.path == '/weatheroverview'}"><router-link to="/weatheroverview">{{$t("info.weatheroverview")}}</router-link></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -56,32 +56,21 @@ export default class App extends Vue {
     created(){
         let self = this;
         this.$i18n.locale = localStorage.getItem("lang") || "zh-CN";
+        this.tick();
         setInterval(function(){
-            let nowet = new EorzeaClock(undefined);
-
-            let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
-            if(self._lastWeatherChangeKey != weatherChangeKey){
-                self.$gBus.$emit("weatherChange", weatherChangeKey);
-                self._lastWeatherChangeKey = weatherChangeKey;
-            }
-
-            let hour = nowet.getHours();
-            let hs = "";
-            if(hour < 10){
-                hs = "0" + hour;
-            }else{
-                hs += hour;
-            }
-            let min = nowet.getMinutes();
-            let ms = "";
-            if(min < 10){
-                ms = "0" + min;
-            }
-            else{
-                ms += min;
-            }
-            self.eorzeaclock = hs + ":" + ms;
+            self.tick();
         }, 1000);
+    }
+    tick(){
+        let nowet = new EorzeaClock(undefined);
+
+        let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
+        if(this._lastWeatherChangeKey != weatherChangeKey){
+            this.$gBus.$emit("weatherChange", weatherChangeKey);
+            this._lastWeatherChangeKey = weatherChangeKey;
+        }
+
+        this.eorzeaclock = nowet.toHourMinuteString();
     }
     chlang(v: string){
         this.$i18n.locale = v;

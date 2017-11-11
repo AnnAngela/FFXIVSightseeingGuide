@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in weatherResult">
+                <tr v-for="item in weatherResult" :key="item.name">
                     <td>{{$t(item.name)}}</td>
                     <td>{{$t(item.weather[0])}}</td>
                     <td>{{$t(item.weather[1])}}</td>
@@ -63,7 +63,7 @@ export default class WeatherOverviewPage extends Vue {
 
         this.weatherResult = [];
         for(let area in EorzeaWeatherData){
-            let forecastedWeather = EorzeaWeather.getForecast(area, eorzeaNow, weatherSeeds);
+            let forecastedWeather = EorzeaWeather.getForecast(area, weatherSeeds);
             this.weatherResult.push({
                 name: area,
                 weather: forecastedWeather
