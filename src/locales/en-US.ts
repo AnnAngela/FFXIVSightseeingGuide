@@ -14,7 +14,10 @@ const en_US = {
         fewHoursToComplete: "Few hours to complete",
         moreTimeToComplete: "More time to complete",
         longTimeToComplete: "Long time to complete",
-        completed: "Completed"
+        completed: "Completed",
+        startFrom: "Start from",
+        localTime: "Local Time",
+        moreThan8Hours: "More than 8 earth hours",
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",

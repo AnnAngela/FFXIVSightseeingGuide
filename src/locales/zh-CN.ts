@@ -14,7 +14,10 @@ const zh_CN = {
         fewHoursToComplete: "几小时内就能完成",
         moreTimeToComplete: "多等一会就能完成",
         longTimeToComplete: "可能要等很久",
-        completed: "已完成"
+        completed: "已完成",
+        startFrom: "开始时间",
+        localTime: "本地时间",
+        moreThan8Hours: "超过8地球小时",
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",

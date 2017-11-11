@@ -24152,6 +24152,7 @@ var App = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.eorzeaclock = "00:00";
         _this._lastWeatherChangeKey = 0;
+        _this._lastHour = 0;
         return _this;
     }
     Object.defineProperty(App.prototype, "currentLang", {
@@ -24175,6 +24176,11 @@ var App = /** @class */ (function (_super) {
         if (this._lastWeatherChangeKey != weatherChangeKey) {
             this.$gBus.$emit("weatherChange", weatherChangeKey);
             this._lastWeatherChangeKey = weatherChangeKey;
+        }
+        var thisHour = nowet.getHours();
+        if (this._lastHour != thisHour) {
+            this.$gBus.$emit("hourChange", thisHour);
+            this._lastHour = thisHour;
         }
         this.eorzeaclock = nowet.toHourMinuteString();
     };
@@ -24493,8 +24499,12 @@ var HomePage = /** @class */ (function (_super) {
         return _this;
     }
     HomePage.prototype.created = function () {
+        var _this = this;
         this.activeGroup = parseInt(localStorage.getItem("activeGroupIndex") || "0");
         this.loadGroup(this.activeGroup);
+        this.$gBus.$on("hourChange", function (_) {
+            _this.loadGroup(_this.activeGroup);
+        });
     };
     HomePage.prototype.switchGroup = function (index) {
         this.activeGroup = index;
@@ -24570,13 +24580,18 @@ var Sightseeing = /** @class */ (function () {
         this.action = item.action;
     }
     Sightseeing.prototype.calcNextAvailableTime = function () {
-        var baseTime = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].calcBaseDate(new __WEBPACK_IMPORTED_MODULE_0__EorzeaTime__["a" /* default */](undefined));
+        var nowet = new __WEBPACK_IMPORTED_MODULE_0__EorzeaTime__["a" /* default */](undefined);
+        var baseTime = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].calcBaseDate(nowet);
         var _loop_1 = function (i) {
             var forecastSeed = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].forecastSeed(baseTime, [i]);
             var forecast = (__WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].getForecast(this_1.area, forecastSeed))[0];
             if (this_1.weather == forecast) {
                 //天气匹配成功
                 var weatherAvaliableTime_1 = Array.apply(null, { length: 8 }).map(function (_, index) { return index + baseTime.addHours(i * 8).getHours(); });
+                if (i == 0) {
+                    var invaildEnd = nowet.getHours() - baseTime.getHours();
+                    weatherAvaliableTime_1.splice(0, invaildEnd);
+                }
                 var vaildTimes = this_1.time.filter(function (t) { return weatherAvaliableTime_1.indexOf(t) != -1; }); // calc intersection
                 if (vaildTimes.length != 0) {
                     //时间匹配成功
@@ -24809,13 +24824,17 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "panel-body" }, [
               item.vaildStatus == "panel-success"
-                ? _c("div", [_vm._v("Completed")])
+                ? _c("div", [_vm._v(_vm._s(_vm.$t("info.completed")))])
                 : item.vaildStatus != "panel-default"
                   ? _c("div", [
                       _vm._v(
-                        "\n                Start from: ET " +
+                        "\n                " +
+                          _vm._s(_vm.$t("info.startFrom")) +
+                          ": ET " +
                           _vm._s(item.nextAvaliableTime.toHourMinuteString()) +
-                          "\n                Local Time: " +
+                          "\n                " +
+                          _vm._s(_vm.$t("info.localTime")) +
+                          ": " +
                           _vm._s(
                             item.nextAvaliableTime.getLocalTime().toTimeString()
                           ) +
@@ -24824,7 +24843,9 @@ var render = function() {
                     ])
                   : _c("div", [
                       _vm._v(
-                        "\n                More than 1 earth day\n            "
+                        "\n                " +
+                          _vm._s(_vm.$t("info.moreThan8Hours")) +
+                          "\n            "
                       )
                     ])
             ])
@@ -25066,7 +25087,10 @@ var en_US = {
         fewHoursToComplete: "Few hours to complete",
         moreTimeToComplete: "More time to complete",
         longTimeToComplete: "Long time to complete",
-        completed: "Completed"
+        completed: "Completed",
+        startFrom: "Start from",
+        localTime: "Local Time",
+        moreThan8Hours: "More than 8 earth hours",
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
@@ -25169,7 +25193,10 @@ var zh_CN = {
         fewHoursToComplete: "几小时内就能完成",
         moreTimeToComplete: "多等一会就能完成",
         longTimeToComplete: "可能要等很久",
-        completed: "已完成"
+        completed: "已完成",
+        startFrom: "开始时间",
+        localTime: "本地时间",
+        moreThan8Hours: "超过8地球小时",
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -25272,7 +25299,10 @@ var ja_JP = {
         fewHoursToComplete: "数時間に完成できます",
         moreTimeToComplete: "多くの時間を待ち",
         longTimeToComplete: "長い時間を要する",
-        completed: "完了しました"
+        completed: "完了しました",
+        startFrom: "開始時間",
+        localTime: "現地時間",
+        moreThan8Hours: "地球時間の8時間以上"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

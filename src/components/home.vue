@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div v-if="item.vaildStatus == 'panel-success'">Completed</div>
+                <div v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</div>
                 <div v-else-if="item.vaildStatus != 'panel-default'">
-                    Start from: ET {{item.nextAvaliableTime.toHourMinuteString()}}
-                    Local Time: {{item.nextAvaliableTime.getLocalTime().toTimeString()}}
+                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
+                    {{$t("info.localTime")}}: {{item.nextAvaliableTime.getLocalTime().toTimeString()}}
                 </div>
                 <div v-else>
-                    More than 1 earth day
+                    {{$t("info.moreThan8Hours")}}
                 </div>
             </div>
         </div>
@@ -69,6 +69,9 @@ export default class HomePage extends Vue {
       localStorage.getItem("activeGroupIndex") || "0"
     );
     this.loadGroup(this.activeGroup);
+    this.$gBus.$on("hourChange", (_: number) => {
+        this.loadGroup(this.activeGroup);
+    });
   }
   switchGroup(index: number) {
     this.activeGroup = index;

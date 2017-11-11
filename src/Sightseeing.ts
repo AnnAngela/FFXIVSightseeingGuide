@@ -44,13 +44,18 @@ export class Sightseeing{
         this.action = item.action;
     }
     calcNextAvailableTime(){
-        let baseTime = EorzeaWeather.calcBaseDate(new EorzeaClock(undefined));
+        let nowet = new EorzeaClock(undefined);
+        let baseTime = EorzeaWeather.calcBaseDate(nowet);
         for(let i = 0; i < 20; i++){
             let forecastSeed = EorzeaWeather.forecastSeed(baseTime, [i]);
             let forecast = (EorzeaWeather.getForecast(this.area, forecastSeed))[0];
             if(this.weather == forecast){
                 //天气匹配成功
                 let weatherAvaliableTime: number[] = Array.apply(null, {length: 8}).map((_: undefined, index: number) => index + baseTime.addHours(i * 8).getHours());
+                if(i == 0){
+                    let invaildEnd = nowet.getHours() - baseTime.getHours();
+                    weatherAvaliableTime.splice(0, invaildEnd);
+                }
                 let vaildTimes = this.time.filter(t => weatherAvaliableTime.indexOf(t) != -1); // calc intersection
                 if(vaildTimes.length != 0){
                     //时间匹配成功
