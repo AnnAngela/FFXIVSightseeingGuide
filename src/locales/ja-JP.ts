@@ -17,7 +17,7 @@ const ja_JP = {
         completed: "完了しました",
         startFrom: "開始時間",
         localTime: "現地時間",
-        moreThan8Hours: "地球時間の8時間以上"
+        moreThan8Hours: "122日後（地球時間）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

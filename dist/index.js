@@ -19525,9 +19525,39 @@ var messages = {
     'zh-CN': __WEBPACK_IMPORTED_MODULE_8__locales_zh_CN__["a" /* default */],
     'ja-JP': __WEBPACK_IMPORTED_MODULE_9__locales_ja_JP__["a" /* default */]
 };
+var dateTimeFormats = {
+    'en-US': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }
+    },
+    'ja-JP': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        }
+    },
+    'zh-CN': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }
+    }
+};
 var i18n = new __WEBPACK_IMPORTED_MODULE_2_vue_i18n__["a" /* default */]({
     locale: 'zh-CN',
-    messages: messages
+    messages: messages,
+    dateTimeFormats: dateTimeFormats
 });
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue__["default"]({
     router: router,
@@ -24609,7 +24639,7 @@ var Sightseeing = /** @class */ (function () {
             }
         };
         var this_1 = this;
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 10000; i++) {
             var state_1 = _loop_1(i);
             if (typeof state_1 === "object")
                 return state_1.value;
@@ -24625,16 +24655,16 @@ var SightseeingData = [
         groupName: "1~20",
         items: [
             { id: "1", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaUpper", pos: { x: 9.7, y: 7.7 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "2", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaLower", pos: { x: 7, y: 15 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
+            { id: "2", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaLower", pos: { x: 7.0, y: 15.1 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
             { id: "3", area: "area.MiddleLa", pos: { x: 20, y: 19 }, weather: "weather.Rain", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
             { id: "4", area: "area.MiddleLa", pos: { x: 16, y: 17 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "5", area: "area.MiddleLa", pos: { x: 25, y: 27 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
+            { id: "5", area: "area.MiddleLa", pos: { x: 25.3, y: 27.5 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
             { id: "6", area: "area.LowerLa", pos: { x: 23, y: 40 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
             { id: "7", area: "area.LowerLa", pos: { x: 33, y: 19 }, weather: "weather.Fog", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "8", area: "area.WesternLa", pos: { x: 29, y: 30 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
+            { id: "8", area: "area.WesternLa", pos: { x: 29.9, y: 30.7 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
             { id: "9", area: "area.Gridania", subarea: "area.OldGridania", pos: { x: 12, y: 8 }, weather: "weather.Clouds", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
             { id: "10", area: "area.Gridania", subarea: "area.OldGridania", pos: { x: 10, y: 16 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 22, 23], action: "action.Lookout", timestr: "22:00~4:59" },
-            { id: "11", area: "area.CentralShroud", pos: { x: 21, y: 21 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
+            { id: "11", area: "area.CentralShroud", pos: { x: 21.8, y: 21.8 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
             { id: "12", area: "area.EastShroud", pos: { x: 17, y: 18 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Pray", timestr: "8:00~11:59" },
             { id: "13", area: "area.EastShroud", pos: { x: 22, y: 26 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
             { id: "14", area: "area.Uldah", subarea: "area.UldahThal", pos: { x: 11, y: 11 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Salute", timestr: "5:00~7:59" },
@@ -24643,7 +24673,7 @@ var SightseeingData = [
             { id: "17", area: "area.CentralThanalan", pos: { x: 15, y: 22 }, weather: "weather.Fog", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
             { id: "18", area: "area.EasternThanalan", pos: { x: 19, y: 24 }, weather: "weather.Rain", time: [17], action: "action.Comfort", timestr: "17:00~17:59" },
             { id: "19", area: "area.EasternThanalan", pos: { x: 14, y: 18 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "20", area: "area.EasternThanalan", pos: { x: 20, y: 20 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
+            { id: "20", area: "area.EasternThanalan", pos: { x: 21.0, y: 20.8 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
         ]
     },
     {
@@ -24836,7 +24866,10 @@ var render = function() {
                           _vm._s(_vm.$t("info.localTime")) +
                           ": " +
                           _vm._s(
-                            item.nextAvaliableTime.getLocalTime().toTimeString()
+                            _vm.$d(
+                              item.nextAvaliableTime.getLocalTime(),
+                              "long"
+                            )
                           ) +
                           "\n            "
                       )
@@ -25090,7 +25123,7 @@ var en_US = {
         completed: "Completed",
         startFrom: "Start from",
         localTime: "Local Time",
-        moreThan8Hours: "More than 8 earth hours",
+        moreThan8Hours: "After 122 days (Earth time)",
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
@@ -25196,7 +25229,7 @@ var zh_CN = {
         completed: "已完成",
         startFrom: "开始时间",
         localTime: "本地时间",
-        moreThan8Hours: "超过8地球小时",
+        moreThan8Hours: "122天后（地球时间）",
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -25302,7 +25335,7 @@ var ja_JP = {
         completed: "完了しました",
         startFrom: "開始時間",
         localTime: "現地時間",
-        moreThan8Hours: "地球時間の8時間以上"
+        moreThan8Hours: "122日後（地球時間）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

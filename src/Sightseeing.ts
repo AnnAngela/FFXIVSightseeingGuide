@@ -46,7 +46,7 @@ export class Sightseeing{
     calcNextAvailableTime(){
         let nowet = new EorzeaClock(undefined);
         let baseTime = EorzeaWeather.calcBaseDate(nowet);
-        for(let i = 0; i < 20; i++){
+        for(let i = 0; i < 10000; i++){
             let forecastSeed = EorzeaWeather.forecastSeed(baseTime, [i]);
             let forecast = (EorzeaWeather.getForecast(this.area, forecastSeed))[0];
             if(this.weather == forecast){
@@ -80,16 +80,16 @@ export const SightseeingData: SightseeingGroup[] = [
         groupName: "1~20",
         items: [
             { id: "1", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaUpper", pos: {x: 9.7, y: 7.7}, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "2", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaLower", pos: {x: 7, y: 15}, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
+            { id: "2", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaLower", pos: {x: 7.0, y: 15.1}, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
             { id: "3", area: "area.MiddleLa", pos: {x: 20, y: 19}, weather: "weather.Rain", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
             { id: "4", area: "area.MiddleLa", pos: {x: 16, y: 17}, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "5", area: "area.MiddleLa", pos: {x: 25, y: 27}, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
+            { id: "5", area: "area.MiddleLa", pos: {x: 25.3, y: 27.5}, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
             { id: "6", area: "area.LowerLa", pos: {x: 23, y: 40}, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
             { id: "7", area: "area.LowerLa", pos: {x: 33, y: 19}, weather: "weather.Fog", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "8", area: "area.WesternLa", pos: {x: 29, y: 30}, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
+            { id: "8", area: "area.WesternLa", pos: {x: 29.9, y: 30.7}, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
             { id: "9", area: "area.Gridania", subarea: "area.OldGridania", pos: {x: 12, y: 8}, weather: "weather.Clouds", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
             { id: "10", area: "area.Gridania", subarea: "area.OldGridania", pos: {x: 10, y: 16}, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 22, 23], action: "action.Lookout", timestr: "22:00~4:59" },
-            { id: "11", area: "area.CentralShroud", pos: {x: 21, y: 21}, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
+            { id: "11", area: "area.CentralShroud", pos: {x: 21.8, y: 21.8}, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
             { id: "12", area: "area.EastShroud", pos: {x: 17, y: 18}, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Pray", timestr: "8:00~11:59" },
             { id: "13", area: "area.EastShroud", pos: {x: 22, y: 26}, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
             { id: "14", area: "area.Uldah", subarea: "area.UldahThal", pos: {x: 11, y: 11}, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Salute", timestr: "5:00~7:59" },
@@ -98,7 +98,7 @@ export const SightseeingData: SightseeingGroup[] = [
             { id: "17", area: "area.CentralThanalan", pos: {x: 15, y: 22}, weather: "weather.Fog", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
             { id: "18", area: "area.EasternThanalan", pos: {x: 19, y: 24}, weather: "weather.Rain", time: [17], action: "action.Comfort", timestr: "17:00~17:59" },
             { id: "19", area: "area.EasternThanalan", pos: {x: 14, y: 18}, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "20", area: "area.EasternThanalan", pos: {x: 20, y: 20}, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
+            { id: "20", area: "area.EasternThanalan", pos: {x: 21.0, y: 20.8}, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
         ]
     },
     {

@@ -33,9 +33,40 @@ const messages = {
     'ja-JP': ja_JP
 }
 
+const dateTimeFormats = {
+    'en-US': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }
+    },
+    'ja-JP': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        }
+    },
+    'zh-CN': {
+        short: {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        },
+        long: {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }
+    }
+}
+
 const i18n = new VueI18n({
     locale: 'zh-CN',
-    messages
+    messages,
+    dateTimeFormats
 })
 
 const app = new Vue({

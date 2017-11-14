@@ -29,7 +29,7 @@
                 <div v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</div>
                 <div v-else-if="item.vaildStatus != 'panel-default'">
                     {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
-                    {{$t("info.localTime")}}: {{item.nextAvaliableTime.getLocalTime().toTimeString()}}
+                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
                 </div>
                 <div v-else>
                     {{$t("info.moreThan8Hours")}}
