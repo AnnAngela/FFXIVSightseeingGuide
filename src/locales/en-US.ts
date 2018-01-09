@@ -18,6 +18,9 @@ const en_US = {
         startFrom: "Start from",
         localTime: "Local Time",
         veryLongTimeToComplete: "After 122 days (Earth time)",
+        endingAt: "Ending at",
+        lessThan: "( Less than ",
+        minute: " minute(s) )"
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
@@ -65,7 +68,7 @@ const en_US = {
         Shirogane: "Shirogane",
         RubySea: "The Ruby Sea",
         Yanxia: "Yanxia",
-        AzimSteppe: "The Azim Steppe",        
+        AzimSteppe: "The Azim Steppe",
     },
     weather: {
         ClearSkies: "Clear Skies",

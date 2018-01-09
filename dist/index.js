@@ -24607,6 +24607,10 @@ var Sightseeing = /** @class */ (function () {
         this.weather = item.weather;
         this.time = item.time;
         this.timestr = item.timestr;
+        // 用 timestr 的格式“HH:MM~HH:MM”来获取结束时间的et小时数
+        // Note：如果 timestr 的格式变更需要调整这里的判断方法
+        // TODO: 在数据 SightseeingData 中直接添加 endTime 来避免使用这种不够清真（——zyzsdy）的办法
+        this.endTime = +(this.timestr.match(/\~(\d+)\:/) || [0, 0])[1] + 1;
         this.action = item.action;
     }
     Sightseeing.prototype.calcNextAvailableTime = function () {
@@ -24628,6 +24632,12 @@ var Sightseeing = /** @class */ (function () {
                     vaildTimes.sort(function (a, b) { return a - b; });
                     this_1.nextAvaliableTime = baseTime.addHours(i * 8);
                     this_1.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
+                    this_1.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
+                    var nextAvaliableTimeEndTime = this_1.endTime;
+                    if (nextAvaliableTimeEndTime < vaildTimes[0])
+                        nextAvaliableTimeEndTime += 24;
+                    this_1.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
+                    this_1.nextAvaliableTimeLeft = parseInt((this_1.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
                     if (i == 0)
                         this_1.vaildStatus = "panel-primary";
                     else if (i <= 3)
@@ -24866,7 +24876,7 @@ var render = function() {
             _c("div", { staticClass: "panel-body" }, [
               item.vaildStatus == "panel-success"
                 ? _c("div", [_vm._v(_vm._s(_vm.$t("info.completed")))])
-                : item.vaildStatus != "panel-danger"
+                : item.vaildStatus == "panel-primary"
                   ? _c("div", [
                       _vm._v(
                         "\n                " +
@@ -24882,16 +24892,60 @@ var render = function() {
                               "long"
                             )
                           ) +
-                          "\n            "
-                      )
-                    ])
-                  : _c("div", [
+                          "\n                "
+                      ),
+                      _c("br"),
                       _vm._v(
                         "\n                " +
-                          _vm._s(_vm.$t("info.veryLongTimeToComplete")) +
+                          _vm._s(_vm.$t("info.endingAt")) +
+                          ": ET " +
+                          _vm._s(
+                            item.nextAvaliableTimeEndTime.toHourMinuteString()
+                          ) +
+                          "\n                " +
+                          _vm._s(_vm.$t("info.localTime")) +
+                          ": " +
+                          _vm._s(
+                            _vm.$d(
+                              item.nextAvaliableTimeEndTime.getLocalTime(),
+                              "long"
+                            )
+                          ) +
+                          "\n                " +
+                          _vm._s(_vm.$t("info.lessThan")) +
+                          _vm._s(item.nextAvaliableTimeLeft) +
+                          _vm._s(_vm.$t("info.minute")) +
                           "\n            "
                       )
                     ])
+                  : item.vaildStatus != "panel-danger"
+                    ? _c("div", [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.$t("info.startFrom")) +
+                            ": ET " +
+                            _vm._s(
+                              item.nextAvaliableTime.toHourMinuteString()
+                            ) +
+                            "\n                " +
+                            _vm._s(_vm.$t("info.localTime")) +
+                            ": " +
+                            _vm._s(
+                              _vm.$d(
+                                item.nextAvaliableTime.getLocalTime(),
+                                "long"
+                              )
+                            ) +
+                            "\n            "
+                        )
+                      ])
+                    : _c("div", [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.$t("info.veryLongTimeToComplete")) +
+                            "\n            "
+                        )
+                      ])
             ])
           ]
         )
@@ -25135,6 +25189,9 @@ var en_US = {
         startFrom: "Start from",
         localTime: "Local Time",
         veryLongTimeToComplete: "After 122 days (Earth time)",
+        endingAt: "Ending at",
+        lessThan: "( Less than ",
+        minute: " minute(s) )"
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
@@ -25241,6 +25298,9 @@ var zh_CN = {
         startFrom: "开始时间",
         localTime: "本地时间",
         veryLongTimeToComplete: "122天后（地球时间）",
+        endingAt: "结束时间",
+        lessThan: "（还剩不到",
+        minute: "分钟）"
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -25346,7 +25406,10 @@ var ja_JP = {
         completed: "完了しました",
         startFrom: "開始時間",
         localTime: "現地時間",
-        veryLongTimeToComplete: "122日後（地球時間）"
+        veryLongTimeToComplete: "122日後（地球時間）",
+        endingAt: "終了時刻",
+        lessThan: "（",
+        minute: "分未満）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

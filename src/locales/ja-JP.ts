@@ -17,7 +17,10 @@ const ja_JP = {
         completed: "完了しました",
         startFrom: "開始時間",
         localTime: "現地時間",
-        veryLongTimeToComplete: "122日後（地球時間）"
+        veryLongTimeToComplete: "122日後（地球時間）",
+        endingAt: "終了時刻",
+        lessThan: "（",
+        minute: "分未満）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",
@@ -65,7 +68,7 @@ const ja_JP = {
         Shirogane: "シロガネ",
         RubySea: "紅玉海",
         Yanxia: "ヤンサ",
-        AzimSteppe: "アジムステップ",        
+        AzimSteppe: "アジムステップ",
     },
     weather: {
         ClearSkies: "快晴",

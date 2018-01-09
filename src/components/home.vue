@@ -28,6 +28,14 @@
             </div>
             <div class="panel-body">
                 <div v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</div>
+                <div v-else-if="item.vaildStatus == 'panel-primary'">
+                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
+                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
+                    <br>
+                    {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEndTime.toHourMinuteString()}}
+                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEndTime.getLocalTime(), 'long')}}
+                    {{$t("info.lessThan")}}{{item.nextAvaliableTimeLeft}}{{$t("info.minute")}}
+                </div>
                 <div v-else-if="item.vaildStatus != 'panel-danger'">
                     {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
@@ -41,15 +49,15 @@
 </template>
 
 <style lang="scss">
-.sightseeing-panel{
-    margin-top: 20px;
-    transition: all 1s;
-    cursor: pointer;
+.sightseeing-panel {
+  margin-top: 20px;
+  transition: all 1s;
+  cursor: pointer;
 }
-.panel-postheader{
-    font-style: italic;
-    font-weight: lighter;
-    margin-top: -1.3em;
+.panel-postheader {
+  font-style: italic;
+  font-weight: lighter;
+  margin-top: -1.3em;
 }
 </style>
 
@@ -71,7 +79,7 @@ export default class HomePage extends Vue {
     );
     this.loadGroup(this.activeGroup);
     this.$gBus.$on("hourChange", (_: number) => {
-        this.loadGroup(this.activeGroup);
+      this.loadGroup(this.activeGroup);
     });
   }
   switchGroup(index: number) {
@@ -79,19 +87,19 @@ export default class HomePage extends Vue {
     localStorage.setItem("activeGroupIndex", index.toString());
     this.loadGroup(index);
   }
-  setComplete(id: string){
-      let succeedStr = localStorage.getItem("comletedSightseeing") || "";
-      let succeedIds: string[] = succeedStr.split(",");
-      
-      let pos  = succeedIds.indexOf(id);
+  setComplete(id: string) {
+    let succeedStr = localStorage.getItem("comletedSightseeing") || "";
+    let succeedIds: string[] = succeedStr.split(",");
 
-      if(pos == -1){
-          succeedIds.push(id);
-      }else{
-          succeedIds.splice(pos, 1);
-      }
-      localStorage.setItem("comletedSightseeing", succeedIds.join(","));
-      this.loadGroup(this.activeGroup);
+    let pos = succeedIds.indexOf(id);
+
+    if (pos == -1) {
+      succeedIds.push(id);
+    } else {
+      succeedIds.splice(pos, 1);
+    }
+    localStorage.setItem("comletedSightseeing", succeedIds.join(","));
+    this.loadGroup(this.activeGroup);
   }
   loadGroup(index: number) {
     let tempGroup = SightseeingData[index].items;
@@ -103,10 +111,10 @@ export default class HomePage extends Vue {
     for (let tempItemIndex in tempGroup) {
       let k = new Sightseeing(tempGroup[tempItemIndex]);
       k.calcNextAvailableTime();
-      if(succeedIds.indexOf(k.id) != -1){
-          k.vaildStatus = "panel-success";
-          succeedData.push(k);
-      }else{
+      if (succeedIds.indexOf(k.id) != -1) {
+        k.vaildStatus = "panel-success";
+        succeedData.push(k);
+      } else {
         tempData.push(k);
       }
     }
@@ -114,8 +122,8 @@ export default class HomePage extends Vue {
       (a, b) =>
         a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime()
     );
-    for(let succeedIndex in succeedData){
-        tempData.push(succeedData[succeedIndex]);
+    for (let succeedIndex in succeedData) {
+      tempData.push(succeedData[succeedIndex]);
     }
     this.calcData = tempData;
   }

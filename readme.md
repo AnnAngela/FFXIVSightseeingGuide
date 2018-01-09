@@ -1,1 +1,1 @@
-A Simple template include vue, vue-router, jquery and bootstrap. Use typescript and webpack.
+[FFXIVSightseeingGuide](https://zyzsdy.github.io/FFXIVSightseeingGuide/#/): A Simple template include vue, vue-router, jquery and bootstrap. Use typescript and webpack.
