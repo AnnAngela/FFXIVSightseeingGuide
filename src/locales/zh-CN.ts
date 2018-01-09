@@ -18,6 +18,8 @@ const zh_CN = {
         startFrom: "开始时间",
         localTime: "本地时间",
         veryLongTimeToComplete: "122天后（地球时间）",
+        endingAt: "结束时间",
+        lessThan: "（还剩不到{m}分钟）"
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -65,7 +67,7 @@ const zh_CN = {
         Shirogane: "白银乡",
         RubySea: "红玉海",
         Yanxia: "延夏",
-        AzimSteppe: "太阳神草原",        
+        AzimSteppe: "太阳神草原",
     },
     weather: {
         ClearSkies: "碧空",
