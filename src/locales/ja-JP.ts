@@ -19,7 +19,7 @@ const ja_JP = {
         localTime: "現地時間",
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
-        lessThan: "（{m}分未満） | （{m}分未満）"
+        lessThan: "（{m}分未満）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

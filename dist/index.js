@@ -25302,7 +25302,7 @@ var zh_CN = {
         localTime: "本地时间",
         veryLongTimeToComplete: "122天后（地球时间）",
         endingAt: "结束时间",
-        lessThan: "（还剩不到{m}分钟） | （还剩不到{m}分钟）"
+        lessThan: "（还剩不到{m}分钟）"
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -25410,7 +25410,7 @@ var ja_JP = {
         localTime: "現地時間",
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
-        lessThan: "（{m}分未満） | （{m}分未満）"
+        lessThan: "（{m}分未満）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",
