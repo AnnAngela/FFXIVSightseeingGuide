@@ -24912,9 +24912,13 @@ var render = function() {
                             )
                           ) +
                           "\n                " +
-                          _vm._s(_vm.$t("info.lessThan")) +
-                          _vm._s(item.nextAvaliableTimeLeft) +
-                          _vm._s(_vm.$t("info.minute")) +
+                          _vm._s(
+                            _vm.$tc(
+                              "info.lessThan",
+                              item.nextAvaliableTimeLeft,
+                              { m: item.nextAvaliableTimeLeft }
+                            )
+                          ) +
                           "\n            "
                       )
                     ])
@@ -25190,8 +25194,7 @@ var en_US = {
         localTime: "Local Time",
         veryLongTimeToComplete: "After 122 days (Earth time)",
         endingAt: "Ending at",
-        lessThan: "( Less than ",
-        minute: " minute(s) )"
+        lessThan: "( Less than one minute ) | ( Less than {m} minutes )"
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",
@@ -25299,8 +25302,7 @@ var zh_CN = {
         localTime: "本地时间",
         veryLongTimeToComplete: "122天后（地球时间）",
         endingAt: "结束时间",
-        lessThan: "（还剩不到",
-        minute: "分钟）"
+        lessThan: "（还剩不到{m}分钟） | （还剩不到{m}分钟）"
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
@@ -25408,8 +25410,7 @@ var ja_JP = {
         localTime: "現地時間",
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
-        lessThan: "（",
-        minute: "分未満）"
+        lessThan: "（{m}分未満） | （{m}分未満）"
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

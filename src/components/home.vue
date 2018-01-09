@@ -34,7 +34,7 @@
                     <br>
                     {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEndTime.toHourMinuteString()}}
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEndTime.getLocalTime(), 'long')}}
-                    {{$t("info.lessThan")}}{{item.nextAvaliableTimeLeft}}{{$t("info.minute")}}
+                    {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
                 </div>
                 <div v-else-if="item.vaildStatus != 'panel-danger'">
                     {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
