@@ -72,7 +72,7 @@ export class Sightseeing{
             }
         }
         this.nextAvaliableTime = baseTime.addHours(50 * 8);
-        this.vaildStatus = "panel-default";
+        this.vaildStatus = "panel-danger";
     }
 }
 
