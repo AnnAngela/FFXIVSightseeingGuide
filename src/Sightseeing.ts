@@ -65,13 +65,14 @@ export class Sightseeing{
                     
                     if(i == 0) this.vaildStatus = "panel-primary";
                     else if(i <= 3) this.vaildStatus = "panel-info";
-                    else this.vaildStatus = "panel-warning";
+                    else if(i <= 6) this.vaildStatus = "panel-warning";
+                    else this.vaildStatus = "panel-default";
                     return;
                 }
             }
         }
         this.nextAvaliableTime = baseTime.addHours(50 * 8);
-        this.vaildStatus = "panel-default";
+        this.vaildStatus = "panel-danger";
     }
 }
 

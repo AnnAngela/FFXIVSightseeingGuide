@@ -17,7 +17,7 @@ const en_US = {
         completed: "Completed",
         startFrom: "Start from",
         localTime: "Local Time",
-        moreThan8Hours: "After 122 days (Earth time)",
+        veryLongTimeToComplete: "After 122 days (Earth time)",
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",

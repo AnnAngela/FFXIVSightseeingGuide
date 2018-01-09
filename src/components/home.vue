@@ -6,7 +6,7 @@
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
-        <div v-for="item in calcData" :key="item.id" class="sightseeing-panel panel" :class="[item.vaildStatus]" @click="setComplete(item.id)">
+        <div v-for="item in calcData" :key="item.id" class="sightseeing-panel panel" :class="item.vaildStatus === 'panel-danger' ? 'panel-default' : item.vaildStatus" @click="setComplete(item.id)">
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <span>{{item.id}}</span>
@@ -22,17 +22,18 @@
                     <span v-if="item.vaildStatus == 'panel-info'">{{$t("info.fewHoursToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'panel-warning'">{{$t("info.moreTimeToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'panel-default'">{{$t("info.longTimeToComplete")}}</span>
+                    <span v-if="item.vaildStatus == 'panel-danger'">{{$t("info.veryLongTimeToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</span>
                 </div>
             </div>
             <div class="panel-body">
                 <div v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</div>
-                <div v-else-if="item.vaildStatus != 'panel-default'">
+                <div v-else-if="item.vaildStatus != 'panel-danger'">
                     {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
                 </div>
                 <div v-else>
-                    {{$t("info.moreThan8Hours")}}
+                    {{$t("info.veryLongTimeToComplete")}}
                 </div>
             </div>
         </div>
