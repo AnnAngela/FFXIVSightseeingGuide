@@ -1,4 +1,5 @@
 var path = require('path')
+var webpack = require('webpack')
 
 module.exports = {
     entry: './src/index.ts',
@@ -11,9 +12,15 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js']
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"development"'
+            }
+        })
+    ],
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.ts$/,
                 exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',

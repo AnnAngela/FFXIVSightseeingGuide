@@ -36,8 +36,22 @@
 
 <style lang="scss">
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
-body{
-    padding-top: 80px;
+html {
+    min-height: 100%;
+}
+body {
+    padding: 70px 0 42px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%!important;
+    height: 60px;
+    line-height: 42px;
+    padding-top: 18px;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, .7) 20%, rgba(255, 255, 255, .8) 30%, rgb(255, 255, 255));
+    background-color: transparent;
+    text-align: center;
 }
 </style>
 
