@@ -19,7 +19,9 @@ const en_US = {
         localTime: "Local Time",
         veryLongTimeToComplete: "After 122 days (Earth time)",
         endingAt: "Ending at",
-        lessThan: "( Less than one minute ) | ( Less than {m} minutes )"
+        lessThan: "( Less than one minute ) | ( Less than {m} minutes )",
+        notificationTitle: "A new sightseeing available soon. | {n} new sightseeings available soon.",
+        dot: ', '
     },
     area: {
         LimsaLominsa: "Limsa Lominsa",

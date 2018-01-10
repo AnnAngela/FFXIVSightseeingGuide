@@ -19,7 +19,9 @@ const ja_JP = {
         localTime: "現地時間",
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
-        lessThan: "（{m}分未満）"
+        lessThan: "（{m}分未満）",
+        notificationTitle: "将有新的探索笔记可完成 | 将有{n}项新的探索笔记可完成",
+        dot: '、'
     },
     area: {
         LimsaLominsa: "リムサ・ロミンサ",

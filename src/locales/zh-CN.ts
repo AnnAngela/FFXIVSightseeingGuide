@@ -19,7 +19,9 @@ const zh_CN = {
         localTime: "本地时间",
         veryLongTimeToComplete: "122天后（地球时间）",
         endingAt: "结束时间",
-        lessThan: "（还剩不到{m}分钟）"
+        lessThan: "（还剩不到{m}分钟）",
+        notificationTitle: "将有新的探索笔记可完成 | 将有{n}项探索笔记可完成",
+        dot: '、'
     },
     area: {
         LimsaLominsa: "利姆萨·罗敏萨",
