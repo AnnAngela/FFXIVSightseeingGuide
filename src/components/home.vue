@@ -50,97 +50,86 @@
 
 <style lang="scss">
 .sightseeing-panel {
-  margin-top: 20px;
-  transition: all 1s;
-  cursor: pointer;
+    margin-top: 20px;
+    transition: all 1s;
+    cursor: pointer;
 }
 .panel-postheader {
-  font-style: italic;
-  font-weight: lighter;
-  margin-top: -1.3em;
+    font-style: italic;
+    font-weight: lighter;
+    margin-top: -1.3em;
 }
 </style>
 
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-import { SightseeingData, SightseeingGroup, Sightseeing } from "../Sightseeing";
+import { SightseeingData, SightseeingGroup, Sightseeing } from '../Sightseeing';
 
 @Component
 export default class HomePage extends Vue {
-  sourceData: SightseeingGroup[] = SightseeingData;
-  activeGroup: number = 0;
-  calcData: Sightseeing[] = [];
-  created() {
-    this.activeGroup = parseInt(
-      localStorage.getItem("activeGroupIndex") || "0"
-    );
-    this.loadGroup(this.activeGroup);
-    this.$gBus.$on("hourChange", (_: number) => {
-      let oldData: Sightseeing[] = this.calcData;
-      this.loadGroup(this.activeGroup);
-      let newData: Sightseeing[] = this.calcData;
-      let nearSoonToCompleteData: Sightseeing[] = [];
-      newData.forEach((sightseeing: Sightseeing) => {
-        oldData.forEach(s => {
-          if (
-            s.id === sightseeing.id &&
-            s.vaildStatus === "panel-info" &&
-            sightseeing.vaildStatus === "panel-primary"
-          )
-            nearSoonToCompleteData.push(sightseeing);
+    sourceData: SightseeingGroup[] = SightseeingData;
+    activeGroup: number = 0;
+    calcData: Sightseeing[] = [];
+    created() {
+        this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
+        this.loadGroup(this.activeGroup);
+        this.$gBus.$on('hourChange', (_: number) => {
+            let oldData: Sightseeing[] = this.calcData;
+            this.loadGroup(this.activeGroup);
+            let newData: Sightseeing[] = this.calcData;
+            let nearSoonToCompleteData: Sightseeing[] = [];
+            newData.forEach((sightseeing: Sightseeing) => {
+                oldData.forEach(s => {
+                    if (s.id === sightseeing.id && s.vaildStatus === 'panel-info' && sightseeing.vaildStatus === 'panel-primary') nearSoonToCompleteData.push(sightseeing);
+                });
+            });
+            if (nearSoonToCompleteData.length) this.$gBus.$emit('nearSoonToCompleteGet', nearSoonToCompleteData);
         });
-      });
-      if (nearSoonToCompleteData.length)
-        this.$gBus.$emit("nearSoonToCompleteGet", nearSoonToCompleteData);
-    });
-  }
-  switchGroup(index: number) {
-    this.activeGroup = index;
-    localStorage.setItem("activeGroupIndex", index.toString());
-    this.loadGroup(index);
-  }
-  setComplete(id: string) {
-    let succeedStr = localStorage.getItem("comletedSightseeing") || "";
-    let succeedIds: string[] = succeedStr.split(",");
-
-    let pos = succeedIds.indexOf(id);
-
-    if (pos == -1) {
-      succeedIds.push(id);
-    } else {
-      succeedIds.splice(pos, 1);
     }
-    localStorage.setItem("comletedSightseeing", succeedIds.join(","));
-    this.loadGroup(this.activeGroup);
-  }
-  loadGroup(index: number) {
-    let tempGroup = SightseeingData[index].items;
-    let tempData: Sightseeing[] = [];
-    let succeedData: Sightseeing[] = [];
+    switchGroup(index: number) {
+        this.activeGroup = index;
+        localStorage.setItem('activeGroupIndex', index.toString());
+        this.loadGroup(index);
+    }
+    setComplete(id: string) {
+        let succeedStr = localStorage.getItem('comletedSightseeing') || '';
+        let succeedIds: string[] = succeedStr.split(',');
 
-    let succeedStr = localStorage.getItem("comletedSightseeing") || "";
-    let succeedIds: string[] = succeedStr.split(",");
-    for (let tempItemIndex in tempGroup) {
-      let k = new Sightseeing(tempGroup[tempItemIndex]);
-      k.calcNextAvailableTime();
-      if (succeedIds.indexOf(k.id) != -1) {
-        k.vaildStatus = "panel-success";
-        succeedData.push(k);
-      } else {
-        tempData.push(k);
-      }
+        let pos = succeedIds.indexOf(id);
+
+        if (pos == -1) {
+            succeedIds.push(id);
+        } else {
+            succeedIds.splice(pos, 1);
+        }
+        localStorage.setItem('comletedSightseeing', succeedIds.join(','));
+        this.loadGroup(this.activeGroup);
     }
-    tempData.sort(
-      (a, b) =>
-        a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime()
-    );
-    for (let succeedIndex in succeedData) {
-      tempData.push(succeedData[succeedIndex]);
+    loadGroup(index: number) {
+        let tempGroup = SightseeingData[index].items;
+        let tempData: Sightseeing[] = [];
+        let succeedData: Sightseeing[] = [];
+
+        let succeedStr = localStorage.getItem('comletedSightseeing') || '';
+        let succeedIds: string[] = succeedStr.split(',');
+        for (let tempItemIndex in tempGroup) {
+            let k = new Sightseeing(tempGroup[tempItemIndex]);
+            k.calcNextAvailableTime();
+            if (succeedIds.indexOf(k.id) != -1) {
+                k.vaildStatus = 'panel-success';
+                succeedData.push(k);
+            } else {
+                tempData.push(k);
+            }
+        }
+        tempData.sort((a, b) => a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime());
+        for (let succeedIndex in succeedData) {
+            tempData.push(succeedData[succeedIndex]);
+        }
+        this.calcData = tempData;
     }
-    this.calcData = tempData;
-  }
 }
 </script>

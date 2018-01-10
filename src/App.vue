@@ -35,126 +35,109 @@
 </template>
 
 <style lang="scss">
-@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import '../node_modules/bootstrap/dist/css/bootstrap.css';
 html {
-  min-height: 100%;
+    min-height: 100%;
 }
 body {
-  padding: 70px 0 42px;
+    padding: 70px 0 42px;
 }
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 100% !important;
-  height: 60px;
-  line-height: 42px;
-  padding-top: 18px;
-  background-image: -webkit-linear-gradient(
-    top,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.7) 20%,
-    rgba(255, 255, 255, 0.8) 30%,
-    rgb(255, 255, 255)
-  );
-  background-color: transparent;
-  text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100% !important;
+    height: 60px;
+    line-height: 42px;
+    padding-top: 18px;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7) 20%, rgba(255, 255, 255, 0.8) 30%, rgb(255, 255, 255));
+    background-color: transparent;
+    text-align: center;
 }
 </style>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import EorzeaClock from "./EorzeaTime";
-import { Sightseeing } from "./Sightseeing";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import EorzeaClock from './EorzeaTime';
+import { Sightseeing } from './Sightseeing';
 
 @Component
 export default class App extends Vue {
-  eorzeaclock: string = "00:00";
-  _lastWeatherChangeKey: number = 0;
-  _lastHour: number = 0;
-  get currentLang() {
-    return this.$i18n.locale;
-  }
-  created() {
-    let self = this;
-    this.$i18n.locale = localStorage.getItem("lang") || "zh-CN";
-    this.tick();
-    setInterval(function() {
-      self.tick();
-    }, 1000);
-    if ("Notification" in window) {
-      Notification.requestPermission((permission: string) => {
-        if (permission !== "denied") {
-          this.$gBus.$on(
-            "nearSoonToCompleteGet",
-            (nearSoonToCompleteData: Sightseeing[]) => {
-              let data: Sightseeing[] = nearSoonToCompleteData.map(
-                (d: Sightseeing) => {
-                  d.area = this.$i18n.t(d.area) + "";
-                  return d;
-                }
-              );
-              let option = {
-                lang: this.$i18n.locale,
-                body: ""
-              };
-              if (data.length > 3) {
-                data.forEach((d: Sightseeing) => {
-                  option.body += d.id + " " + d.area + this.$i18n.t("info.dot");
-                });
-                option.body = option.body.replace(
-                  RegExp(this.$i18n.t("info.dot") + "$"),
-                  ""
-                );
-                let notification = new Notification(
-                  this.$i18n.tc("info.notificationTitle", 2, {
-                    n: data.length
-                  }),
-                  option
-                );
-                setTimeout(_ => notification.close(), 30000);
-              } else {
-                data.forEach((d: Sightseeing) => {
-                  let o = Object(option);
-                  o.body =
-                    d.id +
-                    " " +
-                    d.area +
-                    this.$i18n.tc("info.lessThan", d.nextAvaliableTimeLeft, {
-                      m: d.nextAvaliableTimeLeft
+    eorzeaclock: string = '00:00';
+    _lastWeatherChangeKey: number = 0;
+    _lastHour: number = 0;
+    get currentLang() {
+        return this.$i18n.locale;
+    }
+    created() {
+        let self = this;
+        this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
+        this.tick();
+        setInterval(function() {
+            self.tick();
+        }, 1000);
+        if ('Notification' in window) {
+            Notification.requestPermission((permission: string) => {
+                if (permission !== 'denied') {
+                    this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
+                        let data: Sightseeing[] = nearSoonToCompleteData.map((d: Sightseeing) => {
+                            d.area = this.$i18n.t(d.area) + '';
+                            return d;
+                        });
+                        let option = {
+                            lang: this.$i18n.locale,
+                            body: '',
+                        };
+                        if (data.length > 3) {
+                            data.forEach((d: Sightseeing) => {
+                                option.body += d.id + ' ' + d.area + this.$i18n.t('info.dot');
+                            });
+                            option.body = option.body.replace(RegExp(this.$i18n.t('info.dot') + '$'), '');
+                            let notification = new Notification(
+                                this.$i18n.tc('info.notificationTitle', 2, {
+                                    n: data.length,
+                                }),
+                                option,
+                            );
+                            setTimeout(_ => notification.close(), 30000);
+                        } else {
+                            data.forEach((d: Sightseeing) => {
+                                let o = Object(option);
+                                o.body =
+                                    d.id +
+                                    ' ' +
+                                    d.area +
+                                    this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                                        m: d.nextAvaliableTimeLeft,
+                                    });
+                                let notification = new Notification(this.$i18n.tc('info.notificationTitle', 1), o);
+                                setTimeout(_ => notification.close(), 30000);
+                            });
+                        }
                     });
-                  let notification = new Notification(
-                    this.$i18n.tc("info.notificationTitle", 1),
-                    o
-                  );
-                  setTimeout(_ => notification.close(), 30000);
-                });
-              }
-            }
-          );
+                }
+            });
         }
-      });
     }
-  }
-  tick() {
-    let nowet = new EorzeaClock(undefined);
+    tick() {
+        let nowet = new EorzeaClock(undefined);
 
-    let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
-    if (this._lastWeatherChangeKey != weatherChangeKey) {
-      this.$gBus.$emit("weatherChange", weatherChangeKey);
-      this._lastWeatherChangeKey = weatherChangeKey;
-    }
-    let thisHour = nowet.getHours();
-    if (this._lastHour != thisHour) {
-      this.$gBus.$emit("hourChange", thisHour);
-      this._lastHour = thisHour;
-    }
+        let weatherChangeKey = (nowet.getHours() / 8) >>> 0;
+        if (this._lastWeatherChangeKey != weatherChangeKey) {
+            this.$gBus.$emit('weatherChange', weatherChangeKey);
+            this._lastWeatherChangeKey = weatherChangeKey;
+        }
+        let thisHour = nowet.getHours();
+        if (this._lastHour != thisHour) {
+            this.$gBus.$emit('hourChange', thisHour);
+            this._lastHour = thisHour;
+        }
 
-    this.eorzeaclock = nowet.toHourMinuteString();
-  }
-  chlang(v: string) {
-    this.$i18n.locale = v;
-    localStorage.setItem("lang", v);
-  }
+        this.eorzeaclock = nowet.toHourMinuteString();
+    }
+    chlang(v: string) {
+        this.$i18n.locale = v;
+        localStorage.setItem('lang', v);
+    }
 }
 </script>
