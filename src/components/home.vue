@@ -79,7 +79,22 @@ export default class HomePage extends Vue {
     );
     this.loadGroup(this.activeGroup);
     this.$gBus.$on("hourChange", (_: number) => {
+      let oldData: Sightseeing[] = this.calcData;
       this.loadGroup(this.activeGroup);
+      let newData: Sightseeing[] = this.calcData;
+      let nearSoonToCompleteData: Sightseeing[] = [];
+      newData.forEach((sightseeing: Sightseeing) => {
+        oldData.forEach(s => {
+          if (
+            s.id === sightseeing.id &&
+            s.vaildStatus === "panel-info" &&
+            sightseeing.vaildStatus === "panel-primary"
+          )
+            nearSoonToCompleteData.push(sightseeing);
+        });
+      });
+      if (nearSoonToCompleteData.length)
+        this.$gBus.$emit("nearSoonToCompleteGet", nearSoonToCompleteData);
     });
   }
   switchGroup(index: number) {
