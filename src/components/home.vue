@@ -84,7 +84,10 @@ export default class HomePage extends Vue {
             newData.forEach((sightseeing: Sightseeing) => {
                 oldData.forEach((s: Sightseeing) => {
                     if (s.id !== sightseeing.id) return;
-                    if ((s.vaildStatus === 'panel-info' && sightseeing.vaildStatus === 'panel-primary') || (s.isStillWaiting === true && sightseeing.isStillWaiting === false)) nearSoonToCompleteData.push(sightseeing);
+                    if (sightseeing.vaildStatus === 'panel-primary') {
+                        if (!['panel-info', 'panel-primary'].includes(s.vaildStatus)) return;
+                        if (s.isStillWaiting === true && sightseeing.isStillWaiting === false) nearSoonToCompleteData.push(sightseeing);
+                    }
                 });
             });
             if (nearSoonToCompleteData.length) this.$gBus.$emit('nearSoonToCompleteGet', nearSoonToCompleteData);
