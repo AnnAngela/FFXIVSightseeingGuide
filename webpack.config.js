@@ -1,20 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const uglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const development_mode = false;
-let plugins = [
-    new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: development_mode ? '"development"' : '"production"',
-        },
-    }),
-];
-if (development_mode === false) plugins.push(new uglifyJsPlugin({
-    uglifyOptions: {
-        warning: false,
-    },
-    sourceMap: true,
-}));
 
 module.exports = {
     entry: './src/index.ts',
@@ -27,7 +13,13 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js'],
     },
-    plugins,
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: development_mode ? '"development"' : '"production"',
+            },
+        }),
+    ],
     module: {
         rules: [{
                 test: /\.ts$/,
