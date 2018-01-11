@@ -24676,12 +24676,12 @@ var Sightseeing = /** @class */ (function () {
                     this_1.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
                     this_1.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
                     var nextAvaliableTimeEndTime = this_1.endHour;
-                    if (nextAvaliableTimeEndTime < baseTime.getHours())
+                    if (nextAvaliableTimeEndTime < vaildTimes[0])
                         nextAvaliableTimeEndTime += 24;
                     this_1.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
                     this_1.nextAvaliableTimeLeft = parseInt((this_1.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
                     if (i == 0) {
-                        if (this_1.startHour > vaildTimes[0])
+                        if (this_1.startHour > baseTime.getHours())
                             this_1.isStillWaiting = true;
                         this_1.vaildStatus = 'panel-primary';
                     }

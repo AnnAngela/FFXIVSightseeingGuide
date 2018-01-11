@@ -76,13 +76,13 @@ export class Sightseeing {
 
                     this.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
                     let nextAvaliableTimeEndTime: number = this.endHour;
-                    if (nextAvaliableTimeEndTime < baseTime.getHours()) nextAvaliableTimeEndTime += 24;
+                    if (nextAvaliableTimeEndTime < vaildTimes[0]) nextAvaliableTimeEndTime += 24;
                     this.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
 
                     this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
 
                     if (i == 0) {
-                        if (this.startHour > vaildTimes[0]) this.isStillWaiting = true;
+                        if (this.startHour > baseTime.getHours()) this.isStillWaiting = true;
                         this.vaildStatus = 'panel-primary';
                     } else if (i <= 3) this.vaildStatus = 'panel-info';
                     else if (i <= 6) this.vaildStatus = 'panel-warning';
