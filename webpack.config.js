@@ -16,7 +16,7 @@ if (development_mode === false) plugins.push(new uglifyJsPlugin({
     sourceMap: true,
 }));
 
-module.export = {
+module.exports = {
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
