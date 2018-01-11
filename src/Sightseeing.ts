@@ -82,7 +82,7 @@ export class Sightseeing {
                     this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
 
                     if (i == 0) {
-                        if (this.startHour > baseTime.getHours()) this.isStillWaiting = true;
+                        if (this.startHour > nowet.getHours()) this.isStillWaiting = true;
                         this.vaildStatus = 'panel-primary';
                     } else if (i <= 3) this.vaildStatus = 'panel-info';
                     else if (i <= 6) this.vaildStatus = 'panel-warning';

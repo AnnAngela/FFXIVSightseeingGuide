@@ -24681,7 +24681,7 @@ var Sightseeing = /** @class */ (function () {
                     this_1.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
                     this_1.nextAvaliableTimeLeft = parseInt((this_1.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
                     if (i == 0) {
-                        if (this_1.startHour > baseTime.getHours())
+                        if (this_1.startHour > nowet.getHours())
                             this_1.isStillWaiting = true;
                         this_1.vaildStatus = 'panel-primary';
                     }
