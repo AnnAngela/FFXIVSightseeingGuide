@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const development_mode = false;
+const development_mode = true;
 
 module.exports = {
     entry: './src/index.ts',
@@ -14,6 +14,7 @@ module.exports = {
         extensions: ['.ts', '.js'],
     },
     plugins: [
+        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: development_mode ? '"development"' : '"production"',
@@ -21,7 +22,8 @@ module.exports = {
         }),
     ],
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.ts$/,
                 exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',
