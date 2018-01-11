@@ -15621,7 +15621,7 @@ var render = function() {
                       staticClass: "dropdown-toggle",
                       attrs: {
                         href: "javascript:;",
-                        "nearSoonToCompleteData-toggle": "dropdown",
+                        "data-toggle": "dropdown",
                         role: "button",
                         "aria-haspopup": "true",
                         "aria-expanded": "false"
@@ -15702,8 +15702,8 @@ var staticRenderFns = [
         staticClass: "navbar-toggle collapsed",
         attrs: {
           type: "button",
-          "nearSoonToCompleteData-toggle": "collapse",
-          "nearSoonToCompleteData-target": "#navbar-collapse-1",
+          "data-toggle": "collapse",
+          "data-target": "#navbar-collapse-1",
           "aria-expanded": "false"
         }
       },
