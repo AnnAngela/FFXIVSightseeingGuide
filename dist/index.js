@@ -24567,7 +24567,9 @@ var HomePage = /** @class */ (function (_super) {
             var nearSoonToCompleteData = [];
             newData.forEach(function (sightseeing) {
                 oldData.forEach(function (s) {
-                    if (s.id === sightseeing.id && s.vaildStatus === 'panel-info' && sightseeing.vaildStatus === 'panel-primary')
+                    if (s.id !== sightseeing.id)
+                        return;
+                    if ((s.vaildStatus === 'panel-info' && sightseeing.vaildStatus === 'panel-primary') || (s.isStillWaiting === true && sightseeing.isStillWaiting === false))
                         nearSoonToCompleteData.push(sightseeing);
                 });
             });
@@ -24644,18 +24646,17 @@ var Sightseeing = /** @class */ (function () {
         this.weather = item.weather;
         this.time = item.time;
         this.timestr = item.timestr;
-        // 用 timestr 的格式“HH:MM~HH:MM”来获取结束时间的et小时数
-        // Note：如果 timestr 的格式变更需要调整这里的判断方法
-        // TODO: 在数据 SightseeingData 中直接添加 endTime 来避免使用这种不够清真（——zyzsdy）的办法
-        this.endTime = +(this.timestr.match(/\~(\d+)\:/) || [0, 0])[1] + 1;
         this.action = item.action;
+        this.startHour = item.startHour;
+        this.endHour = item.endHour;
+        this.isStillWaiting = false;
     }
     Sightseeing.prototype.calcNextAvailableTime = function () {
         var nowet = new __WEBPACK_IMPORTED_MODULE_0__EorzeaTime__["a" /* default */](undefined);
         var baseTime = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].calcBaseDate(nowet);
         var _loop_1 = function (i) {
             var forecastSeed = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].forecastSeed(baseTime, [i]);
-            var forecast = (__WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].getForecast(this_1.area, forecastSeed))[0];
+            var forecast = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].getForecast(this_1.area, forecastSeed)[0];
             if (this_1.weather == forecast) {
                 //天气匹配成功
                 var weatherAvaliableTime_1 = Array.apply(null, { length: 8 }).map(function (_, index) { return index + baseTime.addHours(i * 8).getHours(); });
@@ -24670,19 +24671,22 @@ var Sightseeing = /** @class */ (function () {
                     this_1.nextAvaliableTime = baseTime.addHours(i * 8);
                     this_1.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
                     this_1.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
-                    var nextAvaliableTimeEndTime = this_1.endTime;
+                    var nextAvaliableTimeEndTime = this_1.endHour;
                     if (nextAvaliableTimeEndTime < vaildTimes[0])
                         nextAvaliableTimeEndTime += 24;
                     this_1.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
                     this_1.nextAvaliableTimeLeft = parseInt((this_1.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
-                    if (i == 0)
-                        this_1.vaildStatus = "panel-primary";
+                    if (i == 0) {
+                        if (this_1.startHour > vaildTimes[0])
+                            this_1.isStillWaiting = true;
+                        this_1.vaildStatus = 'panel-primary';
+                    }
                     else if (i <= 3)
-                        this_1.vaildStatus = "panel-info";
+                        this_1.vaildStatus = 'panel-info';
                     else if (i <= 6)
-                        this_1.vaildStatus = "panel-warning";
+                        this_1.vaildStatus = 'panel-warning';
                     else
-                        this_1.vaildStatus = "panel-default";
+                        this_1.vaildStatus = 'panel-default';
                     return { value: void 0 };
                 }
             }
@@ -24694,112 +24698,112 @@ var Sightseeing = /** @class */ (function () {
                 return state_1.value;
         }
         this.nextAvaliableTime = baseTime.addHours(50 * 8);
-        this.vaildStatus = "panel-danger";
+        this.vaildStatus = 'panel-danger';
     };
     return Sightseeing;
 }());
 
 var SightseeingData = [
     {
-        groupName: "1~20",
+        groupName: '1~20',
         items: [
-            { id: "1", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaUpper", pos: { x: 9.7, y: 7.7 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "2", area: "area.LimsaLominsa", subarea: "area.LimsaLominsaLower", pos: { x: 7.0, y: 15.1 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "3", area: "area.MiddleLa", pos: { x: 20, y: 19 }, weather: "weather.Rain", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
-            { id: "4", area: "area.MiddleLa", pos: { x: 16, y: 17 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "5", area: "area.MiddleLa", pos: { x: 25.3, y: 27.5 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "6", area: "area.LowerLa", pos: { x: 23, y: 40 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
-            { id: "7", area: "area.LowerLa", pos: { x: 33, y: 19 }, weather: "weather.Fog", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "8", area: "area.WesternLa", pos: { x: 29.9, y: 30.7 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "9", area: "area.Gridania", subarea: "area.OldGridania", pos: { x: 12, y: 8 }, weather: "weather.Clouds", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "10", area: "area.Gridania", subarea: "area.OldGridania", pos: { x: 10, y: 16 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 22, 23], action: "action.Lookout", timestr: "22:00~4:59" },
-            { id: "11", area: "area.CentralShroud", pos: { x: 21.8, y: 21.8 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
-            { id: "12", area: "area.EastShroud", pos: { x: 17, y: 18 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Pray", timestr: "8:00~11:59" },
-            { id: "13", area: "area.EastShroud", pos: { x: 22, y: 26 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~04:59" },
-            { id: "14", area: "area.Uldah", subarea: "area.UldahThal", pos: { x: 11, y: 11 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Salute", timestr: "5:00~7:59" },
-            { id: "15", area: "area.Uldah", subarea: "area.UldahThal", pos: { x: 11, y: 11 }, weather: "weather.Clouds", time: [12, 13, 14, 15], action: "action.Lookout", timestr: "12:00~15:59" },
-            { id: "16", area: "area.WesternThanalan", pos: { x: 22, y: 22 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "17", area: "area.CentralThanalan", pos: { x: 15, y: 22 }, weather: "weather.Fog", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "18", area: "area.EasternThanalan", pos: { x: 19, y: 24 }, weather: "weather.Rain", time: [17], action: "action.Comfort", timestr: "17:00~17:59" },
-            { id: "19", area: "area.EasternThanalan", pos: { x: 14, y: 18 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "20", area: "area.EasternThanalan", pos: { x: 21.0, y: 20.8 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
-        ]
+            { id: '1', area: 'area.LimsaLominsa', subarea: 'area.LimsaLominsaUpper', pos: { x: 9.7, y: 7.7 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '2', area: 'area.LimsaLominsa', subarea: 'area.LimsaLominsaLower', pos: { x: 7.0, y: 15.1 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '3', area: 'area.MiddleLa', pos: { x: 20, y: 19 }, weather: 'weather.Rain', time: [5, 6, 7], action: 'action.Pray', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '4', area: 'area.MiddleLa', pos: { x: 16, y: 17 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '5', area: 'area.MiddleLa', pos: { x: 25.3, y: 27.5 }, weather: 'weather.Clouds', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '6', area: 'area.LowerLa', pos: { x: 23, y: 40 }, weather: 'weather.FairSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~04:59', startHour: 18, endHour: 4 },
+            { id: '7', area: 'area.LowerLa', pos: { x: 33, y: 19 }, weather: 'weather.Fog', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '8', area: 'area.WesternLa', pos: { x: 29.9, y: 30.7 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '9', area: 'area.Gridania', subarea: 'area.OldGridania', pos: { x: 12, y: 8 }, weather: 'weather.Clouds', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '10', area: 'area.Gridania', subarea: 'area.OldGridania', pos: { x: 10, y: 16 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 22, 23], action: 'action.Lookout', timestr: '22:00~4:59', startHour: 22, endHour: 4 },
+            { id: '11', area: 'area.CentralShroud', pos: { x: 21.8, y: 21.8 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Sit', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '12', area: 'area.EastShroud', pos: { x: 17, y: 18 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Pray', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '13', area: 'area.EastShroud', pos: { x: 22, y: 26 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~04:59', startHour: 18, endHour: 4 },
+            { id: '14', area: 'area.Uldah', subarea: 'area.UldahThal', pos: { x: 11, y: 11 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Salute', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '15', area: 'area.Uldah', subarea: 'area.UldahThal', pos: { x: 11, y: 11 }, weather: 'weather.Clouds', time: [12, 13, 14, 15], action: 'action.Lookout', timestr: '12:00~15:59', startHour: 12, endHour: 15 },
+            { id: '16', area: 'area.WesternThanalan', pos: { x: 22, y: 22 }, weather: 'weather.FairSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '17', area: 'area.CentralThanalan', pos: { x: 15, y: 22 }, weather: 'weather.Fog', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '18', area: 'area.EasternThanalan', pos: { x: 19, y: 24 }, weather: 'weather.Rain', time: [17], action: 'action.Comfort', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '19', area: 'area.EasternThanalan', pos: { x: 14, y: 18 }, weather: 'weather.Clouds', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '20', area: 'area.EasternThanalan', pos: { x: 21.0, y: 20.8 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Pray', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+        ],
     },
     {
-        groupName: "21~40",
+        groupName: '21~40',
         items: [
-            { id: "21", area: "area.MiddleLa", pos: { x: 20, y: 13 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "22", area: "area.MiddleLa", pos: { x: 25, y: 17 }, weather: "weather.ClearSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "23", area: "area.LowerLa", pos: { x: 31, y: 12 }, weather: "weather.Rain", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "24", area: "area.EasternLa", pos: { x: 32, y: 23 }, weather: "weather.ClearSkies", time: [8, 9, 10, 11], action: "action.Sit", timestr: "8:00~11:59" },
-            { id: "25", area: "area.EasternLa", pos: { x: 29, y: 33 }, weather: "weather.Rain", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "26", area: "area.WesternLa", pos: { x: 26, y: 26 }, weather: "weather.ClearSkies", time: [17], action: "action.Pray", timestr: "17:00~17:59" },
-            { id: "27", area: "area.WesternLa", pos: { x: 17, y: 36 }, weather: "weather.Gales", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "28", area: "area.WesternLa", pos: { x: 22, y: 22 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "29", area: "area.WesternLa", pos: { x: 19, y: 23 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "30", area: "area.UpperLa", pos: { x: 30, y: 22 }, weather: "weather.FairSkies", time: [17], action: "action.Lookout", timestr: "17:00~17:59" },
-            { id: "31", area: "area.UpperLa", pos: { x: 12, y: 22 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "32", area: "area.UpperLa", pos: { x: 29, y: 25 }, weather: "weather.Thunderstorms", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "33", area: "area.OuterLa", pos: { x: 12, y: 15 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "34", area: "area.OuterLa", pos: { x: 17, y: 16 }, weather: "weather.Clouds", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "35", area: "area.OuterLa", pos: { x: 23, y: 11 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "36", area: "area.OuterLa", pos: { x: 15, y: 10 }, weather: "weather.Rain", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Sit", timestr: "18:00~4:59" },
-            { id: "37", area: "area.Gridania", subarea: "area.NewGridania", pos: { x: 14, y: 14 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "38", area: "area.Gridania", subarea: "area.OldGridania", pos: { x: 14, y: 5 }, weather: "weather.Rain", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "39", area: "area.CentralShroud", pos: { x: 23, y: 19 }, weather: "weather.Rain", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "40", area: "area.CentralShroud", pos: { x: 13, y: 23 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-        ]
+            { id: '21', area: 'area.MiddleLa', pos: { x: 20, y: 13 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '22', area: 'area.MiddleLa', pos: { x: 25, y: 17 }, weather: 'weather.ClearSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '23', area: 'area.LowerLa', pos: { x: 31, y: 12 }, weather: 'weather.Rain', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '24', area: 'area.EasternLa', pos: { x: 32, y: 23 }, weather: 'weather.ClearSkies', time: [8, 9, 10, 11], action: 'action.Sit', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '25', area: 'area.EasternLa', pos: { x: 29, y: 33 }, weather: 'weather.Rain', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '26', area: 'area.WesternLa', pos: { x: 26, y: 26 }, weather: 'weather.ClearSkies', time: [17], action: 'action.Pray', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '27', area: 'area.WesternLa', pos: { x: 17, y: 36 }, weather: 'weather.Gales', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '28', area: 'area.WesternLa', pos: { x: 22, y: 22 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '29', area: 'area.WesternLa', pos: { x: 19, y: 23 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '30', area: 'area.UpperLa', pos: { x: 30, y: 22 }, weather: 'weather.FairSkies', time: [17], action: 'action.Lookout', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '31', area: 'area.UpperLa', pos: { x: 12, y: 22 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '32', area: 'area.UpperLa', pos: { x: 29, y: 25 }, weather: 'weather.Thunderstorms', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '33', area: 'area.OuterLa', pos: { x: 12, y: 15 }, weather: 'weather.FairSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '34', area: 'area.OuterLa', pos: { x: 17, y: 16 }, weather: 'weather.Clouds', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '35', area: 'area.OuterLa', pos: { x: 23, y: 11 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '36', area: 'area.OuterLa', pos: { x: 15, y: 10 }, weather: 'weather.Rain', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Sit', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '37', area: 'area.Gridania', subarea: 'area.NewGridania', pos: { x: 14, y: 14 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '38', area: 'area.Gridania', subarea: 'area.OldGridania', pos: { x: 14, y: 5 }, weather: 'weather.Rain', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '39', area: 'area.CentralShroud', pos: { x: 23, y: 19 }, weather: 'weather.Rain', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '40', area: 'area.CentralShroud', pos: { x: 13, y: 23 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+        ],
     },
     {
-        groupName: "41-60",
+        groupName: '41-60',
         items: [
-            { id: "41", area: "area.CentralShroud", pos: { x: 16, y: 22 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "42", area: "area.CentralShroud", pos: { x: 26, y: 18 }, weather: "weather.ClearSkies", time: [11, 12, 13], action: "action.Lookout", timestr: "11:00~13:59" },
-            { id: "43", area: "area.EastShroud", pos: { x: 21, y: 10 }, weather: "weather.Thunder", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "44", area: "area.SouthShroud", pos: { x: 17, y: 20 }, weather: "weather.Thunderstorms", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "45", area: "area.SouthShroud", pos: { x: 14, y: 33 }, weather: "weather.ClearSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "46", area: "area.SouthShroud", pos: { x: 33, y: 23 }, weather: "weather.Fog", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "47", area: "area.SouthShroud", pos: { x: 25, y: 21 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "48", area: "area.NorthShroud", pos: { x: 18, y: 19 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "49", area: "area.NorthShroud", pos: { x: 15, y: 32 }, weather: "weather.ClearSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "50", area: "area.NorthShroud", pos: { x: 15, y: 27 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "51", area: "area.WesternThanalan", pos: { x: 8, y: 5 }, weather: "weather.ClearSkies", time: [17], action: "action.Lookout", timestr: "17:00~17:59" },
-            { id: "52", area: "area.WesternThanalan", pos: { x: 12, y: 14 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Point", timestr: "12:00~16:59" },
-            { id: "53", area: "area.CentralThanalan", pos: { x: 21, y: 17 }, weather: "weather.DustStorms", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "54", area: "area.CentralThanalan", pos: { x: 18, y: 26 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~16:59" },
-            { id: "55", area: "area.EasternThanalan", pos: { x: 30, y: 26 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "56", area: "area.EasternThanalan", pos: { x: 10, y: 16 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "57", area: "area.EasternThanalan", pos: { x: 25, y: 14 }, weather: "weather.Showers", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Pray", timestr: "18:00~4:59" },
-            { id: "58", area: "area.SouthernThanalan", pos: { x: 12, y: 22 }, weather: "weather.Fog", time: [5, 6, 7], action: "action.Pray", timestr: "5:00~7:59" },
-            { id: "59", area: "area.SouthernThanalan", pos: { x: 19, y: 20 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "60", area: "area.SouthernThanalan", pos: { x: 21, y: 38 }, weather: "weather.HeatWaves", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-        ]
+            { id: '41', area: 'area.CentralShroud', pos: { x: 16, y: 22 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '42', area: 'area.CentralShroud', pos: { x: 26, y: 18 }, weather: 'weather.ClearSkies', time: [11, 12, 13], action: 'action.Lookout', timestr: '11:00~13:59', startHour: 11, endHour: 13 },
+            { id: '43', area: 'area.EastShroud', pos: { x: 21, y: 10 }, weather: 'weather.Thunder', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '44', area: 'area.SouthShroud', pos: { x: 17, y: 20 }, weather: 'weather.Thunderstorms', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '45', area: 'area.SouthShroud', pos: { x: 14, y: 33 }, weather: 'weather.ClearSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '46', area: 'area.SouthShroud', pos: { x: 33, y: 23 }, weather: 'weather.Fog', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '47', area: 'area.SouthShroud', pos: { x: 25, y: 21 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '48', area: 'area.NorthShroud', pos: { x: 18, y: 19 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '49', area: 'area.NorthShroud', pos: { x: 15, y: 32 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '50', area: 'area.NorthShroud', pos: { x: 15, y: 27 }, weather: 'weather.Clouds', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '51', area: 'area.WesternThanalan', pos: { x: 8, y: 5 }, weather: 'weather.ClearSkies', time: [17], action: 'action.Lookout', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '52', area: 'area.WesternThanalan', pos: { x: 12, y: 14 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Point', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '53', area: 'area.CentralThanalan', pos: { x: 21, y: 17 }, weather: 'weather.DustStorms', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '54', area: 'area.CentralThanalan', pos: { x: 18, y: 26 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Sit', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '55', area: 'area.EasternThanalan', pos: { x: 30, y: 26 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '56', area: 'area.EasternThanalan', pos: { x: 10, y: 16 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '57', area: 'area.EasternThanalan', pos: { x: 25, y: 14 }, weather: 'weather.Showers', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Pray', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '58', area: 'area.SouthernThanalan', pos: { x: 12, y: 22 }, weather: 'weather.Fog', time: [5, 6, 7], action: 'action.Pray', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '59', area: 'area.SouthernThanalan', pos: { x: 19, y: 20 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '60', area: 'area.SouthernThanalan', pos: { x: 21, y: 38 }, weather: 'weather.HeatWaves', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+        ],
     },
     {
-        groupName: "61-80",
+        groupName: '61-80',
         items: [
-            { id: "61", area: "area.SouthernThanalan", pos: { x: 23, y: 11 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "62", area: "area.SouthernThanalan", pos: { x: 14, y: 26 }, weather: "weather.HeatWaves", time: [5, 6, 7], action: "action.Psych", timestr: "5:00~7:59" },
-            { id: "63", area: "area.NorthernThanalan", pos: { x: 21, y: 24 }, weather: "weather.ClearSkies", time: [5, 6, 7], action: "action.Salute", timestr: "5:00~7:59" },
-            { id: "64", area: "area.NorthernThanalan", pos: { x: 20, y: 29 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "65", area: "area.NorthernThanalan", pos: { x: 20, y: 22 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "66", area: "area.NorthernThanalan", pos: { x: 19, y: 17 }, weather: "weather.Clouds", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "67", area: "area.NorthernThanalan", pos: { x: 26, y: 22 }, weather: "weather.Fog", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "68", area: "area.CoerthasCentral", pos: { x: 25, y: 29 }, weather: "weather.ClearSkies", time: [17], action: "action.Lookout", timestr: "17:00~17:59" },
-            { id: "69", area: "area.CoerthasCentral", pos: { x: 25, y: 29 }, weather: "weather.Fog", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "70", area: "area.CoerthasCentral", pos: { x: 11, y: 15 }, weather: "weather.Blizzards", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "71", area: "area.CoerthasCentral", pos: { x: 12, y: 17 }, weather: "weather.FairSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "72", area: "area.CoerthasCentral", pos: { x: 7, y: 28 }, weather: "weather.ClearSkies", time: [17], action: "action.Lookout", timestr: "17:00~17:59" },
-            { id: "73", area: "area.CoerthasCentral", pos: { x: 7, y: 31 }, weather: "weather.Blizzards", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "74", area: "area.CoerthasCentral", pos: { x: 2, y: 21 }, weather: "weather.FairSkies", time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~11:59" },
-            { id: "75", area: "area.CoerthasCentral", pos: { x: 26, y: 17 }, weather: "weather.FairSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "76", area: "area.CoerthasCentral", pos: { x: 28, y: 10 }, weather: "weather.ClearSkies", time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~7:59" },
-            { id: "77", area: "area.MorDhona", pos: { x: 9, y: 13 }, weather: "weather.Gloom", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "78", area: "area.MorDhona", pos: { x: 27, y: 8 }, weather: "weather.FairSkies", time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Lookout", timestr: "18:00~4:59" },
-            { id: "79", area: "area.MorDhona", pos: { x: 18, y: 17 }, weather: "weather.ClearSkies", time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~16:59" },
-            { id: "80", area: "area.MorDhona", pos: { x: 26, y: 11 }, weather: "weather.FairSkies", time: [17], action: "action.Sit", timestr: "17:00~17:59" },
-        ]
-    }
+            { id: '61', area: 'area.SouthernThanalan', pos: { x: 23, y: 11 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '62', area: 'area.SouthernThanalan', pos: { x: 14, y: 26 }, weather: 'weather.HeatWaves', time: [5, 6, 7], action: 'action.Psych', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '63', area: 'area.NorthernThanalan', pos: { x: 21, y: 24 }, weather: 'weather.ClearSkies', time: [5, 6, 7], action: 'action.Salute', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '64', area: 'area.NorthernThanalan', pos: { x: 20, y: 29 }, weather: 'weather.FairSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '65', area: 'area.NorthernThanalan', pos: { x: 20, y: 22 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '66', area: 'area.NorthernThanalan', pos: { x: 19, y: 17 }, weather: 'weather.Clouds', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '67', area: 'area.NorthernThanalan', pos: { x: 26, y: 22 }, weather: 'weather.Fog', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '68', area: 'area.CoerthasCentral', pos: { x: 25, y: 29 }, weather: 'weather.ClearSkies', time: [17], action: 'action.Lookout', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '69', area: 'area.CoerthasCentral', pos: { x: 25, y: 29 }, weather: 'weather.Fog', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '70', area: 'area.CoerthasCentral', pos: { x: 11, y: 15 }, weather: 'weather.Blizzards', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '71', area: 'area.CoerthasCentral', pos: { x: 12, y: 17 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '72', area: 'area.CoerthasCentral', pos: { x: 7, y: 28 }, weather: 'weather.ClearSkies', time: [17], action: 'action.Lookout', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+            { id: '73', area: 'area.CoerthasCentral', pos: { x: 7, y: 31 }, weather: 'weather.Blizzards', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '74', area: 'area.CoerthasCentral', pos: { x: 2, y: 21 }, weather: 'weather.FairSkies', time: [8, 9, 10, 11], action: 'action.Lookout', timestr: '8:00~11:59', startHour: 8, endHour: 11 },
+            { id: '75', area: 'area.CoerthasCentral', pos: { x: 26, y: 17 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '76', area: 'area.CoerthasCentral', pos: { x: 28, y: 10 }, weather: 'weather.ClearSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 7 },
+            { id: '77', area: 'area.MorDhona', pos: { x: 9, y: 13 }, weather: 'weather.Gloom', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '78', area: 'area.MorDhona', pos: { x: 27, y: 8 }, weather: 'weather.FairSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 4 },
+            { id: '79', area: 'area.MorDhona', pos: { x: 18, y: 17 }, weather: 'weather.ClearSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 16 },
+            { id: '80', area: 'area.MorDhona', pos: { x: 26, y: 11 }, weather: 'weather.FairSkies', time: [17], action: 'action.Sit', timestr: '17:00~17:59', startHour: 17, endHour: 17 },
+        ],
+    },
 ];
 
 
