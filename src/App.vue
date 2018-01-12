@@ -91,6 +91,7 @@ class NotificationService {
     permission: boolean | symbol = false;
     static readonly UNSUPPORTED: symbol = Symbol('NotificationService.UNSUPPORTED');
     defaultOption: Option;
+    private notificationMap: Set<Notification> = new Set();
     constructor(welcomeTitle: string, welcomeOption: Option, defaultOption: Option) {
         if (!('Notification' in window)) {
             this.permission = NotificationService.UNSUPPORTED;
@@ -108,12 +109,21 @@ class NotificationService {
             this.permission = true;
             this.sendNotification(welcomeTitle, welcomeOption);
         }
+        window.addEventListener('beforeunload', _ => {
+            this.notificationMap.forEach((notification: Notification) => {
+                notification.close();
+            });
+        });
     }
     sendNotification(title: string, option?: any) {
         if (this.permission === true) {
             let o = this.defaultOption.extend(option);
             let notification: Notification = new Notification(title, o);
-            setTimeout(notification.close.bind(notification), 15000);
+            this.notificationMap.add(notification);
+            setTimeout(_ => {
+                notification.close();
+                this.notificationMap.delete(notification);
+            }, 15000);
         }
     }
 }
@@ -142,47 +152,43 @@ export default class App extends Vue {
             }),
             optionTemplate.clone(),
         );
-        try {
-            if (notificationService.permission !== NotificationService.UNSUPPORTED) {
-                this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
-                    if (nearSoonToCompleteData.length > 3) {
-                        let soon_option = optionTemplate.clone();
-                        let now_option = optionTemplate.clone();
-                        nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                            let option: Option = d.isStillWaiting ? soon_option : now_option;
-                            if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
-                            option.body += d.id + ' ' + this.$i18n.t(d.area);
-                        });
-                        if (soon_option.length > 0) {
-                            notificationService.sendNotification(
-                                this.$i18n.tc('notification.availableSoonTitle', 2, {
-                                    n: soon_option.length,
-                                }),
-                                soon_option,
-                            );
-                        }
-                        if (now_option.length > 0) {
-                            notificationService.sendNotification(
-                                this.$i18n.tc('notification.availableNowTitle', 2, {
-                                    n: now_option.length,
-                                }),
-                                now_option,
-                            );
-                        }
-                    } else {
-                        nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                            let option = optionTemplate.clone();
-                            option.body = d.id + ' ' + this.$i18n.t(d.area);
-                            option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
-                                m: d.nextAvaliableTimeLeft,
-                            });
-                            notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
-                        });
+        if (notificationService.permission !== NotificationService.UNSUPPORTED) {
+            this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
+                if (nearSoonToCompleteData.length > 3) {
+                    let soon_option = optionTemplate.clone();
+                    let now_option = optionTemplate.clone();
+                    nearSoonToCompleteData.forEach((d: Sightseeing) => {
+                        let option: Option = d.isStillWaiting ? soon_option : now_option;
+                        if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
+                        option.body += d.id + ' ' + this.$i18n.t(d.area);
+                    });
+                    if (soon_option.length > 0) {
+                        notificationService.sendNotification(
+                            this.$i18n.tc('notification.availableSoonTitle', 2, {
+                                n: soon_option.length,
+                            }),
+                            soon_option,
+                        );
                     }
-                });
-            }
-        } catch (e) {
-            console.debug(e);
+                    if (now_option.length > 0) {
+                        notificationService.sendNotification(
+                            this.$i18n.tc('notification.availableNowTitle', 2, {
+                                n: now_option.length,
+                            }),
+                            now_option,
+                        );
+                    }
+                } else {
+                    nearSoonToCompleteData.forEach((d: Sightseeing) => {
+                        let option = optionTemplate.clone();
+                        option.body = d.id + ' ' + this.$i18n.t(d.area);
+                        option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                            m: d.nextAvaliableTimeLeft,
+                        });
+                        notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
+                    });
+                }
+            });
         }
     }
     tick() {
