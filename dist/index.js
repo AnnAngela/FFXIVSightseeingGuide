@@ -13523,6 +13523,9 @@ var App = /** @class */ (function (_super) {
             Notification.requestPermission(function (permission) {
                 if (permission !== 'denied') {
                     _this.notificationPermission = true;
+                    if (sessionStorage.getItem('isAlreadyAlerted') === 'true')
+                        return;
+                    sessionStorage.setItem('isAlreadyAlerted', 'true');
                     option_1.body = _this.$i18n.t('notification.alert.body') + '';
                     _this.sendNotification(_this.$i18n.t('notification.alert.title') + '', option_1);
                 }

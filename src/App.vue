@@ -85,6 +85,8 @@ export default class App extends Vue {
             Notification.requestPermission((permission: string) => {
                 if (permission !== 'denied') {
                     this.notificationPermission = true;
+                    if (sessionStorage.getItem('isAlreadyAlerted') === 'true') return;
+                    sessionStorage.setItem('isAlreadyAlerted', 'true');
                     option.body = this.$i18n.t('notification.alert.body') + '';
                     this.sendNotification(this.$i18n.t('notification.alert.title') + '', option);
                 }
