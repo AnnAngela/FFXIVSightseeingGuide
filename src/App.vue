@@ -61,12 +61,11 @@ import Component from 'vue-class-component';
 import EorzeaClock from './EorzeaTime';
 import { Sightseeing } from './Sightseeing';
 
-class Option extends Object {
+class Option {
     lang: string = 'zh-CN';
     body: string = '';
     length: number = 0;
     constructor(option?: any) {
-        super();
         if (option) {
             if (option.lang) this.lang = option.lang;
             if (option.body) this.body = option.body;
@@ -143,43 +142,47 @@ export default class App extends Vue {
             }),
             optionTemplate.clone(),
         );
-        if (notificationService.permission !== NotificationService.UNSUPPORTED) {
-            this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
-                if (nearSoonToCompleteData.length > 3) {
-                    let soon_option = optionTemplate.clone();
-                    let now_option = optionTemplate.clone();
-                    nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        let option: Option = d.isStillWaiting ? soon_option : now_option;
-                        if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
-                        option.body += d.id + ' ' + this.$i18n.t(d.area);
-                    });
-                    if (soon_option.length > 0) {
-                        notificationService.sendNotification(
-                            this.$i18n.tc('notification.availableSoonTitle', 2, {
-                                n: soon_option.length,
-                            }),
-                            soon_option,
-                        );
-                    }
-                    if (now_option.length > 0) {
-                        notificationService.sendNotification(
-                            this.$i18n.tc('notification.availableNowTitle', 2, {
-                                n: now_option.length,
-                            }),
-                            now_option,
-                        );
-                    }
-                } else {
-                    nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        let option = optionTemplate.clone();
-                        option.body = d.id + ' ' + this.$i18n.t(d.area);
-                        option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
-                            m: d.nextAvaliableTimeLeft,
+        try {
+            if (notificationService.permission !== NotificationService.UNSUPPORTED) {
+                this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
+                    if (nearSoonToCompleteData.length > 3) {
+                        let soon_option = optionTemplate.clone();
+                        let now_option = optionTemplate.clone();
+                        nearSoonToCompleteData.forEach((d: Sightseeing) => {
+                            let option: Option = d.isStillWaiting ? soon_option : now_option;
+                            if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
+                            option.body += d.id + ' ' + this.$i18n.t(d.area);
                         });
-                        notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
-                    });
-                }
-            });
+                        if (soon_option.length > 0) {
+                            notificationService.sendNotification(
+                                this.$i18n.tc('notification.availableSoonTitle', 2, {
+                                    n: soon_option.length,
+                                }),
+                                soon_option,
+                            );
+                        }
+                        if (now_option.length > 0) {
+                            notificationService.sendNotification(
+                                this.$i18n.tc('notification.availableNowTitle', 2, {
+                                    n: now_option.length,
+                                }),
+                                now_option,
+                            );
+                        }
+                    } else {
+                        nearSoonToCompleteData.forEach((d: Sightseeing) => {
+                            let option = optionTemplate.clone();
+                            option.body = d.id + ' ' + this.$i18n.t(d.area);
+                            option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                                m: d.nextAvaliableTimeLeft,
+                            });
+                            notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
+                        });
+                    }
+                });
+            }
+        } catch (e) {
+            console.debug(e);
         }
     }
     tick() {
