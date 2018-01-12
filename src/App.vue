@@ -61,6 +61,25 @@ import Component from 'vue-class-component';
 import EorzeaClock from './EorzeaTime';
 import { Sightseeing } from './Sightseeing';
 
+class Option extends Object {
+    [key: string]: any;
+    constructor(option: object) {
+        super();
+        for (let attr in option) {
+            if (!option.hasOwnProperty(attr)) continue;
+            this[attr] = typeof option[attr] === 'object' ? new Option(option[attr]).clone() : option[attr];
+        }
+    }
+    clone() {
+        let copy: Option = new Option({});
+        for (let attr in this) {
+            if (!this.hasOwnProperty(attr)) continue;
+            copy[attr] = typeof this[attr] === 'object' ? new Option(this[attr]).clone() : this[attr];
+        }
+        return copy;
+    }
+}
+
 @Component
 export default class App extends Vue {
     eorzeaclock: string = '00:00';
@@ -78,30 +97,29 @@ export default class App extends Vue {
             self.tick();
         }, 1000);
         if ('Notification' in window) {
-            let option = {
+            let optionTemplate = new Option({
                 lang: this.$i18n.locale,
                 body: '',
-            };
+            });
             Notification.requestPermission((permission: string) => {
                 if (permission !== 'denied') {
                     this.notificationPermission = true;
                     if (sessionStorage.getItem('isAlreadyAlerted') === 'true') return;
                     sessionStorage.setItem('isAlreadyAlerted', 'true');
+                    let option = optionTemplate.clone();
                     option.body = this.$i18n.t('notification.alert.body') + '';
                     this.sendNotification(this.$i18n.t('notification.alert.title') + '', option);
                 }
             });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
-                    let soon_option = Object(option);
-                    soon_option.body = '';
-                    let now_option = Object(option);
-                    now_option.body = '';
+                    let soon_option = optionTemplate.clone();
+                    let now_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
                         (d.isStillWaiting ? soon_option : now_option).body += d.id + ' ' + this.$i18n.t(d.area) + this.$i18n.t('notification.dot');
                     });
-                    soon_option.body = option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
-                    now_option.body = option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
+                    soon_option.body = soon_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
+                    now_option.body = now_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
                     if (soon_option.body !== '') {
                         this.sendNotification(
                             this.$i18n.tc('notification.availableSoonTitle', 2, {
@@ -120,6 +138,7 @@ export default class App extends Vue {
                     }
                 } else {
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
+                        let option = optionTemplate.clone();
                         option.body = d.id + ' ' + this.$i18n.t(d.area);
                         option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
