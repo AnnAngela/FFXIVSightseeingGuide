@@ -13492,24 +13492,69 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var Option = /** @class */ (function (_super) {
     __extends(Option, _super);
-    function Option(lang, body, length) {
+    function Option(option) {
         var _this = _super.call(this) || this;
         _this.lang = 'zh-CN';
         _this.body = '';
         _this.length = 0;
-        if (lang)
-            _this.lang = lang;
-        if (body)
-            _this.body = body;
-        if (length)
-            _this.length = length;
+        if (option) {
+            if (option.lang)
+                _this.lang = option.lang;
+            if (option.body)
+                _this.body = option.body;
+            if (option.length)
+                _this.length = option.length;
+        }
         return _this;
     }
     Option.prototype.clone = function () {
-        return new Option(this.lang, this.body, this.length);
+        return new Option(this);
+    };
+    Option.prototype.extend = function (option) {
+        var new_option = this.clone();
+        if (option) {
+            if (option.lang)
+                new_option.lang = option.lang;
+            if (option.body)
+                new_option.body = option.body;
+            if (option.length)
+                new_option.length = option.length;
+        }
+        return new_option;
     };
     return Option;
 }(Object));
+var NotificationService = /** @class */ (function () {
+    function NotificationService(welcomeTitle, welcomeOption, defaultOption) {
+        var _this = this;
+        this.permission = false;
+        this.UNSUPPORTED = Symbol('NotificationService.UNSUPPORTED');
+        if (!('Notification' in window)) {
+            this.permission = this.UNSUPPORTED;
+            return;
+        }
+        this.defaultOption = defaultOption;
+        if (Notification.permission !== 'granted')
+            Notification.requestPermission(function (permission) {
+                if (permission === 'granted') {
+                    _this.permission = true;
+                    _this.sendNotification(welcomeTitle, welcomeOption);
+                }
+            });
+        else {
+            this.permission = true;
+            this.sendNotification(welcomeTitle, welcomeOption);
+        }
+    }
+    NotificationService.prototype.sendNotification = function (title, option) {
+        if (this.permission === true) {
+            var o = this.defaultOption.extend(option);
+            var notification = new Notification(title, o);
+            setTimeout(notification.close.bind(notification), 15000);
+        }
+    };
+    return NotificationService;
+}());
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
@@ -13536,16 +13581,19 @@ var App = /** @class */ (function (_super) {
             self.tick();
         }, 1000);
         if ('Notification' in window) {
-            var optionTemplate_1 = new Option(this.$i18n.locale, '', 0);
+            var optionTemplate_1 = new Option({ lang: this.$i18n.locale });
+            var notificationService_1 = new NotificationService(this.$i18n.t('notification.alert.title') + '', optionTemplate_1.extend(new Option({
+                body: this.$i18n.t('notification.alert.body') + '',
+            })), optionTemplate_1.clone());
             Notification.requestPermission(function (permission) {
                 if (permission !== 'denied') {
                     _this.notificationPermission = true;
                     if (sessionStorage.getItem('isAlreadyAlerted') === 'true')
                         return;
                     sessionStorage.setItem('isAlreadyAlerted', 'true');
-                    var option = optionTemplate_1.clone();
-                    option.body = _this.$i18n.t('notification.alert.body') + '';
-                    _this.sendNotification(_this.$i18n.t('notification.alert.title') + '', option);
+                    notificationService_1.sendNotification(_this.$i18n.t('notification.alert.title') + '', {
+                        body: _this.$i18n.t('notification.alert.body') + '',
+                    });
                 }
             });
             this.$gBus.$on('nearSoonToCompleteGet', function (nearSoonToCompleteData) {
@@ -13554,18 +13602,17 @@ var App = /** @class */ (function (_super) {
                     var now_option_1 = optionTemplate_1.clone();
                     nearSoonToCompleteData.forEach(function (d) {
                         var option = d.isStillWaiting ? soon_option_1 : now_option_1;
-                        option.body += d.id + ' ' + _this.$i18n.t(d.area) + _this.$i18n.t('notification.dot');
-                        option.length++;
+                        if (option.length++ !== 0)
+                            option.body += _this.$i18n.t('notification.dot');
+                        option.body += d.id + ' ' + _this.$i18n.t(d.area);
                     });
-                    soon_option_1.body = soon_option_1.body.replace(RegExp(_this.$i18n.t('notification.dot') + '$'), '');
-                    now_option_1.body = now_option_1.body.replace(RegExp(_this.$i18n.t('notification.dot') + '$'), '');
                     if (soon_option_1.length > 0) {
-                        _this.sendNotification(_this.$i18n.tc('notification.availableSoonTitle', 2, {
+                        notificationService_1.sendNotification(_this.$i18n.tc('notification.availableSoonTitle', 2, {
                             n: soon_option_1.length,
                         }), soon_option_1);
                     }
                     if (now_option_1.length > 0) {
-                        _this.sendNotification(_this.$i18n.tc('notification.availableNowTitle', 2, {
+                        notificationService_1.sendNotification(_this.$i18n.tc('notification.availableNowTitle', 2, {
                             n: now_option_1.length,
                         }), now_option_1);
                     }
@@ -13577,7 +13624,7 @@ var App = /** @class */ (function (_super) {
                         option.body += _this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        _this.sendNotification(_this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
+                        notificationService_1.sendNotification(_this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
                     });
                 }
             });
@@ -13596,12 +13643,6 @@ var App = /** @class */ (function (_super) {
             this._lastHour = thisHour;
         }
         this.eorzeaclock = nowet.toHourMinuteString();
-    };
-    App.prototype.sendNotification = function (title, option) {
-        if (this.notificationPermission) {
-            var notification = new Notification(title, option);
-            setTimeout(notification.close.bind(notification), 15000);
-        }
     };
     App.prototype.chlang = function (v) {
         this.$i18n.locale = v;

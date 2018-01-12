@@ -8,6 +8,7 @@
             "es2015.iterable",
             "es2017.object",
             "es2016.array.include",
+            "dom"
         ],
         "module": "es2015",
         "moduleResolution": "node",

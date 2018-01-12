@@ -65,14 +65,57 @@ class Option extends Object {
     lang: string = 'zh-CN';
     body: string = '';
     length: number = 0;
-    constructor(lang?: string, body?: string, length?: number) {
+    constructor(option?: any) {
         super();
-        if (<string>lang) this.lang = <string>lang;
-        if (<string>body) this.body = <string>body;
-        if (<number>length) this.length = <number>length;
+        if (option) {
+            if (option.lang) this.lang = option.lang;
+            if (option.body) this.body = option.body;
+            if (option.length) this.length = option.length;
+        }
     }
     clone() {
-        return new Option(this.lang, this.body, this.length);
+        return new Option(this);
+    }
+    extend(option?: any) {
+        var new_option = this.clone();
+        if (option) {
+            if (option.lang) new_option.lang = option.lang;
+            if (option.body) new_option.body = option.body;
+            if (option.length) new_option.length = option.length;
+        }
+        return new_option;
+    }
+}
+declare const Notification: any;
+
+class NotificationService {
+    permission: boolean | symbol = false;
+    readonly UNSUPPORTED: symbol = Symbol('NotificationService.UNSUPPORTED');
+    defaultOption: Option;
+    constructor(welcomeTitle: string, welcomeOption: Option, defaultOption: Option) {
+        if (!('Notification' in window)) {
+            this.permission = this.UNSUPPORTED;
+            return;
+        }
+        this.defaultOption = defaultOption;
+        if (Notification.permission !== 'granted')
+            Notification.requestPermission((permission: NotificationPermission) => {
+                if (permission === 'granted') {
+                    this.permission = true;
+                    this.sendNotification(welcomeTitle, welcomeOption);
+                }
+            });
+        else {
+            this.permission = true;
+            this.sendNotification(welcomeTitle, welcomeOption);
+        }
+    }
+    sendNotification(title: string, option?: any) {
+        if (this.permission === true) {
+            let o = this.defaultOption.extend(option);
+            let notification: Notification = new Notification(title, o);
+            setTimeout(notification.close.bind(notification), 15000);
+        }
     }
 }
 
@@ -93,15 +136,24 @@ export default class App extends Vue {
             self.tick();
         }, 1000);
         if ('Notification' in window) {
-            let optionTemplate = new Option(this.$i18n.locale, '', 0);
+            let optionTemplate: Option = new Option({ lang: this.$i18n.locale });
+            let notificationService: NotificationService = new NotificationService(
+                this.$i18n.t('notification.alert.title') + '',
+                optionTemplate.extend(
+                    new Option({
+                        body: this.$i18n.t('notification.alert.body') + '',
+                    }),
+                ),
+                optionTemplate.clone(),
+            );
             Notification.requestPermission((permission: string) => {
                 if (permission !== 'denied') {
                     this.notificationPermission = true;
                     if (sessionStorage.getItem('isAlreadyAlerted') === 'true') return;
                     sessionStorage.setItem('isAlreadyAlerted', 'true');
-                    let option = optionTemplate.clone();
-                    option.body = this.$i18n.t('notification.alert.body') + '';
-                    this.sendNotification(this.$i18n.t('notification.alert.title') + '', option);
+                    notificationService.sendNotification(this.$i18n.t('notification.alert.title') + '', {
+                        body: this.$i18n.t('notification.alert.body') + '',
+                    });
                 }
             });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
@@ -110,13 +162,11 @@ export default class App extends Vue {
                     let now_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
                         let option: Option = d.isStillWaiting ? soon_option : now_option;
-                        option.body += d.id + ' ' + this.$i18n.t(d.area) + this.$i18n.t('notification.dot');
-                        option.length++;
+                        if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
+                        option.body += d.id + ' ' + this.$i18n.t(d.area);
                     });
-                    soon_option.body = soon_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
-                    now_option.body = now_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
                     if (soon_option.length > 0) {
-                        this.sendNotification(
+                        notificationService.sendNotification(
                             this.$i18n.tc('notification.availableSoonTitle', 2, {
                                 n: soon_option.length,
                             }),
@@ -124,7 +174,7 @@ export default class App extends Vue {
                         );
                     }
                     if (now_option.length > 0) {
-                        this.sendNotification(
+                        notificationService.sendNotification(
                             this.$i18n.tc('notification.availableNowTitle', 2, {
                                 n: now_option.length,
                             }),
@@ -138,7 +188,7 @@ export default class App extends Vue {
                         option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        this.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
+                        notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
                     });
                 }
             });
@@ -159,12 +209,6 @@ export default class App extends Vue {
         }
 
         this.eorzeaclock = nowet.toHourMinuteString();
-    }
-    sendNotification(title: string, option: {}) {
-        if (this.notificationPermission) {
-            let notification: Notification = new Notification(title, option);
-            setTimeout(notification.close.bind(notification), 15000);
-        }
     }
     chlang(v: string) {
         this.$i18n.locale = v;
