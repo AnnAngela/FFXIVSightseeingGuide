@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const development_mode = true;
+const development_mode = false;
 
 module.exports = {
     entry: './src/index.ts',
