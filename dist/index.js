@@ -13528,9 +13528,8 @@ var NotificationService = /** @class */ (function () {
     function NotificationService(welcomeTitle, welcomeOption, defaultOption) {
         var _this = this;
         this.permission = false;
-        this.UNSUPPORTED = Symbol('NotificationService.UNSUPPORTED');
         if (!('Notification' in window)) {
-            this.permission = this.UNSUPPORTED;
+            this.permission = NotificationService.UNSUPPORTED;
             return;
         }
         this.defaultOption = defaultOption;
@@ -13553,6 +13552,7 @@ var NotificationService = /** @class */ (function () {
             setTimeout(notification.close.bind(notification), 15000);
         }
     };
+    NotificationService.UNSUPPORTED = Symbol('NotificationService.UNSUPPORTED');
     return NotificationService;
 }());
 var App = /** @class */ (function (_super) {
@@ -13580,26 +13580,15 @@ var App = /** @class */ (function (_super) {
         setInterval(function () {
             self.tick();
         }, 1000);
-        if ('Notification' in window) {
-            var optionTemplate_1 = new Option({ lang: this.$i18n.locale });
-            var notificationService_1 = new NotificationService(this.$i18n.t('notification.alert.title') + '', optionTemplate_1.extend(new Option({
-                body: this.$i18n.t('notification.alert.body') + '',
-            })), optionTemplate_1.clone());
-            Notification.requestPermission(function (permission) {
-                if (permission !== 'denied') {
-                    _this.notificationPermission = true;
-                    if (sessionStorage.getItem('isAlreadyAlerted') === 'true')
-                        return;
-                    sessionStorage.setItem('isAlreadyAlerted', 'true');
-                    notificationService_1.sendNotification(_this.$i18n.t('notification.alert.title') + '', {
-                        body: _this.$i18n.t('notification.alert.body') + '',
-                    });
-                }
-            });
+        var optionTemplate = new Option({ lang: this.$i18n.locale });
+        var notificationService = new NotificationService(this.$i18n.t('notification.alert.title') + '', optionTemplate.extend({
+            body: this.$i18n.t('notification.alert.body') + '',
+        }), optionTemplate.clone());
+        if (notificationService.permission !== NotificationService.UNSUPPORTED) {
             this.$gBus.$on('nearSoonToCompleteGet', function (nearSoonToCompleteData) {
                 if (nearSoonToCompleteData.length > 3) {
-                    var soon_option_1 = optionTemplate_1.clone();
-                    var now_option_1 = optionTemplate_1.clone();
+                    var soon_option_1 = optionTemplate.clone();
+                    var now_option_1 = optionTemplate.clone();
                     nearSoonToCompleteData.forEach(function (d) {
                         var option = d.isStillWaiting ? soon_option_1 : now_option_1;
                         if (option.length++ !== 0)
@@ -13607,24 +13596,24 @@ var App = /** @class */ (function (_super) {
                         option.body += d.id + ' ' + _this.$i18n.t(d.area);
                     });
                     if (soon_option_1.length > 0) {
-                        notificationService_1.sendNotification(_this.$i18n.tc('notification.availableSoonTitle', 2, {
+                        notificationService.sendNotification(_this.$i18n.tc('notification.availableSoonTitle', 2, {
                             n: soon_option_1.length,
                         }), soon_option_1);
                     }
                     if (now_option_1.length > 0) {
-                        notificationService_1.sendNotification(_this.$i18n.tc('notification.availableNowTitle', 2, {
+                        notificationService.sendNotification(_this.$i18n.tc('notification.availableNowTitle', 2, {
                             n: now_option_1.length,
                         }), now_option_1);
                     }
                 }
                 else {
                     nearSoonToCompleteData.forEach(function (d) {
-                        var option = optionTemplate_1.clone();
+                        var option = optionTemplate.clone();
                         option.body = d.id + ' ' + _this.$i18n.t(d.area);
                         option.body += _this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        notificationService_1.sendNotification(_this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
+                        notificationService.sendNotification(_this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
                     });
                 }
             });

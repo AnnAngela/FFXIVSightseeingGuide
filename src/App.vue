@@ -90,11 +90,11 @@ declare const Notification: any;
 
 class NotificationService {
     permission: boolean | symbol = false;
-    readonly UNSUPPORTED: symbol = Symbol('NotificationService.UNSUPPORTED');
+    static readonly UNSUPPORTED: symbol = Symbol('NotificationService.UNSUPPORTED');
     defaultOption: Option;
     constructor(welcomeTitle: string, welcomeOption: Option, defaultOption: Option) {
         if (!('Notification' in window)) {
-            this.permission = this.UNSUPPORTED;
+            this.permission = NotificationService.UNSUPPORTED;
             return;
         }
         this.defaultOption = defaultOption;
@@ -135,27 +135,15 @@ export default class App extends Vue {
         setInterval(function() {
             self.tick();
         }, 1000);
-        if ('Notification' in window) {
-            let optionTemplate: Option = new Option({ lang: this.$i18n.locale });
-            let notificationService: NotificationService = new NotificationService(
-                this.$i18n.t('notification.alert.title') + '',
-                optionTemplate.extend(
-                    new Option({
-                        body: this.$i18n.t('notification.alert.body') + '',
-                    }),
-                ),
-                optionTemplate.clone(),
-            );
-            Notification.requestPermission((permission: string) => {
-                if (permission !== 'denied') {
-                    this.notificationPermission = true;
-                    if (sessionStorage.getItem('isAlreadyAlerted') === 'true') return;
-                    sessionStorage.setItem('isAlreadyAlerted', 'true');
-                    notificationService.sendNotification(this.$i18n.t('notification.alert.title') + '', {
-                        body: this.$i18n.t('notification.alert.body') + '',
-                    });
-                }
-            });
+        let optionTemplate: Option = new Option({ lang: this.$i18n.locale });
+        let notificationService: NotificationService = new NotificationService(
+            this.$i18n.t('notification.alert.title') + '',
+            optionTemplate.extend({
+                body: this.$i18n.t('notification.alert.body') + '',
+            }),
+            optionTemplate.clone(),
+        );
+        if (notificationService.permission !== NotificationService.UNSUPPORTED) {
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let soon_option = optionTemplate.clone();
