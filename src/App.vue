@@ -62,21 +62,17 @@ import EorzeaClock from './EorzeaTime';
 import { Sightseeing } from './Sightseeing';
 
 class Option extends Object {
-    [key: string]: any;
-    constructor(option: object) {
+    lang: string = 'zh-CN';
+    body: string = '';
+    length: number = 0;
+    constructor(lang?: string, body?: string, length?: number) {
         super();
-        for (let attr in option) {
-            if (!option.hasOwnProperty(attr)) continue;
-            this[attr] = typeof option[attr] === 'object' ? new Option(option[attr]).clone() : option[attr];
-        }
+        if (<string>lang) this.lang = <string>lang;
+        if (<string>body) this.body = <string>body;
+        if (<number>length) this.length = <number>length;
     }
     clone() {
-        let copy: Option = new Option({});
-        for (let attr in this) {
-            if (!this.hasOwnProperty(attr)) continue;
-            copy[attr] = typeof this[attr] === 'object' ? new Option(this[attr]).clone() : this[attr];
-        }
-        return copy;
+        return new Option(this.lang, this.body, this.length);
     }
 }
 
@@ -97,10 +93,7 @@ export default class App extends Vue {
             self.tick();
         }, 1000);
         if ('Notification' in window) {
-            let optionTemplate = new Option({
-                lang: this.$i18n.locale,
-                body: '',
-            });
+            let optionTemplate = new Option(this.$i18n.locale, '', 0);
             Notification.requestPermission((permission: string) => {
                 if (permission !== 'denied') {
                     this.notificationPermission = true;
@@ -116,22 +109,24 @@ export default class App extends Vue {
                     let soon_option = optionTemplate.clone();
                     let now_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        (d.isStillWaiting ? soon_option : now_option).body += d.id + ' ' + this.$i18n.t(d.area) + this.$i18n.t('notification.dot');
+                        let option: Option = d.isStillWaiting ? soon_option : now_option;
+                        option.body += d.id + ' ' + this.$i18n.t(d.area) + this.$i18n.t('notification.dot');
+                        option.length++;
                     });
                     soon_option.body = soon_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
                     now_option.body = now_option.body.replace(RegExp(this.$i18n.t('notification.dot') + '$'), '');
-                    if (soon_option.body !== '') {
+                    if (soon_option.length > 0) {
                         this.sendNotification(
                             this.$i18n.tc('notification.availableSoonTitle', 2, {
-                                n: soon_option.body.match(this.$i18n.t('notification.dot')).length,
+                                n: soon_option.length,
                             }),
                             soon_option,
                         );
                     }
-                    if (now_option.body !== '') {
+                    if (now_option.length > 0) {
                         this.sendNotification(
                             this.$i18n.tc('notification.availableNowTitle', 2, {
-                                n: now_option.body.match(this.$i18n.t('notification.dot')).length,
+                                n: now_option.length,
                             }),
                             now_option,
                         );

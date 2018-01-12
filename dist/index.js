@@ -13492,23 +13492,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var Option = /** @class */ (function (_super) {
     __extends(Option, _super);
-    function Option(option) {
+    function Option(lang, body, length) {
         var _this = _super.call(this) || this;
-        for (var attr in option) {
-            if (!option.hasOwnProperty(attr))
-                continue;
-            _this[attr] = typeof option[attr] === 'object' ? new Option(option[attr]).clone() : option[attr];
-        }
+        _this.lang = 'zh-CN';
+        _this.body = '';
+        _this.length = 0;
+        if (lang)
+            _this.lang = lang;
+        if (body)
+            _this.body = body;
+        if (length)
+            _this.length = length;
         return _this;
     }
     Option.prototype.clone = function () {
-        var copy = new Option({});
-        for (var attr in this) {
-            if (!this.hasOwnProperty(attr))
-                continue;
-            copy[attr] = typeof this[attr] === 'object' ? new Option(this[attr]).clone() : this[attr];
-        }
-        return copy;
+        return new Option(this.lang, this.body, this.length);
     };
     return Option;
 }(Object));
@@ -13538,10 +13536,7 @@ var App = /** @class */ (function (_super) {
             self.tick();
         }, 1000);
         if ('Notification' in window) {
-            var optionTemplate_1 = new Option({
-                lang: this.$i18n.locale,
-                body: '',
-            });
+            var optionTemplate_1 = new Option(this.$i18n.locale, '', 0);
             Notification.requestPermission(function (permission) {
                 if (permission !== 'denied') {
                     _this.notificationPermission = true;
@@ -13558,18 +13553,20 @@ var App = /** @class */ (function (_super) {
                     var soon_option_1 = optionTemplate_1.clone();
                     var now_option_1 = optionTemplate_1.clone();
                     nearSoonToCompleteData.forEach(function (d) {
-                        (d.isStillWaiting ? soon_option_1 : now_option_1).body += d.id + ' ' + _this.$i18n.t(d.area) + _this.$i18n.t('notification.dot');
+                        var option = d.isStillWaiting ? soon_option_1 : now_option_1;
+                        option.body += d.id + ' ' + _this.$i18n.t(d.area) + _this.$i18n.t('notification.dot');
+                        option.length++;
                     });
                     soon_option_1.body = soon_option_1.body.replace(RegExp(_this.$i18n.t('notification.dot') + '$'), '');
                     now_option_1.body = now_option_1.body.replace(RegExp(_this.$i18n.t('notification.dot') + '$'), '');
-                    if (soon_option_1.body !== '') {
+                    if (soon_option_1.length > 0) {
                         _this.sendNotification(_this.$i18n.tc('notification.availableSoonTitle', 2, {
-                            n: soon_option_1.body.match(_this.$i18n.t('notification.dot')).length,
+                            n: soon_option_1.length,
                         }), soon_option_1);
                     }
-                    if (now_option_1.body !== '') {
+                    if (now_option_1.length > 0) {
                         _this.sendNotification(_this.$i18n.tc('notification.availableNowTitle', 2, {
-                            n: now_option_1.body.match(_this.$i18n.t('notification.dot')).length,
+                            n: now_option_1.length,
                         }), now_option_1);
                     }
                 }
