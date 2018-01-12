@@ -124,7 +124,7 @@ export const SightseeingData: SightseeingGroup[] = [
         ],
     },
     {
-        groupName: '21~40',
+        groupName: '21~80',
         items: [
             { id: '21', area: 'area.MiddleLa', pos: { x: 20, y: 13 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 17 },
             { id: '22', area: 'area.MiddleLa', pos: { x: 25, y: 17 }, weather: 'weather.ClearSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
@@ -146,11 +146,6 @@ export const SightseeingData: SightseeingGroup[] = [
             { id: '38', area: 'area.Gridania', subarea: 'area.OldGridania', pos: { x: 14, y: 5 }, weather: 'weather.Rain', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
             { id: '39', area: 'area.CentralShroud', pos: { x: 23, y: 19 }, weather: 'weather.Rain', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
             { id: '40', area: 'area.CentralShroud', pos: { x: 13, y: 23 }, weather: 'weather.ClearSkies', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 5 },
-        ],
-    },
-    {
-        groupName: '41-60',
-        items: [
             { id: '41', area: 'area.CentralShroud', pos: { x: 16, y: 22 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 17 },
             { id: '42', area: 'area.CentralShroud', pos: { x: 26, y: 18 }, weather: 'weather.ClearSkies', time: [11, 12, 13], action: 'action.Lookout', timestr: '11:00~13:59', startHour: 11, endHour: 14 },
             { id: '43', area: 'area.EastShroud', pos: { x: 21, y: 10 }, weather: 'weather.Thunder', time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: 'action.Lookout', timestr: '18:00~4:59', startHour: 18, endHour: 5 },
@@ -171,11 +166,6 @@ export const SightseeingData: SightseeingGroup[] = [
             { id: '58', area: 'area.SouthernThanalan', pos: { x: 12, y: 22 }, weather: 'weather.Fog', time: [5, 6, 7], action: 'action.Pray', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
             { id: '59', area: 'area.SouthernThanalan', pos: { x: 19, y: 20 }, weather: 'weather.FairSkies', time: [5, 6, 7], action: 'action.Lookout', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
             { id: '60', area: 'area.SouthernThanalan', pos: { x: 21, y: 38 }, weather: 'weather.HeatWaves', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 17 },
-        ],
-    },
-    {
-        groupName: '61-80',
-        items: [
             { id: '61', area: 'area.SouthernThanalan', pos: { x: 23, y: 11 }, weather: 'weather.FairSkies', time: [12, 13, 14, 15, 16], action: 'action.Lookout', timestr: '12:00~16:59', startHour: 12, endHour: 17 },
             { id: '62', area: 'area.SouthernThanalan', pos: { x: 14, y: 26 }, weather: 'weather.HeatWaves', time: [5, 6, 7], action: 'action.Psych', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
             { id: '63', area: 'area.NorthernThanalan', pos: { x: 21, y: 24 }, weather: 'weather.ClearSkies', time: [5, 6, 7], action: 'action.Salute', timestr: '5:00~7:59', startHour: 5, endHour: 8 },
