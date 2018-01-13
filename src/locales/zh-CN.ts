@@ -21,6 +21,9 @@ const zh_CN = {
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
         dot: '、',
+        succeedSightseeingCountInfomation: '探索笔记完成情况',
+        activeGroupCount: '当前已完成',
+        totalCount: '总计已完成',
     },
     notification: {
         alert: {

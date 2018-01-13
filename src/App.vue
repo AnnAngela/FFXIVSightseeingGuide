@@ -85,6 +85,7 @@ class Option {
         return new_option;
     }
 }
+
 declare const Notification: any;
 
 class NotificationService {
