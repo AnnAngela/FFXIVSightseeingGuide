@@ -10,6 +10,9 @@ const ja_JP = {
         area: 'エリア',
         before: '前に',
         now: '今の時',
+        succeedSightseeingCountInfomation: '完了した状況の統計',
+        activeGroupCount: '現在完了している',
+        totalCount: '合計が完了しました',
         soonToComplete: 'すぐに完成できます',
         fewHoursToComplete: '数時間に完成できます',
         moreTimeToComplete: '多くの時間を待ち',
@@ -20,6 +23,7 @@ const ja_JP = {
         veryLongTimeToComplete: '122日後（地球時間）',
         endingAt: '終了時刻',
         lessThan: '（{m}分未満）',
+        isStillWaiting: '（まだ始まっていない）',
     },
     notification: {
         alert: {

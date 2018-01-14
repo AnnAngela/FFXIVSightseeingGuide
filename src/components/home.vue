@@ -6,7 +6,7 @@
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
-        <p class="sightseeing alert" :class="succeedSightseeingCount.activeGroup[0] === succeedSightseeingCount.activeGroup[1] ? 'alert-success' : 'alert-info'">
+        <p class="sightseeing alert" :class="succeedSightseeingCount.activeGroup[0] >= succeedSightseeingCount.activeGroup[1] / 2 ? succeedSightseeingCount.activeGroup[0] === succeedSightseeingCount.activeGroup[1] ? 'alert-success' : 'alert-primary' : 'alert-info'">
             {{$t('info.succeedSightseeingCountInfomation')}}:
             {{$t('info.activeGroupCount')}}: {{succeedSightseeingCount.activeGroup[0]}} / {{succeedSightseeingCount.activeGroup[1]}}
             {{$t('info.totalCount')}}: {{succeedSightseeingCount.total[0]}} / {{succeedSightseeingCount.total[1]}}
@@ -36,6 +36,7 @@
                 <div v-else-if="item.vaildStatus == 'panel-primary'">
                     {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
+                    {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
                     <br>
                     {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEndTime.toHourMinuteString()}}
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEndTime.getLocalTime(), 'long')}}
@@ -60,6 +61,11 @@
 .sightseeing.panel {
     cursor: pointer;
     transition: all 1s;
+}
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
 }
 .panel-postheader {
     font-style: italic;

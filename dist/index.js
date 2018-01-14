@@ -2667,7 +2667,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n", "", {"version":3,"sources":["d:/Ann/FFXIVSightseeingGuide/src/components/home.vue"],"names":[],"mappings":";AAAA;EACE,iBAAiB;CAAE;AAErB;EACE,gBAAgB;EAChB,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,qBAAqB;EACrB,mBAAmB;CAAE","file":"home.vue","sourcesContent":[".sightseeing {\n  margin-top: 20px; }\n\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s; }\n\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em; }\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n", "", {"version":3,"sources":["d:/Ann/FFXIVSightseeingGuide/src/components/home.vue"],"names":[],"mappings":";AAAA;EACE,iBAAiB;CAAE;AAErB;EACE,gBAAgB;EAChB,mBAAmB;CAAE;AAEvB;EACE,eAAe;EACf,0BAA0B;EAC1B,sBAAsB;CAAE;AAE1B;EACE,mBAAmB;EACnB,qBAAqB;EACrB,mBAAmB;CAAE","file":"home.vue","sourcesContent":[".sightseeing {\n  margin-top: 20px; }\n\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s; }\n\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff; }\n\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -15958,9 +15958,12 @@ var render = function() {
         {
           staticClass: "sightseeing alert",
           class:
-            _vm.succeedSightseeingCount.activeGroup[0] ===
-            _vm.succeedSightseeingCount.activeGroup[1]
-              ? "alert-success"
+            _vm.succeedSightseeingCount.activeGroup[0] >=
+            _vm.succeedSightseeingCount.activeGroup[1] / 2
+              ? _vm.succeedSightseeingCount.activeGroup[0] ===
+                _vm.succeedSightseeingCount.activeGroup[1]
+                ? "alert-success"
+                : "alert-primary"
               : "alert-info"
         },
         [
@@ -16073,6 +16076,12 @@ var render = function() {
                               item.nextAvaliableTime.getLocalTime(),
                               "long"
                             )
+                          ) +
+                          "\n                " +
+                          _vm._s(
+                            item.isStillWaiting
+                              ? _vm.$t("info.isStillWaiting")
+                              : ""
                           ) +
                           "\n                "
                       ),
@@ -27943,6 +27952,9 @@ var en_US = {
         area: 'Area',
         before: 'Before',
         now: 'Now',
+        succeedSightseeingCountInfomation: 'Sightseeing completion',
+        activeGroupCount: 'Current page',
+        totalCount: 'Total',
         soonToComplete: 'Soon to compelete',
         fewHoursToComplete: 'Few hours to complete',
         moreTimeToComplete: 'More time to complete',
@@ -28061,6 +28073,9 @@ var ja_JP = {
         area: 'エリア',
         before: '前に',
         now: '今の時',
+        succeedSightseeingCountInfomation: '完了した状況の統計',
+        activeGroupCount: '現在完了している',
+        totalCount: '合計が完了しました',
         soonToComplete: 'すぐに完成できます',
         fewHoursToComplete: '数時間に完成できます',
         moreTimeToComplete: '多くの時間を待ち',
@@ -28071,6 +28086,7 @@ var ja_JP = {
         veryLongTimeToComplete: '122日後（地球時間）',
         endingAt: '終了時刻',
         lessThan: '（{m}分未満）',
+        isStillWaiting: '（まだ始まっていない）',
     },
     notification: {
         alert: {
@@ -28179,6 +28195,9 @@ var zh_CN = {
         area: '区域',
         before: '之前',
         now: '现在',
+        succeedSightseeingCountInfomation: '探索笔记完成情况',
+        activeGroupCount: '当前已完成',
+        totalCount: '总计已完成',
         soonToComplete: '很快就能完成',
         fewHoursToComplete: '几小时内就能完成',
         moreTimeToComplete: '多等一会就能完成',
@@ -28186,13 +28205,11 @@ var zh_CN = {
         completed: '已完成',
         startFrom: '开始时间',
         localTime: '本地时间',
+        isStillWaiting: '（尚未开始）',
         veryLongTimeToComplete: '122天后（地球时间）',
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
         dot: '、',
-        succeedSightseeingCountInfomation: '探索笔记完成情况',
-        activeGroupCount: '当前已完成',
-        totalCount: '总计已完成',
     },
     notification: {
         alert: {
