@@ -6,10 +6,10 @@
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
-        <p class="sightseeing alert" :class="succeedSightseeingCount.activeGroup[0] >= succeedSightseeingCount.activeGroup[1] / 2 ? succeedSightseeingCount.activeGroup[0] === succeedSightseeingCount.activeGroup[1] ? 'alert-success' : 'alert-primary' : 'alert-info'">
+        <p class="sightseeing alert" :class="activeGroupCount >= activeGroupAllCount / 2 ? activeGroupCount === activeGroupAllCount ? 'alert-success' : 'alert-primary' : 'alert-info'">
             {{$t('info.succeedSightseeingCountInfomation')}}:
-            {{$t('info.activeGroupCount')}}: {{succeedSightseeingCount.activeGroup[0]}} / {{succeedSightseeingCount.activeGroup[1]}}
-            {{$t('info.totalCount')}}: {{succeedSightseeingCount.total[0]}} / {{succeedSightseeingCount.total[1]}}
+            {{$t('info.activeGroupCount')}}: {{activeGroupCount}} / {{activeGroupAllCount}}
+            {{$t('info.totalCount')}}: {{succeedCount}} / {{allCount}}
         </p>
         <div v-for="item in calcData" :key="item.id" class="sightseeing panel" :class="item.vaildStatus === 'panel-danger' ? 'panel-default' : item.vaildStatus" @click="setComplete(item.id)">
             <div class="panel-heading">
@@ -80,69 +80,21 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import { SightseeingData, SightseeingGroup, Sightseeing } from '../Sightseeing';
-class SucceedSightseeingGroup {
-    private succeedIds: Set<string>;
-    private range: (string | number)[][];
-    constructor(range: (string | number)[][]) {
-        let succeedStr = (localStorage.getItem('comletedSightseeing') || '').replace(/^\s*,|,\s*$/g, '').replace(/,\s*,/g, ',');
-        let succeedIds: string[] = succeedStr.split(',');
-        this.succeedIds = new Set(succeedIds);
-        this.range = range;
-    }
-    private store() {
-        localStorage.setItem('comletedSightseeing', Array.from(this.succeedIds.values()).join(','));
-    }
-    contains(id: string) {
-        return this.succeedIds.has(id);
-    }
-    add(id: string) {
-        this.succeedIds.add(id);
-        this.store();
-    }
-    delete(id: string) {
-        this.succeedIds.delete(id);
-        this.store();
-    }
-    toggle(id: string) {
-        this[this.contains(id) ? 'delete' : 'add'](id);
-    }
-    private getSucceedSightseeingCountByRange(start: number = -1, end: number = -1) {
-        let count = 0;
-        if (end === -1) end = Number.MAX_SAFE_INTEGER;
-        this.succeedIds.forEach((id: string) => {
-            if (start <= +id && +id <= end) count++;
-        });
-        return count;
-    }
-    getSucceedSightseeingCount() {
-        return this.range.map((range: (string | number)[]) => [range[0], this.getSucceedSightseeingCountByRange(<number>range[1], <number>range[2])]);
-    }
-}
-
-interface succeedSightseeingCount {
-    activeGroup: number[];
-    total: number[];
-}
+import { SucceedSightseeingCounter } from '../SightseeingCounter'
 
 @Component
 export default class HomePage extends Vue {
     sourceData: SightseeingGroup[] = SightseeingData;
     activeGroup: number = 0;
     calcData: Sightseeing[] = [];
-    succeedSightseeingGroup: SucceedSightseeingGroup;
-    succeedSightseeingCount: succeedSightseeingCount;
+    succeedSightseeingCounter: SucceedSightseeingCounter;
     created() {
-        let range: (string | number)[][] = [];
-        this.sourceData.forEach((data: SightseeingGroup) => {
-            let _range = data.groupName.split('~').map((n: string) => +n);
-            range.push([data.groupName, _range[0], _range[1]]);
-        });
-        this.succeedSightseeingGroup = new SucceedSightseeingGroup(range);
+        this.succeedSightseeingCounter = new SucceedSightseeingCounter();
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {
             let oldData: Sightseeing[] = this.calcData;
-            this.loadGroup(this.activeGroup);
+            this.loadGroup(this.activeGroup); // * 本句是至关重要的，其他的待优化
             let newData: Sightseeing[] = this.calcData;
             let nearSoonToCompleteData: Sightseeing[] = [];
             newData.forEach((sightseeing: Sightseeing) => {
@@ -163,22 +115,23 @@ export default class HomePage extends Vue {
         this.loadGroup(index);
     }
     setComplete(id: string) {
-        this.succeedSightseeingGroup.toggle(id);
+        this.succeedSightseeingCounter.toggle(id);
         this.loadGroup(this.activeGroup);
     }
     loadGroup(index: number) {
+        // 保证存入错误数据初始化时不出错
+        if(index >= SightseeingData.length){
+            this.switchGroup(0);
+        }
+
         let tempGroup = SightseeingData[index].items;
         let tempData: Sightseeing[] = [];
         let succeedData: Sightseeing[] = [];
-        let succeedSightseeingCount = this.succeedSightseeingGroup.getSucceedSightseeingCount();
-        this.succeedSightseeingCount = {
-            activeGroup: [<number>succeedSightseeingCount.filter(([key, value]) => key === this.sourceData[this.activeGroup].groupName)[0][1], this.sourceData[this.activeGroup].items.length],
-            total: [succeedSightseeingCount.reduce((sum: number, [key, value]) => sum + <number>value, 0), this.sourceData.reduce((sum: number, value: SightseeingGroup) => sum + value.items.length, 0)],
-        };
+
         for (let tempItemIndex in tempGroup) {
             let k = new Sightseeing(tempGroup[tempItemIndex]);
             k.calcNextAvailableTime();
-            if (this.succeedSightseeingGroup.contains(k.id)) {
+            if (this.succeedSightseeingCounter.contains(k.id)) {
                 k.vaildStatus = 'panel-success';
                 succeedData.push(k);
             } else {
@@ -190,6 +143,18 @@ export default class HomePage extends Vue {
             tempData.push(succeedData[succeedIndex]);
         }
         this.calcData = tempData;
+    }
+    get activeGroupCount(){
+        return this.succeedSightseeingCounter.countByGroup(SightseeingData[this.activeGroup]);
+    }
+    get activeGroupAllCount(){
+        return SightseeingData[this.activeGroup].items.length;
+    }
+    get succeedCount(){
+        return this.succeedSightseeingCounter.count();
+    }
+    get allCount(){
+        return SightseeingData.reduce<number>((s, ig) => s += ig.items.length, 0);
     }
 }
 </script>

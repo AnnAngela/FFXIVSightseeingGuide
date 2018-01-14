@@ -13663,6 +13663,7 @@ var App = /** @class */ (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_class_component__ = __webpack_require__("./node_modules/vue-class-component/dist/vue-class-component.common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_class_component___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_class_component__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Sightseeing__ = __webpack_require__("./src/Sightseeing.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SightseeingCounter__ = __webpack_require__("./src/SightseeingCounter.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -13682,48 +13683,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SucceedSightseeingGroup = /** @class */ (function () {
-    function SucceedSightseeingGroup(range) {
-        var succeedStr = (localStorage.getItem('comletedSightseeing') || '').replace(/^\s*,|,\s*$/g, '').replace(/,\s*,/g, ',');
-        var succeedIds = succeedStr.split(',');
-        this.succeedIds = new Set(succeedIds);
-        this.range = range;
-    }
-    SucceedSightseeingGroup.prototype.store = function () {
-        localStorage.setItem('comletedSightseeing', Array.from(this.succeedIds.values()).join(','));
-    };
-    SucceedSightseeingGroup.prototype.contains = function (id) {
-        return this.succeedIds.has(id);
-    };
-    SucceedSightseeingGroup.prototype.add = function (id) {
-        this.succeedIds.add(id);
-        this.store();
-    };
-    SucceedSightseeingGroup.prototype.delete = function (id) {
-        this.succeedIds.delete(id);
-        this.store();
-    };
-    SucceedSightseeingGroup.prototype.toggle = function (id) {
-        this[this.contains(id) ? 'delete' : 'add'](id);
-    };
-    SucceedSightseeingGroup.prototype.getSucceedSightseeingCountByRange = function (start, end) {
-        if (start === void 0) { start = -1; }
-        if (end === void 0) { end = -1; }
-        var count = 0;
-        if (end === -1)
-            end = Number.MAX_SAFE_INTEGER;
-        this.succeedIds.forEach(function (id) {
-            if (start <= +id && +id <= end)
-                count++;
-        });
-        return count;
-    };
-    SucceedSightseeingGroup.prototype.getSucceedSightseeingCount = function () {
-        var _this = this;
-        return this.range.map(function (range) { return [range[0], _this.getSucceedSightseeingCountByRange(range[1], range[2])]; });
-    };
-    return SucceedSightseeingGroup;
-}());
+
 var HomePage = /** @class */ (function (_super) {
     __extends(HomePage, _super);
     function HomePage() {
@@ -13735,17 +13695,12 @@ var HomePage = /** @class */ (function (_super) {
     }
     HomePage.prototype.created = function () {
         var _this = this;
-        var range = [];
-        this.sourceData.forEach(function (data) {
-            var _range = data.groupName.split('~').map(function (n) { return +n; });
-            range.push([data.groupName, _range[0], _range[1]]);
-        });
-        this.succeedSightseeingGroup = new SucceedSightseeingGroup(range);
+        this.succeedSightseeingCounter = new __WEBPACK_IMPORTED_MODULE_3__SightseeingCounter__["a" /* SucceedSightseeingCounter */]();
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', function (_) {
             var oldData = _this.calcData;
-            _this.loadGroup(_this.activeGroup);
+            _this.loadGroup(_this.activeGroup); // * 本句是至关重要的，其他的待优化
             var newData = _this.calcData;
             var nearSoonToCompleteData = [];
             newData.forEach(function (sightseeing) {
@@ -13770,29 +13725,21 @@ var HomePage = /** @class */ (function (_super) {
         this.loadGroup(index);
     };
     HomePage.prototype.setComplete = function (id) {
-        this.succeedSightseeingGroup.toggle(id);
+        this.succeedSightseeingCounter.toggle(id);
         this.loadGroup(this.activeGroup);
     };
     HomePage.prototype.loadGroup = function (index) {
-        var _this = this;
+        // 保证存入错误数据初始化时不出错
+        if (index >= __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */].length) {
+            this.switchGroup(0);
+        }
         var tempGroup = __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */][index].items;
         var tempData = [];
         var succeedData = [];
-        var succeedSightseeingCount = this.succeedSightseeingGroup.getSucceedSightseeingCount();
-        this.succeedSightseeingCount = {
-            activeGroup: [succeedSightseeingCount.filter(function (_a) {
-                    var key = _a[0], value = _a[1];
-                    return key === _this.sourceData[_this.activeGroup].groupName;
-                })[0][1], this.sourceData[this.activeGroup].items.length],
-            total: [succeedSightseeingCount.reduce(function (sum, _a) {
-                    var key = _a[0], value = _a[1];
-                    return sum + value;
-                }, 0), this.sourceData.reduce(function (sum, value) { return sum + value.items.length; }, 0)],
-        };
         for (var tempItemIndex in tempGroup) {
             var k = new __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["a" /* Sightseeing */](tempGroup[tempItemIndex]);
             k.calcNextAvailableTime();
-            if (this.succeedSightseeingGroup.contains(k.id)) {
+            if (this.succeedSightseeingCounter.contains(k.id)) {
                 k.vaildStatus = 'panel-success';
                 succeedData.push(k);
             }
@@ -13806,6 +13753,34 @@ var HomePage = /** @class */ (function (_super) {
         }
         this.calcData = tempData;
     };
+    Object.defineProperty(HomePage.prototype, "activeGroupCount", {
+        get: function () {
+            return this.succeedSightseeingCounter.countByGroup(__WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */][this.activeGroup]);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HomePage.prototype, "activeGroupAllCount", {
+        get: function () {
+            return __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */][this.activeGroup].items.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HomePage.prototype, "succeedCount", {
+        get: function () {
+            return this.succeedSightseeingCounter.count();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HomePage.prototype, "allCount", {
+        get: function () {
+            return __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */].reduce(function (s, ig) { return s += ig.items.length; }, 0);
+        },
+        enumerable: true,
+        configurable: true
+    });
     HomePage = __decorate([
         __WEBPACK_IMPORTED_MODULE_1_vue_class_component___default.a
     ], HomePage);
@@ -15958,10 +15933,8 @@ var render = function() {
         {
           staticClass: "sightseeing alert",
           class:
-            _vm.succeedSightseeingCount.activeGroup[0] >=
-            _vm.succeedSightseeingCount.activeGroup[1] / 2
-              ? _vm.succeedSightseeingCount.activeGroup[0] ===
-                _vm.succeedSightseeingCount.activeGroup[1]
+            _vm.activeGroupCount >= _vm.activeGroupAllCount / 2
+              ? _vm.activeGroupCount === _vm.activeGroupAllCount
                 ? "alert-success"
                 : "alert-primary"
               : "alert-info"
@@ -15973,15 +15946,15 @@ var render = function() {
               ":\n        " +
               _vm._s(_vm.$t("info.activeGroupCount")) +
               ": " +
-              _vm._s(_vm.succeedSightseeingCount.activeGroup[0]) +
+              _vm._s(_vm.activeGroupCount) +
               " / " +
-              _vm._s(_vm.succeedSightseeingCount.activeGroup[1]) +
+              _vm._s(_vm.activeGroupAllCount) +
               "\n        " +
               _vm._s(_vm.$t("info.totalCount")) +
               ": " +
-              _vm._s(_vm.succeedSightseeingCount.total[0]) +
+              _vm._s(_vm.succeedCount) +
               " / " +
-              _vm._s(_vm.succeedSightseeingCount.total[1]) +
+              _vm._s(_vm.allCount) +
               "\n    "
           )
         ]
@@ -27716,6 +27689,47 @@ var SightseeingData = [
         ],
     },
 ];
+
+
+/***/ }),
+
+/***/ "./src/SightseeingCounter.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SucceedSightseeingCounter; });
+var SucceedSightseeingCounter = /** @class */ (function () {
+    function SucceedSightseeingCounter() {
+        var succeedIdsInStorage = (localStorage.getItem('comletedSightseeing') || '').split(',').filter(function (c) { return c != ''; });
+        this.succeedIds = new Set(succeedIdsInStorage);
+    }
+    SucceedSightseeingCounter.prototype.store = function () {
+        localStorage.setItem('comletedSightseeing', Array.from(this.succeedIds.values()).join(','));
+    };
+    SucceedSightseeingCounter.prototype.contains = function (id) {
+        return this.succeedIds.has(id);
+    };
+    SucceedSightseeingCounter.prototype.add = function (id) {
+        this.succeedIds.add(id);
+        this.store();
+    };
+    SucceedSightseeingCounter.prototype.delete = function (id) {
+        this.succeedIds.delete(id);
+        this.store();
+    };
+    SucceedSightseeingCounter.prototype.toggle = function (id) {
+        this[this.contains(id) ? 'delete' : 'add'](id);
+    };
+    SucceedSightseeingCounter.prototype.countByGroup = function (group) {
+        var _this = this;
+        return group.items.filter(function (item) { return _this.succeedIds.has(item.id); }).length;
+    };
+    SucceedSightseeingCounter.prototype.count = function () {
+        return this.succeedIds.size;
+    };
+    return SucceedSightseeingCounter;
+}());
+
 
 
 /***/ }),
