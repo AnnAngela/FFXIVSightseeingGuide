@@ -32,3 +32,10 @@ export class SucceedSightseeingCounter {
         return this.succeedIds.size;
     }
 }
+
+export interface SucceedCounter {
+    activeGroupCount: number,
+    activeGroupAllCount: number,
+    succeedCount: number,
+    allCount: number
+}
