@@ -47,7 +47,7 @@ footer {
     bottom: 0;
     width: 100% !important;
     height: 60px;
-    line-height: 42px;
+    line-height: 21px;
     padding-top: 18px;
     background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7) 20%, rgba(255, 255, 255, 0.8) 30%, rgb(255, 255, 255));
     background-color: transparent;
