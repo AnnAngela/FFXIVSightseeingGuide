@@ -28434,7 +28434,6 @@ var zh_CN = {
         veryLongTimeToComplete: '122天后（地球时间）',
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
-        dot: '、',
     },
     notification: {
         alert: {
