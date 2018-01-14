@@ -35,6 +35,8 @@
     "ts-node": "^3.1.0",
     "typescript": "^2.3.4",
     "typings": "^2.1.1",
+    "uglify-es": "^3.3.5",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "vue-loader": "^13.3.0",
     "webpack": "^3.8.1",

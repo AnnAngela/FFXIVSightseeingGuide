@@ -5,7 +5,10 @@
             "es5",
             "dom",
             "es2015.promise",
-            "es2015.iterable"
+            "es2015.iterable",
+            "es2017.object",
+            "es2016.array.include",
+            "es6"
         ],
         "module": "es2015",
         "moduleResolution": "node",
