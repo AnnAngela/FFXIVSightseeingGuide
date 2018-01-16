@@ -6,10 +6,10 @@
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
-        <p class="sightseeing alert" :class="succeedCounter.activeGroupCount >= succeedCounter.activeGroupAllCount / 2 ? succeedCounter.activeGroupCount === succeedCounter.activeGroupAllCount ? 'alert-success' : 'alert-primary' : 'alert-info'">
+        <p class="sightseeing alert" :class="activeGroupCount >= activeGroupAllCount / 2 ? activeGroupCount === activeGroupAllCount ? 'alert-success' : 'alert-primary' : 'alert-info'">
             {{$t('info.succeedSightseeingCountInfomation')}}:
-            {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}}
-            {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
+            {{$t('info.activeGroupCount')}}: {{activeGroupCount}} / {{activeGroupAllCount}}
+            {{$t('info.totalCount')}}: {{succeedCount}} / {{allCount}}
         </p>
         <div v-for="item in calcData" :key="item.id" class="sightseeing panel" :class="item.vaildStatus === 'panel-danger' ? 'panel-default' : item.vaildStatus" @click="setComplete(item.id)">
             <div class="panel-heading">
@@ -80,7 +80,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import { SightseeingData, SightseeingGroup, Sightseeing } from '../Sightseeing';
-import { SucceedSightseeingCounter, SucceedCounter } from '../SightseeingCounter'
+import { SucceedSightseeingCounter } from '../SightseeingCounter'
 
 @Component
 export default class HomePage extends Vue {
@@ -88,20 +88,9 @@ export default class HomePage extends Vue {
     activeGroup: number = 0;
     calcData: Sightseeing[] = [];
     succeedSightseeingCounter: SucceedSightseeingCounter;
-    succeedCounter: SucceedCounter;
     created() {
         this.succeedSightseeingCounter = new SucceedSightseeingCounter();
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
-
-        //初始化succeedCounter
-        this.succeedCounter = {
-            activeGroupCount: 0,
-            activeGroupAllCount: 0,
-            succeedCount: 0,
-            allCount: SightseeingData.reduce<number>((s, ig) => s += ig.items.length, 0)
-        }
-
-
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {
             let oldData: Sightseeing[] = this.calcData;
@@ -153,11 +142,19 @@ export default class HomePage extends Vue {
         for (let succeedIndex in succeedData) {
             tempData.push(succeedData[succeedIndex]);
         }
-        this.succeedCounter.activeGroupCount = this.succeedSightseeingCounter.countByGroup(SightseeingData[this.activeGroup]);
-        this.succeedCounter.activeGroupAllCount = SightseeingData[this.activeGroup].items.length;
-        this.succeedCounter.succeedCount = this.succeedSightseeingCounter.count();
-
         this.calcData = tempData;
+    }
+    get activeGroupCount(){
+        return this.succeedSightseeingCounter.countByGroup(SightseeingData[this.activeGroup]);
+    }
+    get activeGroupAllCount(){
+        return SightseeingData[this.activeGroup].items.length;
+    }
+    get succeedCount(){
+        return this.succeedSightseeingCounter.count();
+    }
+    get allCount(){
+        return SightseeingData.reduce<number>((s, ig) => s += ig.items.length, 0);
     }
 }
 </script>
