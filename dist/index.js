@@ -27560,32 +27560,20 @@ var NotificationService = /** @class */ (function () {
             if (_this.notificationSet.size < 3 && _this.notificationQueue.size > 0) {
                 _this.notificationQueue.forEach(function (opt) {
                     if (_this.notificationSet.size < 3) {
-<<<<<<< HEAD
-                        _this.sendNotification(opt.title, opt.option);
-=======
                         _this.sendNotification(opt.title, opt.option, true);
->>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
                         _this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-<<<<<<< HEAD
-    NotificationService.prototype.sendNotification = function (title, option) {
-=======
     NotificationService.prototype.sendNotification = function (title, option, isQueued) {
         if (isQueued === void 0) { isQueued = false; }
->>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
         if (this.permission === true) {
             if (this.notificationSet.size < 3) {
                 var o = this.defaultOption.extend(option);
                 var notification = new Notification(title, o);
-<<<<<<< HEAD
-                this.bindNotification(notification, true);
-=======
                 this.bindNotification(notification, isQueued);
->>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
             }
             else {
                 this.notificationQueue.add({
@@ -27605,7 +27593,7 @@ var NotificationService = /** @class */ (function () {
         notification.addEventListener('click', function (_) {
             window.focus();
             notification.close();
-        });
+        });git 
         notification.addEventListener('close', function (_) {
             _this.notificationSet.delete(notification);
         });
