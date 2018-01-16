@@ -114,19 +114,31 @@ export class NotificationService {
             if (this.notificationSet.size < 3 && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt: NotificationServiceQueueItem) => {
                     if (this.notificationSet.size < 3) {
+<<<<<<< HEAD
                         this.sendNotification(opt.title, opt.option);
+=======
+                        this.sendNotification(opt.title, opt.option, true);
+>>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
+<<<<<<< HEAD
     sendNotification(title: string, option?: any) {
+=======
+    sendNotification(title: string, option?: any, isQueued: boolean = false) {
+>>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
         if (this.permission === true) {
             if (this.notificationSet.size < 3) {
                 let o = this.defaultOption.extend(option);
                 let notification: Notification = new Notification(title, o);
+<<<<<<< HEAD
                 this.bindNotification(notification, true);
+=======
+                this.bindNotification(notification, isQueued);
+>>>>>>> 7e21937fe2f3737d507bb41d58aa9c6ad2780e83
             } else {
                 this.notificationQueue.add({
                     title,
