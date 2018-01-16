@@ -13521,7 +13521,7 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         setInterval(function () {
             self.tick();
         }, 1000);
-        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: '/FFXIVSightseeingGuide/logo.png' });
+        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: 'https://' + location.host + '/FFXIVSightseeingGuide/logo.png' });
         let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
             body: this.$i18n.t('notification.welcome.body') + '',
         }), optionTemplate.clone());
