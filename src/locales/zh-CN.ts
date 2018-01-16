@@ -24,10 +24,9 @@ const zh_CN = {
         veryLongTimeToComplete: '122天后（地球时间）',
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
-        dot: '、',
     },
     notification: {
-        alert: {
+        welcome: {
             title: '本页面将以通知形式……',
             body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
         },

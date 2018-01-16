@@ -20,13 +20,13 @@ const ja_JP = {
         completed: '完了しました',
         startFrom: '開始時間',
         localTime: '現地時間',
+        isStillWaiting: '（まだ始まっていない）',
         veryLongTimeToComplete: '122日後（地球時間）',
         endingAt: '終了時刻',
         lessThan: '（{m}分未満）',
-        isStillWaiting: '（まだ始まっていない）',
     },
     notification: {
-        alert: {
+        welcome: {
             title: '本页面将以通知形式……',
             body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
         },
