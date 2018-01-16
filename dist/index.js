@@ -13521,7 +13521,7 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         setInterval(function () {
             self.tick();
         }, 1000);
-        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: 'https://' + location.host + '/FFXIVSightseeingGuide/logo.png' });
+        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: '/FFXIVSightseeingGuide/logo.png' });
         let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
             body: this.$i18n.t('notification.welcome.body') + '',
         }), optionTemplate.clone());
@@ -27655,13 +27655,14 @@ class NotificationServiceOption {
         this.body = '';
         this.length = 0;
         if (option) {
-            if (option.lang)
-                this.lang = option.lang;
-            if (option.body)
-                this.body = option.body;
-            if (option.length)
-                this.length = option.length;
+            this._copyOption(this, option);
         }
+    }
+    _copyOption(target, src) {
+        ['lang', 'body', 'length', 'icon'].forEach((key) => {
+            if (src[key])
+                target[key] = src[key];
+        });
     }
     clone() {
         return new NotificationServiceOption(this);
@@ -27669,12 +27670,7 @@ class NotificationServiceOption {
     extend(option) {
         var new_option = this.clone();
         if (option) {
-            if (option.lang)
-                new_option.lang = option.lang;
-            if (option.body)
-                new_option.body = option.body;
-            if (option.length)
-                new_option.length = option.length;
+            this._copyOption(new_option, option);
         }
         return new_option;
     }

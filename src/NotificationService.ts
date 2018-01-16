@@ -59,12 +59,16 @@ export class NotificationServiceOption {
     lang: string = 'zh-CN';
     body: string = '';
     length: number = 0;
+    icon?: string;
     constructor(option?: any) {
         if (option) {
-            if (option.lang) this.lang = option.lang;
-            if (option.body) this.body = option.body;
-            if (option.length) this.length = option.length;
+            this._copyOption(this, option);
         }
+    }
+    private _copyOption(target: NotificationServiceOption, src: any) {
+        ['lang', 'body', 'length', 'icon'].forEach((key: string) => {
+            if (src[key]) target[key] = src[key];
+        });
     }
     clone() {
         return new NotificationServiceOption(this);
@@ -72,9 +76,7 @@ export class NotificationServiceOption {
     extend(option?: any) {
         var new_option = this.clone();
         if (option) {
-            if (option.lang) new_option.lang = option.lang;
-            if (option.body) new_option.body = option.body;
-            if (option.length) new_option.length = option.length;
+            this._copyOption(new_option, option);
         }
         return new_option;
     }
