@@ -126,7 +126,7 @@ export class NotificationService {
             if (this.notificationSet.size < 3) {
                 let o = this.defaultOption.extend(option);
                 let notification: Notification = new Notification(title, o);
-                this.bindNotification(notification);
+                this.bindNotification(notification, true);
             } else {
                 this.notificationQueue.add({
                     title,
