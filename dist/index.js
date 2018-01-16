@@ -27560,19 +27560,20 @@ var NotificationService = /** @class */ (function () {
             if (_this.notificationSet.size < 3 && _this.notificationQueue.size > 0) {
                 _this.notificationQueue.forEach(function (opt) {
                     if (_this.notificationSet.size < 3) {
-                        _this.sendNotification(opt.title, opt.option);
+                        _this.sendNotification(opt.title, opt.option, true);
                         _this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    NotificationService.prototype.sendNotification = function (title, option) {
+    NotificationService.prototype.sendNotification = function (title, option, isQueued) {
+        if (isQueued === void 0) { isQueued = false; }
         if (this.permission === true) {
             if (this.notificationSet.size < 3) {
                 var o = this.defaultOption.extend(option);
                 var notification = new Notification(title, o);
-                this.bindNotification(notification, true);
+                this.bindNotification(notification, isQueued);
             }
             else {
                 this.notificationQueue.add({

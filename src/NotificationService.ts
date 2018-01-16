@@ -114,19 +114,19 @@ export class NotificationService {
             if (this.notificationSet.size < 3 && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt: NotificationServiceQueueItem) => {
                     if (this.notificationSet.size < 3) {
-                        this.sendNotification(opt.title, opt.option);
+                        this.sendNotification(opt.title, opt.option, true);
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    sendNotification(title: string, option?: any) {
+    sendNotification(title: string, option?: any, isQueued: boolean = false) {
         if (this.permission === true) {
             if (this.notificationSet.size < 3) {
                 let o = this.defaultOption.extend(option);
                 let notification: Notification = new Notification(title, o);
-                this.bindNotification(notification, true);
+                this.bindNotification(notification, isQueued);
             } else {
                 this.notificationQueue.add({
                     title,
