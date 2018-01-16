@@ -32,7 +32,6 @@ const ja_JP = {
         },
         availableSoonTitle: '将有新的探索笔记可完成 | 将有{n}项探索笔记可完成',
         availableNowTitle: '有新的探索笔记可以完成！ | 有{n}项探索笔记可以完成！',
-        dot: '、',
     },
     area: {
         LimsaLominsa: 'リムサ・ロミンサ',

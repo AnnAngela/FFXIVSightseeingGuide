@@ -31,7 +31,6 @@ const en_US = {
         },
         availableSoonTitle: 'A new sightseeing available soon. | {n} new sightseeings available soon.',
         availableNowTitle: 'A new sightseeing available now! | {n} new sightseeings available now!',
-        dot: '、',
     },
     area: {
         LimsaLominsa: 'Limsa Lominsa',
