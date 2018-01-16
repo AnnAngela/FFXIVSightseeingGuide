@@ -60,74 +60,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import EorzeaClock from './EorzeaTime';
 import { Sightseeing } from './Sightseeing';
-
-class Option {
-    lang: string = 'zh-CN';
-    body: string = '';
-    length: number = 0;
-    constructor(option?: any) {
-        if (option) {
-            if (option.lang) this.lang = option.lang;
-            if (option.body) this.body = option.body;
-            if (option.length) this.length = option.length;
-        }
-    }
-    clone() {
-        return new Option(this);
-    }
-    extend(option?: any) {
-        var new_option = this.clone();
-        if (option) {
-            if (option.lang) new_option.lang = option.lang;
-            if (option.body) new_option.body = option.body;
-            if (option.length) new_option.length = option.length;
-        }
-        return new_option;
-    }
-}
-
-declare const Notification: any;
-
-class NotificationService {
-    permission: boolean | symbol = false;
-    static readonly UNSUPPORTED: symbol = Symbol('NotificationService.UNSUPPORTED');
-    defaultOption: Option;
-    private notificationMap: Set<Notification> = new Set();
-    constructor(welcomeTitle: string, welcomeOption: Option, defaultOption: Option) {
-        if (!('Notification' in window)) {
-            this.permission = NotificationService.UNSUPPORTED;
-            return;
-        }
-        this.defaultOption = defaultOption;
-        if (Notification.permission !== 'granted')
-            Notification.requestPermission((permission: NotificationPermission) => {
-                if (permission === 'granted') {
-                    this.permission = true;
-                    this.sendNotification(welcomeTitle, welcomeOption);
-                }
-            });
-        else {
-            this.permission = true;
-            this.sendNotification(welcomeTitle, welcomeOption);
-        }
-        window.addEventListener('beforeunload', _ => {
-            this.notificationMap.forEach((notification: Notification) => {
-                notification.close();
-            });
-        });
-    }
-    sendNotification(title: string, option?: any) {
-        if (this.permission === true) {
-            let o = this.defaultOption.extend(option);
-            let notification: Notification = new Notification(title, o);
-            this.notificationMap.add(notification);
-            setTimeout(_ => {
-                notification.close();
-                this.notificationMap.delete(notification);
-            }, 15000);
-        }
-    }
-}
+import { NotificationServiceOption, NotificationService } from './NotificationService';
 
 @Component
 export default class App extends Vue {
@@ -145,11 +78,11 @@ export default class App extends Vue {
         setInterval(function() {
             self.tick();
         }, 1000);
-        let optionTemplate: Option = new Option({ lang: this.$i18n.locale });
-        let notificationService: NotificationService = new NotificationService(
-            this.$i18n.t('notification.alert.title') + '',
+        let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale });
+        let notificationService = new NotificationService(
+            this.$i18n.t('notification.welcome.title') + '',
             optionTemplate.extend({
-                body: this.$i18n.t('notification.alert.body') + '',
+                body: this.$i18n.t('notification.welcome.body') + '',
             }),
             optionTemplate.clone(),
         );
@@ -159,8 +92,8 @@ export default class App extends Vue {
                     let soon_option = optionTemplate.clone();
                     let now_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        let option: Option = d.isStillWaiting ? soon_option : now_option;
-                        if (option.length++ !== 0) option.body += this.$i18n.t('notification.dot');
+                        let option: NotificationServiceOption = d.isStillWaiting ? soon_option : now_option;
+                        if (option.length++ !== 0) option.body += ', ';
                         option.body += d.id + ' ' + this.$i18n.t(d.area);
                     });
                     if (soon_option.length > 0) {

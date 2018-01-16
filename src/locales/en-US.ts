@@ -20,18 +20,18 @@ const en_US = {
         completed: 'Completed',
         startFrom: 'Start from',
         localTime: 'Local Time',
+        isStillWaiting: '(Not avaiable yet)',
         veryLongTimeToComplete: 'After 122 days (Earth time)',
         endingAt: 'Ending at',
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
     },
     notification: {
-        alert: {
+        welcome: {
             title: 'We will tell you the ...',
             body: '... new sightseeings via Notification while they available. (The notification will be close after 15s)',
         },
         availableSoonTitle: 'A new sightseeing available soon. | {n} new sightseeings available soon.',
         availableNowTitle: 'A new sightseeing available now! | {n} new sightseeings available now!',
-        dot: '、',
     },
     area: {
         LimsaLominsa: 'Limsa Lominsa',

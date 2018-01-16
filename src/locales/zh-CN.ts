@@ -26,13 +26,12 @@ const zh_CN = {
         lessThan: '（还剩不到{m}分钟）',
     },
     notification: {
-        alert: {
+        welcome: {
             title: '本页面将以通知形式……',
             body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
         },
         availableSoonTitle: '将有新的探索笔记可完成 | 将有{n}项探索笔记可完成',
         availableNowTitle: '有新的探索笔记可完成！ | 有{n}项探索笔记可完成！',
-        dot: '、',
     },
     area: {
         LimsaLominsa: '利姆萨·罗敏萨',
