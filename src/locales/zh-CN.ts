@@ -28,7 +28,7 @@ const zh_CN = {
     notification: {
         welcome: {
             title: '本页面将以通知形式……',
-            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
+            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭，点击通知可以让你回到本页面）',
         },
         availableSoonTitle: '将有新的探索笔记可完成 | 将有{n}项探索笔记可完成',
         availableNowTitle: '有新的探索笔记可完成！ | 有{n}项探索笔记可完成！',

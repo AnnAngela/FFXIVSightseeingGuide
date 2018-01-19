@@ -28,7 +28,7 @@ const en_US = {
     notification: {
         welcome: {
             title: 'We will tell you the ...',
-            body: '... new sightseeings via Notification while they available. (The notification will be close after 15s)',
+            body: '... new sightseeings via Notification while they available. (The notification will be close after 15s, clicking the notification can bring you back to this page)',
         },
         availableSoonTitle: 'A new sightseeing available soon. | {n} new sightseeings available soon.',
         availableNowTitle: 'A new sightseeing available now! | {n} new sightseeings available now!',

@@ -25736,7 +25736,7 @@ const en_US = {
     notification: {
         welcome: {
             title: 'We will tell you the ...',
-            body: '... new sightseeings via Notification while they available. (The notification will be close after 15s)',
+            body: '... new sightseeings via Notification while they available. (The notification will be close after 15s, clicking the notification can bring you back to this page)',
         },
         availableSoonTitle: 'A new sightseeing available soon. | {n} new sightseeings available soon.',
         availableNowTitle: 'A new sightseeing available now! | {n} new sightseeings available now!',
@@ -25856,7 +25856,7 @@ const zh_CN = {
     notification: {
         welcome: {
             title: '本页面将以通知形式……',
-            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
+            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭，点击通知可以让你回到本页面）',
         },
         availableSoonTitle: '将有新的探索笔记可完成 | 将有{n}项探索笔记可完成',
         availableNowTitle: '有新的探索笔记可完成！ | 有{n}项探索笔记可完成！',
@@ -25976,7 +25976,7 @@ const ja_JP = {
     notification: {
         welcome: {
             title: '本页面将以通知形式……',
-            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭）',
+            body: '……告知新出现的可完成的探索笔记（通知将在15s后自动关闭，点击通知可以让你回到本页面）',
         },
         availableSoonTitle: '将有新的探索笔记可完成 | 将有{n}项探索笔记可完成',
         availableNowTitle: '有新的探索笔记可以完成！ | 有{n}项探索笔记可以完成！',
