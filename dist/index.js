@@ -18976,7 +18976,7 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         setInterval(function () {
             self.tick();
         }, 1000);
-        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: '/FFXIVSightseeingGuide/image/logo.png' });
+        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
         let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
             body: this.$i18n.t('notification.welcome.body') + '',
         }), optionTemplate.clone());
@@ -25339,12 +25339,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("img", {
                   staticClass: "weatherImg",
-                  attrs: {
-                    src:
-                      "/FFXIVSightseeingGuide/image/weather/" +
-                      item.weather +
-                      ".png"
-                  }
+                  attrs: { src: "./image/weather/" + item.weather + ".png" }
                 }),
                 _vm._v(" "),
                 _c("span", [_vm._v(_vm._s(_vm.$t(item.weather)))]),
@@ -25637,12 +25632,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[0] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[0] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[0])))
             ]),
@@ -25650,12 +25640,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[1] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[1] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[1])))
             ]),
@@ -25663,12 +25648,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[2] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[2] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[2])))
             ]),
@@ -25676,12 +25656,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[3] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[3] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[3])))
             ]),
@@ -25689,12 +25664,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[4] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[4] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[4])))
             ]),
@@ -25702,12 +25672,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[5] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[5] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[5])))
             ]),
@@ -25715,12 +25680,7 @@ var render = function() {
             _c("td", [
               _c("img", {
                 staticClass: "weatherImg",
-                attrs: {
-                  src:
-                    "/FFXIVSightseeingGuide/image/weather/" +
-                    item.weather[6] +
-                    ".png"
-                }
+                attrs: { src: "./image/weather/" + item.weather[6] + ".png" }
               }),
               _vm._v(" " + _vm._s(_vm.$t(item.weather[6])))
             ])

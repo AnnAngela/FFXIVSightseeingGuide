@@ -58,12 +58,6 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         noInfo: true,
-        proxy: {
-            '/FFXIVSightseeingGuide': {
-                target: 'http://localhost:8080',
-                pathRewrite: { '^/FFXIVSightseeingGuide': '' },
-            },
-        },
     },
     devtool: 'cheap-module-eval-source-map',
 };

@@ -18,7 +18,7 @@
                     <span v-if="item.subarea != undefined">{{$t(item.subarea)}}</span>
                     <span v-else>{{$t(item.area)}}</span>
                     <span>x:{{item.pos.x}} y:{{item.pos.y}}</span>
-                    <img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather + '.png'">
+                    <img class="weatherImg" :src="'./image/weather/' + item.weather + '.png'">
                     <span>{{$t(item.weather)}}</span>
                     <span>{{item.timestr}}</span>
                     <span>{{$t(item.action)}}</span>

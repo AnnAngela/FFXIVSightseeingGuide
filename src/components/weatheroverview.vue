@@ -17,13 +17,13 @@
             <tbody>
                 <tr v-for="item in weatherResult" :key="item.name">
                     <td>{{$t(item.name)}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[0] + '.png'"> {{$t(item.weather[0])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[1] + '.png'"> {{$t(item.weather[1])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[2] + '.png'"> {{$t(item.weather[2])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[3] + '.png'"> {{$t(item.weather[3])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[4] + '.png'"> {{$t(item.weather[4])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[5] + '.png'"> {{$t(item.weather[5])}}</td>
-                    <td><img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather[6] + '.png'"> {{$t(item.weather[6])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[0] + '.png'"> {{$t(item.weather[0])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[1] + '.png'"> {{$t(item.weather[1])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[2] + '.png'"> {{$t(item.weather[2])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[3] + '.png'"> {{$t(item.weather[3])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[4] + '.png'"> {{$t(item.weather[4])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[5] + '.png'"> {{$t(item.weather[5])}}</td>
+                    <td><img class="weatherImg" :src="'./image/weather/' + item.weather[6] + '.png'"> {{$t(item.weather[6])}}</td>
                 </tr>
             </tbody>
         </table>

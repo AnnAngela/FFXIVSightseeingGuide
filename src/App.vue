@@ -78,7 +78,7 @@ export default class App extends Vue {
         setInterval(function() {
             self.tick();
         }, 1000);
-        let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: '/FFXIVSightseeingGuide/image/logo.png' });
+        let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
         let notificationService = new NotificationService(
             this.$i18n.t('notification.welcome.title') + '',
             optionTemplate.extend({
