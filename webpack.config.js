@@ -20,7 +20,8 @@ module.exports = {
         }),
     ],
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.ts$/,
                 exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',
@@ -52,10 +53,6 @@ module.exports = {
                 loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
             },
         ],
-    },
-    devServer: {
-        historyApiFallback: true,
-        noInfo: true,
     },
     //devtool: 'cheap-module-source-map',
 };

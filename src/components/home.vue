@@ -18,6 +18,7 @@
                     <span v-if="item.subarea != undefined">{{$t(item.subarea)}}</span>
                     <span v-else>{{$t(item.area)}}</span>
                     <span>x:{{item.pos.x}} y:{{item.pos.y}}</span>
+                    <img class="weatherImg" :src="'/FFXIVSightseeingGuide/image/weather/' + item.weather + '.png'">
                     <span>{{$t(item.weather)}}</span>
                     <span>{{item.timestr}}</span>
                     <span>{{$t(item.action)}}</span>
@@ -72,15 +73,18 @@
     font-weight: lighter;
     margin-top: -1.3em;
 }
+.weatherImg {
+    max-height: 1.25em;
+    margin-top: -0.25em;
+}
 </style>
-
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
 import { SightseeingData, SightseeingGroup, Sightseeing } from '../Sightseeing';
-import { SucceedSightseeingCounter, SucceedCounter } from '../SightseeingCounter'
+import { SucceedSightseeingCounter, SucceedCounter } from '../SightseeingCounter';
 
 @Component
 export default class HomePage extends Vue {
@@ -98,9 +102,8 @@ export default class HomePage extends Vue {
             activeGroupCount: 0,
             activeGroupAllCount: 0,
             succeedCount: 0,
-            allCount: SightseeingData.reduce<number>((s, ig) => s += ig.items.length, 0)
-        }
-
+            allCount: SightseeingData.reduce<number>((s, ig) => (s += ig.items.length), 0),
+        };
 
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {
@@ -131,7 +134,7 @@ export default class HomePage extends Vue {
     }
     loadGroup(index: number) {
         // 保证存入错误数据初始化时不出错
-        if(index >= SightseeingData.length){
+        if (index >= SightseeingData.length) {
             this.switchGroup(0);
         }
 

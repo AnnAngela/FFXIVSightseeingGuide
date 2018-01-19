@@ -21,7 +21,8 @@ module.exports = {
         }),
     ],
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.ts$/,
                 exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',
@@ -57,6 +58,12 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         noInfo: true,
+        proxy: {
+            '/FFXIVSightseeingGuide': {
+                target: 'http://localhost:8080',
+                pathRewrite: { '^/FFXIVSightseeingGuide': '' },
+            },
+        },
     },
     devtool: 'cheap-module-eval-source-map',
 };
