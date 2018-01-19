@@ -1,12 +1,14 @@
 {
   "name": "ffxiv-sightseeing-guide",
   "version": "1.0.0",
-  "description": "ffxiv 2.0 sightseeing",
+  "description": "ffxiv 2.0 sightseeing guide",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zyzsdy/vue-ts-template-for-moewsound.git"
+    "url": "git@github.com:zyzsdy/FFXIVSightseeingGuide.git"
   },
+  "homepage": "https://zyzsdy.github.io/FFXIVSightseeingGuide/",
+  "bugs": "https://github.com/zyzsdy/FFXIVSightseeingGuide/issues",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js --progress",
@@ -14,6 +16,7 @@
     "dev": "webpack-dev-server --config webpack.config.dev.js --open --hot"
   },
   "author": "zyzsdy",
+  "contributors": ["AnnAngela"],
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.7",
