@@ -13,9 +13,10 @@ module.exports = {
         extensions: ['.ts', '.js'],
     },
     plugins: [
+        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: '"production"',
+                NODE_ENV: '"development"',
             },
         }),
     ],
@@ -57,5 +58,5 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true,
     },
-    //devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-eval-source-map',
 };

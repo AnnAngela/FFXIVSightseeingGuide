@@ -10,7 +10,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js --progress",
-    "dev": "webpack-dev-server --config webpack.config.js --open --hot"
+    "build-dev": "webpack --config webpack.config.dev.js --progress",
+    "dev": "webpack-dev-server --config webpack.config.dev.js --open --hot"
   },
   "author": "zyzsdy",
   "license": "MIT",
@@ -25,8 +26,8 @@
   },
   "devDependencies": {
     "@types/bootstrap": "^3.3.34",
-    "@types/jquery": "^3.2.5",
-    "css-loader": "^0.28.4",
+    "@types/jquery": "^3.2.18",
+    "css-loader": "^0.28.9",
     "file-loader": "^1.1.5",
     "imports-loader": "^0.7.1",
     "node-sass": "^4.5.3",
@@ -35,11 +36,11 @@
     "ts-node": "^3.1.0",
     "typescript": "^2.3.4",
     "typings": "^2.1.1",
-    "uglify-es": "^3.3.5",
+    "uglify-es": "^3.3.7",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "vue-loader": "^13.3.0",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.5.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.0"
   }
 }
