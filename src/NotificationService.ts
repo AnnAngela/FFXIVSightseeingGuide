@@ -83,29 +83,32 @@ export class NotificationServiceOption {
 }
 
 export class NotificationService {
-    permission: boolean | symbol = false;
-    static readonly UNSUPPORTED = Symbol('NotificationService.UNSUPPORTED');
+    static readonly isSupported = !!('Notification' in window);
+    static readonly permission = {
+        granted: 'granted',
+        denied: 'denied',
+        needGranted: 'default',
+    };
+    permission: boolean = NotificationService.isSupported && Notification.permission === NotificationService.permission.granted ? true : false;
     defaultOption: NotificationServiceOption;
     private notificationSet = new NotificationServiceSet();
     private notificationQueue = new Set();
     constructor(welcomeTitle: string, welcomeOption: NotificationServiceOption, defaultOption: NotificationServiceOption) {
-        if (!('Notification' in window)) {
-            this.permission = NotificationService.UNSUPPORTED;
+        if (!NotificationService.isSupported) {
             return;
         }
         this.defaultOption = defaultOption;
-        if (Notification.permission === 'default')
+        if (this.permission === true) {
+            this.sendNotification(welcomeTitle, welcomeOption);
+        } else if (Notification.permission === NotificationService.permission.needGranted) {
             Notification.requestPermission((permission: NotificationPermission) => {
-                if (permission === 'granted') {
+                if (permission === NotificationService.permission.granted) {
                     this.permission = true;
                     this.sendNotification(welcomeTitle, welcomeOption);
                 }
             });
-        else if (Notification['permission'] === 'granted') {
-            this.permission = true;
-            this.sendNotification(welcomeTitle, welcomeOption);
         } else {
-            this.permission = false;
+            return;
         }
         window.addEventListener('beforeunload', _ => {
             this.notificationSet.forEach((notification: Notification) => {
@@ -113,7 +116,7 @@ export class NotificationService {
             });
         });
         this.notificationSet.addEventListener('delete', () => {
-            if (this.notificationSet.size < 3 && this.notificationQueue.size > 0) {
+            if (this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt: NotificationServiceQueueItem) => {
                     if (this.notificationSet.size < 3) {
                         this.sendNotification(opt.title, opt.option, true);

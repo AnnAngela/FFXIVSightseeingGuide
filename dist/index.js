@@ -18977,10 +18977,10 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
             self.tick();
         }, 1000);
         let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
-        let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
-            body: this.$i18n.t('notification.welcome.body') + '',
-        }), optionTemplate.clone());
-        if (notificationService.permission !== __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */].UNSUPPORTED) {
+        if (__WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */].isSupported) {
+            let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
+                body: this.$i18n.t('notification.welcome.body') + '',
+            }), optionTemplate.clone());
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let soon_option = optionTemplate.clone();
@@ -19066,6 +19066,7 @@ let HomePage = class HomePage extends __WEBPACK_IMPORTED_MODULE_0_vue__["default
         this.sourceData = __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */];
         this.activeGroup = 0;
         this.calcData = [];
+        this.isFirstView = localStorage.getItem('firstView') !== 'true';
     }
     created() {
         this.succeedSightseeingCounter = new __WEBPACK_IMPORTED_MODULE_3__SightseeingCounter__["a" /* SucceedSightseeingCounter */]();
@@ -19135,6 +19136,11 @@ let HomePage = class HomePage extends __WEBPACK_IMPORTED_MODULE_0_vue__["default
         this.succeedCounter.activeGroupAllCount = __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */][this.activeGroup].items.length;
         this.succeedCounter.succeedCount = this.succeedSightseeingCounter.count();
         this.calcData = tempData;
+        this.alertClass = this.succeedCounter.activeGroupCount >= this.succeedCounter.activeGroupAllCount / 2 ? (this.succeedCounter.activeGroupCount === this.succeedCounter.activeGroupAllCount ? 'alert-success' : 'alert-primary') : 'alert-info';
+    }
+    setFirstView() {
+        localStorage.setItem('firstView', 'true');
+        this.isFirstView = localStorage.getItem('firstView') !== 'true';
     }
 };
 HomePage = __decorate([
@@ -24691,27 +24697,26 @@ class NotificationServiceOption {
 
 class NotificationService {
     constructor(welcomeTitle, welcomeOption, defaultOption) {
-        this.permission = false;
+        this.permission = NotificationService.isSupported && Notification.permission === NotificationService.permission.granted ? true : false;
         this.notificationSet = new NotificationServiceSet();
         this.notificationQueue = new Set();
-        if (!('Notification' in window)) {
-            this.permission = NotificationService.UNSUPPORTED;
+        if (!NotificationService.isSupported) {
             return;
         }
         this.defaultOption = defaultOption;
-        if (Notification.permission === 'default')
+        if (this.permission === true) {
+            this.sendNotification(welcomeTitle, welcomeOption);
+        }
+        else if (Notification.permission === NotificationService.permission.needGranted) {
             Notification.requestPermission((permission) => {
-                if (permission === 'granted') {
+                if (permission === NotificationService.permission.granted) {
                     this.permission = true;
                     this.sendNotification(welcomeTitle, welcomeOption);
                 }
             });
-        else if (Notification['permission'] === 'granted') {
-            this.permission = true;
-            this.sendNotification(welcomeTitle, welcomeOption);
         }
         else {
-            this.permission = false;
+            return;
         }
         window.addEventListener('beforeunload', _ => {
             this.notificationSet.forEach((notification) => {
@@ -24719,7 +24724,7 @@ class NotificationService {
             });
         });
         this.notificationSet.addEventListener('delete', () => {
-            if (this.notificationSet.size < 3 && this.notificationQueue.size > 0) {
+            if (this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt) => {
                     if (this.notificationSet.size < 3) {
                         this.sendNotification(opt.title, opt.option, true);
@@ -24763,7 +24768,12 @@ class NotificationService {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = NotificationService;
 
-NotificationService.UNSUPPORTED = Symbol('NotificationService.UNSUPPORTED');
+NotificationService.isSupported = !!('Notification' in window);
+NotificationService.permission = {
+    granted: 'granted',
+    denied: 'denied',
+    needGranted: 'default',
+};
 
 
 /***/ }),
@@ -25027,7 +25037,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\n", ""]);
+exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\na.external {\n  cursor: pointer;\n  background-position: center right;\n  background-repeat: no-repeat;\n  background-image: -webkit-linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  background-image: linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  padding-right: 12px;\n}\n", ""]);
 
 // exports
 
@@ -25251,6 +25261,34 @@ var render = function() {
     "div",
     [
       _c(
+        "div",
+        {
+          staticClass: "introdutionlead alert alert-info",
+          class: _vm.isFirstView ? "show" : "hidden"
+        },
+        [
+          _c("p", {
+            staticClass: "lead",
+            domProps: { innerHTML: _vm._s(_vm.$t("introdution.text")) }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.setFirstView()
+                }
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("introdution.button")))]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
         "ul",
         { staticClass: "nav nav-pills" },
         _vm._l(_vm.sourceData, function(item, index) {
@@ -25274,39 +25312,40 @@ var render = function() {
         })
       ),
       _vm._v(" "),
-      _c(
-        "p",
-        {
-          staticClass: "sightseeing alert",
-          class:
-            _vm.succeedCounter.activeGroupCount >=
-            _vm.succeedCounter.activeGroupAllCount / 2
-              ? _vm.succeedCounter.activeGroupCount ===
-                _vm.succeedCounter.activeGroupAllCount
-                ? "alert-success"
-                : "alert-primary"
-              : "alert-info"
-        },
-        [
-          _vm._v(
+      _c("p", { staticClass: "sightseeing alert", class: _vm.alertClass }, [
+        _vm._v(
+          "\n        " +
+            _vm._s(_vm.$t("info.succeedSightseeingCountInfomation")) +
+            ":\n        " +
+            _vm._s(_vm.$t("info.activeGroupCount")) +
+            ": " +
+            _vm._s(_vm.succeedCounter.activeGroupCount) +
+            " / " +
+            _vm._s(_vm.succeedCounter.activeGroupAllCount) +
             "\n        " +
-              _vm._s(_vm.$t("info.succeedSightseeingCountInfomation")) +
-              ":\n        " +
-              _vm._s(_vm.$t("info.activeGroupCount")) +
-              ": " +
-              _vm._s(_vm.succeedCounter.activeGroupCount) +
-              " / " +
-              _vm._s(_vm.succeedCounter.activeGroupAllCount) +
-              "\n        " +
-              _vm._s(_vm.$t("info.totalCount")) +
-              ": " +
-              _vm._s(_vm.succeedCounter.succeedCount) +
-              " / " +
-              _vm._s(_vm.succeedCounter.allCount) +
-              "\n    "
-          )
-        ]
-      ),
+            _vm._s(_vm.$t("info.totalCount")) +
+            ": " +
+            _vm._s(_vm.succeedCounter.succeedCount) +
+            " / " +
+            _vm._s(_vm.succeedCounter.allCount) +
+            "\n        "
+        ),
+        _c("span", { class: _vm.alertClass === "alert-success" && "hidden" }, [
+          _vm._v(" | "),
+          _c(
+            "a",
+            {
+              staticClass: "external",
+              attrs: {
+                target: "_blank",
+                href: "https://bbs.ngacn.cc/read.php?tid=7755329"
+              }
+            },
+            [_vm._v(_vm._s(_vm.$t("sightseeingActGuide")))]
+          ),
+          _vm._v("[zh-cn]")
+        ])
+      ]),
       _vm._v(" "),
       _vm._l(_vm.calcData, function(item) {
         return _c(
@@ -25733,6 +25772,11 @@ const en_US = {
         endingAt: 'Ending at',
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
     },
+    sightseeingActGuide: 'Sightseeing strategy',
+    introdution: {
+        text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in the end of the line "Sightseeing completion" to learn how to do.',
+        button: 'I got it.',
+    },
     notification: {
         welcome: {
             title: 'We will tell you the ...',
@@ -25853,6 +25897,11 @@ const zh_CN = {
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
     },
+    sightseeingActGuide: '探索笔记具体完成办法',
+    introdution: {
+        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
+        button: '我知道了',
+    },
     notification: {
         welcome: {
             title: '本页面将以通知形式……',
@@ -25972,6 +26021,11 @@ const ja_JP = {
         veryLongTimeToComplete: '122日後（地球時間）',
         endingAt: '終了時刻',
         lessThan: '（{m}分未満）',
+    },
+    sightseeingActGuide: '探索笔记具体完成办法',
+    introdution: {
+        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
+        button: '我知道了',
     },
     notification: {
         welcome: {

@@ -1,15 +1,20 @@
 <template>
     <div>
+        <div class="introdutionlead alert alert-info" :class="isFirstView ? 'show' : 'hidden'">
+            <p class="lead" v-html="$t('introdution.text')"></p>
+            <button type="button" class="btn btn-success" @click="setFirstView()">{{$t('introdution.button')}}</button>
+        </div>
         <ul class="nav nav-pills">
             <li v-for="(item, index) in sourceData" 
                 :class="{active: activeGroup == index}" @click="switchGroup(index)" :key="item.groupName">
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
-        <p class="sightseeing alert" :class="succeedCounter.activeGroupCount >= succeedCounter.activeGroupAllCount / 2 ? succeedCounter.activeGroupCount === succeedCounter.activeGroupAllCount ? 'alert-success' : 'alert-primary' : 'alert-info'">
+        <p class="sightseeing alert" :class="alertClass">
             {{$t('info.succeedSightseeingCountInfomation')}}:
             {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}}
             {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
+            <span :class="alertClass === 'alert-success' && 'hidden'"> | <a class="external" target="_blank" href="https://bbs.ngacn.cc/read.php?tid=7755329">{{$t('sightseeingActGuide')}}</a>[zh-cn]</span>
         </p>
         <div v-for="item in calcData" :key="item.id" class="sightseeing panel" :class="item.vaildStatus === 'panel-danger' ? 'panel-default' : item.vaildStatus" @click="setComplete(item.id)">
             <div class="panel-heading">
@@ -77,6 +82,16 @@
     max-height: 1.25em;
     margin-top: -0.25em;
 }
+a.external {
+    cursor: pointer;
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-image: -webkit-linear-gradient(transparent, transparent),
+        url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);
+    background-image: linear-gradient(transparent, transparent),
+        url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);
+    padding-right: 12px;
+}
 </style>
 
 <script lang="ts">
@@ -93,6 +108,8 @@ export default class HomePage extends Vue {
     calcData: Sightseeing[] = [];
     succeedSightseeingCounter: SucceedSightseeingCounter;
     succeedCounter: SucceedCounter;
+    isFirstView: boolean = localStorage.getItem('firstView') !== 'true';
+    alertClass: string;
     created() {
         this.succeedSightseeingCounter = new SucceedSightseeingCounter();
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
@@ -161,6 +178,12 @@ export default class HomePage extends Vue {
         this.succeedCounter.succeedCount = this.succeedSightseeingCounter.count();
 
         this.calcData = tempData;
+
+        this.alertClass = this.succeedCounter.activeGroupCount >= this.succeedCounter.activeGroupAllCount / 2 ? (this.succeedCounter.activeGroupCount === this.succeedCounter.activeGroupAllCount ? 'alert-success' : 'alert-primary') : 'alert-info';
+    }
+    setFirstView() {
+        localStorage.setItem('firstView', 'true');
+        this.isFirstView = localStorage.getItem('firstView') !== 'true';
     }
 }
 </script>

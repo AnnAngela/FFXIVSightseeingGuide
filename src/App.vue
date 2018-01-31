@@ -79,14 +79,14 @@ export default class App extends Vue {
             self.tick();
         }, 1000);
         let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
-        let notificationService = new NotificationService(
-            this.$i18n.t('notification.welcome.title') + '',
-            optionTemplate.extend({
-                body: this.$i18n.t('notification.welcome.body') + '',
-            }),
-            optionTemplate.clone(),
-        );
-        if (notificationService.permission !== NotificationService.UNSUPPORTED) {
+        if (NotificationService.isSupported) {
+            let notificationService = new NotificationService(
+                this.$i18n.t('notification.welcome.title') + '',
+                optionTemplate.extend({
+                    body: this.$i18n.t('notification.welcome.body') + '',
+                }),
+                optionTemplate.clone(),
+            );
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let soon_option = optionTemplate.clone();
