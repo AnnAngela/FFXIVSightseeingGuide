@@ -25316,6 +25316,8 @@ var render = function() {
         _vm._v(
           "\n        " +
             _vm._s(_vm.$t("info.succeedSightseeingCountInfomation")) +
+            " " +
+            _vm._s(_vm.$t("sightseeingClickIntroduction")) +
             ":\n        " +
             _vm._s(_vm.$t("info.activeGroupCount")) +
             ": " +
@@ -25773,6 +25775,7 @@ const en_US = {
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
     },
     sightseeingActGuide: 'Sightseeing strategy',
+    sightseeingClickIntroduction: '(Click the line below to mark it as completed. )',
     introdution: {
         text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in the end of the line "Sightseeing completion" to learn how to do.',
         button: 'I got it.',
@@ -25898,6 +25901,7 @@ const zh_CN = {
         lessThan: '（还剩不到{m}分钟）',
     },
     sightseeingActGuide: '探索笔记具体完成办法',
+    sightseeingClickIntroduction: '（点击下方的条目可以标记该探索笔记为已完成）',
     introdution: {
         text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
         button: '我知道了',
@@ -26023,6 +26027,7 @@ const ja_JP = {
         lessThan: '（{m}分未満）',
     },
     sightseeingActGuide: '探索笔记具体完成办法',
+    sightseeingClickIntroduction: '（点击下方的条目可以标记该探索笔记为已完成）',
     introdution: {
         text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
         button: '我知道了',

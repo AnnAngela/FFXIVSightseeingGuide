@@ -11,7 +11,7 @@
             </li>
         </ul>
         <p class="sightseeing alert" :class="alertClass">
-            {{$t('info.succeedSightseeingCountInfomation')}}:
+            {{$t('info.succeedSightseeingCountInfomation')}} {{$t('sightseeingClickIntroduction')}}:
             {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}}
             {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
             <span :class="alertClass === 'alert-success' && 'hidden'"> | <a class="external" target="_blank" href="https://bbs.ngacn.cc/read.php?tid=7755329">{{$t('sightseeingActGuide')}}</a>[zh-cn]</span>

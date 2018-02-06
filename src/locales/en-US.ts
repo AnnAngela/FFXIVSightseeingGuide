@@ -26,6 +26,7 @@ const en_US = {
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
     },
     sightseeingActGuide: 'Sightseeing strategy',
+    sightseeingClickIntroduction: '(Click the line below to mark it as completed. )',
     introdution: {
         text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in the end of the line "Sightseeing completion" to learn how to do.',
         button: 'I got it.',
