@@ -80,13 +80,13 @@ export default class App extends Vue {
         }, 1000);
         let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
         if (NotificationService.isSupported) {
-            let notificationService = new NotificationService(
-                this.$i18n.t('notification.welcome.title') + '',
-                optionTemplate.extend({
+            let notificationService = new NotificationService({
+                welcomeOption: optionTemplate.extend({
+                    title: this.$i18n.t('notification.welcome.title') + '',
                     body: this.$i18n.t('notification.welcome.body') + '',
                 }),
-                optionTemplate.clone(),
-            );
+                defaultOption: optionTemplate.clone(),
+            });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let soon_option = optionTemplate.clone();
@@ -98,29 +98,34 @@ export default class App extends Vue {
                     });
                     if (soon_option.length > 0) {
                         notificationService.sendNotification(
-                            this.$i18n.tc('notification.availableSoonTitle', 2, {
-                                n: soon_option.length,
-                            }),
-                            soon_option,
+                            soon_option.extendTitle(
+                                this.$i18n.tc('notification.availableSoonTitle', 2, {
+                                    n: soon_option.length,
+                                }),
+                            ),
                         );
                     }
                     if (now_option.length > 0) {
                         notificationService.sendNotification(
-                            this.$i18n.tc('notification.availableNowTitle', 2, {
-                                n: now_option.length,
-                            }),
-                            now_option,
+                            now_option.extendTitle(
+                                this.$i18n.tc('notification.availableNowTitle', 2, {
+                                    n: now_option.length,
+                                }),
+                            ),
                         );
                     }
                 } else {
-                    nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        let option = optionTemplate.clone();
-                        option.body = d.id + ' ' + this.$i18n.t(d.area);
-                        option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
-                            m: d.nextAvaliableTimeLeft,
-                        });
-                        notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
-                    });
+                    notificationService.sendNotification(
+                        nearSoonToCompleteData.map<NotificationServiceOption>((d: Sightseeing) => {
+                            let option = optionTemplate.clone();
+                            option.body = d.id + ' ' + this.$i18n.t(d.area);
+                            option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                                m: d.nextAvaliableTimeLeft,
+                            });
+                            option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
+                            return option;
+                        }),
+                    );
                 }
             });
         }

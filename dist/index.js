@@ -18978,9 +18978,13 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         }, 1000);
         let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
         if (__WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */].isSupported) {
-            let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */](this.$i18n.t('notification.welcome.title') + '', optionTemplate.extend({
-                body: this.$i18n.t('notification.welcome.body') + '',
-            }), optionTemplate.clone());
+            let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */]({
+                welcomeOption: optionTemplate.extend({
+                    title: this.$i18n.t('notification.welcome.title') + '',
+                    body: this.$i18n.t('notification.welcome.body') + '',
+                }),
+                defaultOption: optionTemplate.clone(),
+            });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let soon_option = optionTemplate.clone();
@@ -18992,25 +18996,26 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                         option.body += d.id + ' ' + this.$i18n.t(d.area);
                     });
                     if (soon_option.length > 0) {
-                        notificationService.sendNotification(this.$i18n.tc('notification.availableSoonTitle', 2, {
+                        notificationService.sendNotification(soon_option.extendTitle(this.$i18n.tc('notification.availableSoonTitle', 2, {
                             n: soon_option.length,
-                        }), soon_option);
+                        })));
                     }
                     if (now_option.length > 0) {
-                        notificationService.sendNotification(this.$i18n.tc('notification.availableNowTitle', 2, {
+                        notificationService.sendNotification(now_option.extendTitle(this.$i18n.tc('notification.availableNowTitle', 2, {
                             n: now_option.length,
-                        }), now_option);
+                        })));
                     }
                 }
                 else {
-                    nearSoonToCompleteData.forEach((d) => {
+                    notificationService.sendNotification(nearSoonToCompleteData.map((d) => {
                         let option = optionTemplate.clone();
                         option.body = d.id + ' ' + this.$i18n.t(d.area);
                         option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        notificationService.sendNotification(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1), option);
-                    });
+                        option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
+                        return option;
+                    }));
                 }
             });
         }
@@ -24639,9 +24644,7 @@ class NotificationServiceSet extends Set {
     add(value) {
         if (this._listenerMap.add) {
             this._listenerMap.add.forEach((callback) => {
-                callback.bind(this)({
-                    addedValue: value,
-                });
+                callback.bind(this)(value, true);
             });
         }
         return Set.prototype.add.bind(this)(value);
@@ -24649,27 +24652,26 @@ class NotificationServiceSet extends Set {
     clear() {
         if (this._listenerMap.clear) {
             this._listenerMap.clear.forEach((callback) => {
-                callback.bind(this)();
+                callback.bind(this)(undefined, true);
             });
         }
-        return Set.prototype.clear.bind(this)();
     }
     delete(value) {
-        let isSucceed = Set.prototype.delete.bind(this)();
+        let isSucceed = Set.prototype.delete.bind(this)(value);
         if (this._listenerMap.delete) {
             this._listenerMap.delete.forEach((callback) => {
-                callback.bind(this)({
-                    deletedValue: value,
-                    isSucceed,
-                });
+                callback.bind(this)(value, isSucceed);
             });
         }
         return isSucceed;
     }
 }
-class NotificationServiceOption {
+class NotificationServiceOptions {
+}
+class NotificationServiceOption extends NotificationServiceOptions {
     constructor(option) {
-        this.lang = 'zh-CN';
+        super();
+        this.title = '';
         this.body = '';
         this.length = 0;
         if (option) {
@@ -24677,7 +24679,7 @@ class NotificationServiceOption {
         }
     }
     _copyOption(target, src) {
-        ['lang', 'body', 'length', 'icon'].forEach((key) => {
+        ['title', 'lang', 'body', 'length', 'icon'].forEach((key) => {
             if (src[key])
                 target[key] = src[key];
         });
@@ -24692,26 +24694,35 @@ class NotificationServiceOption {
         }
         return new_option;
     }
+    extendTitle(title) {
+        return this.extend({
+            title,
+        });
+    }
 }
 /* harmony export (immutable) */ __webpack_exports__["b"] = NotificationServiceOption;
 
 class NotificationService {
-    constructor(welcomeTitle, welcomeOption, defaultOption) {
+    constructor({ welcomeOption, defaultOption }) {
         this.permission = NotificationService.isSupported && Notification.permission === NotificationService.permission.granted ? true : false;
+        this.defaultOption = new NotificationServiceOption();
         this.notificationSet = new NotificationServiceSet();
         this.notificationQueue = new Set();
         if (!NotificationService.isSupported) {
             return;
         }
-        this.defaultOption = defaultOption;
+        if (defaultOption)
+            this.defaultOption = defaultOption;
         if (this.permission === true) {
-            this.sendNotification(welcomeTitle, welcomeOption);
+            if (welcomeOption)
+                this.sendNotification(welcomeOption);
         }
         else if (Notification.permission === NotificationService.permission.needGranted) {
             Notification.requestPermission((permission) => {
                 if (permission === NotificationService.permission.granted) {
                     this.permission = true;
-                    this.sendNotification(welcomeTitle, welcomeOption);
+                    if (welcomeOption)
+                        this.sendNotification(welcomeOption);
                 }
             });
         }
@@ -24723,29 +24734,31 @@ class NotificationService {
                 notification.close();
             });
         });
-        this.notificationSet.addEventListener('delete', () => {
-            if (this.notificationQueue.size > 0) {
+        this.notificationSet.addEventListener('delete', (_, isSucceed) => {
+            if (isSucceed === true && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt) => {
                     if (this.notificationSet.size < 3) {
-                        this.sendNotification(opt.title, opt.option, true);
+                        this.sendNotification(opt, true);
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    sendNotification(title, option, isQueued = false) {
+    sendNotification(options, isQueued = false) {
         if (this.permission === true) {
-            if (this.notificationSet.size < 3) {
-                let o = this.defaultOption.extend(option);
-                let notification = new Notification(title, o);
+            if (Array.isArray(options)) {
+                options.forEach((option) => {
+                    this.sendNotification(option, isQueued);
+                });
+            }
+            else if (this.notificationSet.size < 3) {
+                let o = this.defaultOption.extend(options);
+                let notification = new Notification(options.title, o);
                 this.bindNotification(notification, isQueued);
             }
             else {
-                this.notificationQueue.add({
-                    title,
-                    option,
-                });
+                this.notificationQueue.add(options);
             }
         }
     }

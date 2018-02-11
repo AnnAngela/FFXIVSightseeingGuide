@@ -9,64 +9,61 @@ interface NotificationServiceSetListenerMap {
     [key: string]: Set<() => void>;
 }
 
-interface NotificationServiceQueueItem {
-    title: string;
-    option: NotificationServiceOption;
-}
-
-class NotificationServiceSet extends Set {
+class NotificationServiceSet<T extends Notification> extends Set {
     private _listenerMap: NotificationServiceSetListenerMap = {};
     constructor() {
         super();
     }
-    addEventListener(event: string, callback: () => void) {
+    addEventListener(event: string, callback: (effectedValue?: Notification | undefined, isSucceed?: boolean) => void) {
         if (!this._listenerMap[event]) this._listenerMap[event] = new Set();
         this._listenerMap[event].add(callback);
     }
     add(value: Notification) {
         if (this._listenerMap.add) {
-            this._listenerMap.add.forEach((callback: () => void) => {
-                callback.bind(this)({
-                    addedValue: value,
-                });
+            this._listenerMap.add.forEach((callback: (addedValue?: Notification, isSucceed?: boolean) => void) => {
+                callback.bind(this)(value, true);
             });
         }
         return Set.prototype.add.bind(this)(value);
     }
     clear() {
         if (this._listenerMap.clear) {
-            this._listenerMap.clear.forEach((callback: () => void) => {
-                callback.bind(this)();
+            this._listenerMap.clear.forEach((callback: (effectedValue?: undefined, isSucceed?: boolean) => void) => {
+                callback.bind(this)(undefined, true);
             });
         }
-        return Set.prototype.clear.bind(this)();
     }
     delete(value: Notification) {
-        let isSucceed: boolean = Set.prototype.delete.bind(this)();
+        let isSucceed: boolean = Set.prototype.delete.bind(this)(value);
         if (this._listenerMap.delete) {
-            this._listenerMap.delete.forEach((callback: () => void) => {
-                callback.bind(this)({
-                    deletedValue: value,
-                    isSucceed,
-                });
+            this._listenerMap.delete.forEach((callback: (deletedValue?: Notification, isSucceed?: boolean) => void) => {
+                callback.bind(this)(value, isSucceed);
             });
         }
         return isSucceed;
     }
 }
 
-export class NotificationServiceOption {
-    lang: string = 'zh-CN';
+abstract class NotificationServiceOptions {
+    title?: string;
+    body?: string;
+    lang?: string;
+    length?: number;
+    icon?: string;
+}
+
+export class NotificationServiceOption extends NotificationServiceOptions {
+    title: string = '';
     body: string = '';
     length: number = 0;
-    icon?: string;
-    constructor(option?: any) {
+    constructor(option?: NotificationServiceOptions) {
+        super();
         if (option) {
             this._copyOption(this, option);
         }
     }
-    private _copyOption(target: NotificationServiceOption, src: any) {
-        ['lang', 'body', 'length', 'icon'].forEach((key: string) => {
+    protected _copyOption(target: NotificationServiceOption, src: any) {
+        ['title', 'lang', 'body', 'length', 'icon'].forEach((key: string) => {
             if (src[key]) target[key] = src[key];
         });
     }
@@ -80,6 +77,16 @@ export class NotificationServiceOption {
         }
         return new_option;
     }
+    extendTitle(title: string) {
+        return this.extend({
+            title,
+        });
+    }
+}
+
+interface NotificationServiceConstructorOption {
+    welcomeOption?: NotificationServiceOption;
+    defaultOption?: NotificationServiceOption;
 }
 
 export class NotificationService {
@@ -90,21 +97,21 @@ export class NotificationService {
         needGranted: 'default',
     };
     permission: boolean = NotificationService.isSupported && Notification.permission === NotificationService.permission.granted ? true : false;
-    defaultOption: NotificationServiceOption;
+    defaultOption: NotificationServiceOption = new NotificationServiceOption();
     private notificationSet = new NotificationServiceSet();
-    private notificationQueue = new Set();
-    constructor(welcomeTitle: string, welcomeOption: NotificationServiceOption, defaultOption: NotificationServiceOption) {
+    private notificationQueue: Set<NotificationServiceOption> = new Set();
+    constructor({ welcomeOption, defaultOption }: NotificationServiceConstructorOption) {
         if (!NotificationService.isSupported) {
             return;
         }
-        this.defaultOption = defaultOption;
+        if (defaultOption) this.defaultOption = defaultOption;
         if (this.permission === true) {
-            this.sendNotification(welcomeTitle, welcomeOption);
+            if (welcomeOption) this.sendNotification(welcomeOption);
         } else if (Notification.permission === NotificationService.permission.needGranted) {
             Notification.requestPermission((permission: NotificationPermission) => {
                 if (permission === NotificationService.permission.granted) {
                     this.permission = true;
-                    this.sendNotification(welcomeTitle, welcomeOption);
+                    if (welcomeOption) this.sendNotification(welcomeOption);
                 }
             });
         } else {
@@ -115,28 +122,29 @@ export class NotificationService {
                 notification.close();
             });
         });
-        this.notificationSet.addEventListener('delete', () => {
-            if (this.notificationQueue.size > 0) {
-                this.notificationQueue.forEach((opt: NotificationServiceQueueItem) => {
+        this.notificationSet.addEventListener('delete', (_, isSucceed) => {
+            if (isSucceed === true && this.notificationQueue.size > 0) {
+                this.notificationQueue.forEach((opt: NotificationServiceOption) => {
                     if (this.notificationSet.size < 3) {
-                        this.sendNotification(opt.title, opt.option, true);
+                        this.sendNotification(opt, true);
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    sendNotification(title: string, option?: any, isQueued: boolean = false) {
+    sendNotification(options: NotificationServiceOption | NotificationServiceOption[], isQueued: boolean = false) {
         if (this.permission === true) {
-            if (this.notificationSet.size < 3) {
-                let o = this.defaultOption.extend(option);
-                let notification: Notification = new Notification(title, o);
+            if (Array.isArray(options)) {
+                options.forEach((option: NotificationServiceOption) => {
+                    this.sendNotification(option, isQueued);
+                });
+            } else if (this.notificationSet.size < 3) {
+                let o = this.defaultOption.extend(options);
+                let notification: Notification = new Notification(options.title, o);
                 this.bindNotification(notification, isQueued);
             } else {
-                this.notificationQueue.add({
-                    title,
-                    option,
-                });
+                this.notificationQueue.add(options);
             }
         }
     }
