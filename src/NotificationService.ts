@@ -4,9 +4,13 @@ declare const Notification: {
     new (title: string, options?: NotificationOptions): Notification;
     requestPermission(callback?: NotificationPermissionCallback): Promise<string>;
 };
-type NotificationServiceSetListener = (effectedValue: Notification | undefined, isSucceed: boolean) => void;
+
+interface NotificationServiceSetEventListener {
+    (effectedValue: Notification | undefined, isSucceed: boolean): void;
+}
+
 interface NotificationServiceSetListenerMap {
-    [key: string]: Set<NotificationServiceSetListener>;
+    [key: string]: Set<NotificationServiceSetEventListener>;
 }
 
 class NotificationServiceSet<T extends Notification> extends Set {
@@ -14,13 +18,13 @@ class NotificationServiceSet<T extends Notification> extends Set {
     constructor() {
         super();
     }
-    addEventListener(event: string, callback: NotificationServiceSetListener) {
+    addEventListener(event: string, callback: NotificationServiceSetEventListener) {
         if (!this._listenerMap[event]) this._listenerMap[event] = new Set();
         this._listenerMap[event].add(callback);
     }
     add(value: Notification) {
         if (this._listenerMap.add) {
-            this._listenerMap.add.forEach((callback: NotificationServiceSetListener) => {
+            this._listenerMap.add.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(value, true);
             });
         }
@@ -28,7 +32,7 @@ class NotificationServiceSet<T extends Notification> extends Set {
     }
     clear() {
         if (this._listenerMap.clear) {
-            this._listenerMap.clear.forEach((callback: NotificationServiceSetListener) => {
+            this._listenerMap.clear.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(undefined, true);
             });
         }
@@ -36,7 +40,7 @@ class NotificationServiceSet<T extends Notification> extends Set {
     delete(value: Notification) {
         let isSucceed: boolean = Set.prototype.delete.bind(this)(value);
         if (this._listenerMap.delete) {
-            this._listenerMap.delete.forEach((callback: NotificationServiceSetListener) => {
+            this._listenerMap.delete.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(value, isSucceed);
             });
         }
