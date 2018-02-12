@@ -78,8 +78,8 @@ export default class App extends Vue {
         setInterval(function() {
             self.tick();
         }, 1000);
-        let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
         if (NotificationService.isSupported) {
+            let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
             let notificationService = new NotificationService({
                 welcomeOption: optionTemplate.extend({
                     title: this.$i18n.t('notification.welcome.title') + '',
@@ -89,34 +89,27 @@ export default class App extends Vue {
             });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
-                    let soon_option = optionTemplate.clone();
                     let now_option = optionTemplate.clone();
+                    let soon_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
                         let option: NotificationServiceOption = d.isStillWaiting ? soon_option : now_option;
-                        if (option.length++ !== 0) option.body += ', ';
-                        option.body += d.id + ' ' + this.$i18n.t(d.area);
+                        option.add(d.id + ' ' + this.$i18n.t(d.area));
                     });
-                    if (soon_option.length > 0) {
-                        notificationService.sendNotification(
-                            soon_option.extendTitle(
-                                this.$i18n.tc('notification.availableSoonTitle', 2, {
-                                    n: soon_option.length,
-                                }),
-                            ),
-                        );
-                    }
-                    if (now_option.length > 0) {
-                        notificationService.sendNotification(
-                            now_option.extendTitle(
-                                this.$i18n.tc('notification.availableNowTitle', 2, {
-                                    n: now_option.length,
-                                }),
-                            ),
-                        );
-                    }
+                    notificationService.sendNotification([
+                        now_option.extendTitle(
+                            this.$i18n.tc('notification.availableNowTitle', 2, {
+                                n: now_option.length,
+                            }),
+                        ),
+                        soon_option.extendTitle(
+                            this.$i18n.tc('notification.availableSoonTitle', 2, {
+                                n: soon_option.length,
+                            }),
+                        ),
+                    ]);
                 } else {
                     notificationService.sendNotification(
-                        nearSoonToCompleteData.map<NotificationServiceOption>((d: Sightseeing) => {
+                        nearSoonToCompleteData.map((d: Sightseeing) => {
                             let option = optionTemplate.clone();
                             option.body = d.id + ' ' + this.$i18n.t(d.area);
                             option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {

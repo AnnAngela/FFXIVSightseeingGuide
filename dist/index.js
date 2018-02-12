@@ -18976,8 +18976,8 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         setInterval(function () {
             self.tick();
         }, 1000);
-        let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
         if (__WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */].isSupported) {
+            let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
             let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */]({
                 welcomeOption: optionTemplate.extend({
                     title: this.$i18n.t('notification.welcome.title') + '',
@@ -18987,24 +18987,20 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
             });
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
-                    let soon_option = optionTemplate.clone();
                     let now_option = optionTemplate.clone();
+                    let soon_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d) => {
                         let option = d.isStillWaiting ? soon_option : now_option;
-                        if (option.length++ !== 0)
-                            option.body += ', ';
-                        option.body += d.id + ' ' + this.$i18n.t(d.area);
+                        option.add(d.id + ' ' + this.$i18n.t(d.area));
                     });
-                    if (soon_option.length > 0) {
-                        notificationService.sendNotification(soon_option.extendTitle(this.$i18n.tc('notification.availableSoonTitle', 2, {
-                            n: soon_option.length,
-                        })));
-                    }
-                    if (now_option.length > 0) {
-                        notificationService.sendNotification(now_option.extendTitle(this.$i18n.tc('notification.availableNowTitle', 2, {
+                    notificationService.sendNotification([
+                        now_option.extendTitle(this.$i18n.tc('notification.availableNowTitle', 2, {
                             n: now_option.length,
-                        })));
-                    }
+                        })),
+                        soon_option.extendTitle(this.$i18n.tc('notification.availableSoonTitle', 2, {
+                            n: soon_option.length,
+                        })),
+                    ]);
                 }
                 else {
                     notificationService.sendNotification(nearSoonToCompleteData.map((d) => {
@@ -24666,11 +24662,8 @@ class NotificationServiceSet extends Set {
         return isSucceed;
     }
 }
-class NotificationServiceOptions {
-}
-class NotificationServiceOption extends NotificationServiceOptions {
+class NotificationServiceOption {
     constructor(option) {
-        super();
         this.title = '';
         this.body = '';
         this.length = 0;
@@ -24679,7 +24672,7 @@ class NotificationServiceOption extends NotificationServiceOptions {
         }
     }
     _copyOption(target, src) {
-        ['title', 'lang', 'body', 'length', 'icon'].forEach((key) => {
+        ['title', 'lang', 'body', 'icon'].forEach((key) => {
             if (src[key])
                 target[key] = src[key];
         });
@@ -24692,6 +24685,8 @@ class NotificationServiceOption extends NotificationServiceOptions {
         if (option) {
             this._copyOption(new_option, option);
         }
+        if (new_option.length === 0)
+            new_option.length = 1;
         return new_option;
     }
     extendTitle(title) {
@@ -24699,12 +24694,18 @@ class NotificationServiceOption extends NotificationServiceOptions {
             title,
         });
     }
+    add(body) {
+        if (this.length++ !== 0)
+            this.body += ', ';
+        this.body += body;
+        return this;
+    }
 }
 /* harmony export (immutable) */ __webpack_exports__["b"] = NotificationServiceOption;
 
 class NotificationService {
     constructor({ welcomeOption, defaultOption }) {
-        this.permission = NotificationService.isSupported && Notification.permission === NotificationService.permission.granted ? true : false;
+        this.permission = NotificationService.isSupported && Notification.permission === NotificationService.PERMISSION.GRANTED;
         this.defaultOption = new NotificationServiceOption();
         this.notificationSet = new NotificationServiceSet();
         this.notificationQueue = new Set();
@@ -24717,9 +24718,9 @@ class NotificationService {
             if (welcomeOption)
                 this.sendNotification(welcomeOption);
         }
-        else if (Notification.permission === NotificationService.permission.needGranted) {
+        else if (Notification.permission === NotificationService.PERMISSION.NEEDGRANTED) {
             Notification.requestPermission((permission) => {
-                if (permission === NotificationService.permission.granted) {
+                if (permission === NotificationService.PERMISSION.GRANTED) {
                     this.permission = true;
                     if (welcomeOption)
                         this.sendNotification(welcomeOption);
@@ -24735,7 +24736,7 @@ class NotificationService {
             });
         });
         this.notificationSet.addEventListener('delete', (_, isSucceed) => {
-            if (isSucceed === true && this.notificationQueue.size > 0) {
+            if (isSucceed && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt) => {
                     if (this.notificationSet.size < 3) {
                         this.sendNotification(opt, true);
@@ -24752,13 +24753,17 @@ class NotificationService {
                     this.sendNotification(option, isQueued);
                 });
             }
-            else if (this.notificationSet.size < 3) {
-                let o = this.defaultOption.extend(options);
-                let notification = new Notification(options.title, o);
-                this.bindNotification(notification, isQueued);
-            }
             else {
-                this.notificationQueue.add(options);
+                if (options.length > 0) {
+                    if (this.notificationSet.size < 3) {
+                        let o = this.defaultOption.extend(options);
+                        let notification = new Notification(options.title, o);
+                        this.bindNotification(notification, isQueued);
+                    }
+                    else {
+                        this.notificationQueue.add(options);
+                    }
+                }
             }
         }
     }
@@ -24782,10 +24787,10 @@ class NotificationService {
 /* harmony export (immutable) */ __webpack_exports__["a"] = NotificationService;
 
 NotificationService.isSupported = !!('Notification' in window);
-NotificationService.permission = {
-    granted: 'granted',
-    denied: 'denied',
-    needGranted: 'default',
+NotificationService.PERMISSION = {
+    GRANTED: 'granted',
+    DENIED: 'denied',
+    NEEDGRANTED: 'default',
 };
 
 
