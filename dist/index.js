@@ -24805,10 +24805,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container-fluid" },
+    { staticClass: "container" },
     [
       _c("nav", { staticClass: "navbar navbar-inverse navbar-fixed-top" }, [
-        _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "container" }, [
           _c("div", { staticClass: "navbar-header" }, [
             _vm._m(0),
             _vm._v(" "),
