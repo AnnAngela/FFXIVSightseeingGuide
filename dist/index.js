@@ -18964,7 +18964,6 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         this.eorzeaclock = '00:00';
         this._lastWeatherChangeKey = 0;
         this._lastHour = 0;
-        this.notificationPermission = false;
     }
     get currentLang() {
         return this.$i18n.locale;
@@ -18985,6 +18984,7 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
+            window['$gBug'] = this.$gBus;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();

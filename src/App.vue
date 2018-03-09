@@ -67,7 +67,6 @@ export default class App extends Vue {
     eorzeaclock: string = '00:00';
     _lastWeatherChangeKey: number = 0;
     _lastHour: number = 0;
-    notificationPermission: boolean = false;
     get currentLang() {
         return this.$i18n.locale;
     }
@@ -87,6 +86,7 @@ export default class App extends Vue {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
+            window['$gBug'] = this.$gBus;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();
