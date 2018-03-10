@@ -86,8 +86,6 @@ export default class App extends Vue {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
-            window['$gBus'] = this.$gBus;
-            window['notificationService'] = notificationService;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();
@@ -117,6 +115,7 @@ export default class App extends Vue {
                                 m: d.nextAvaliableTimeLeft,
                             });
                             option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
+                            option.length = 1;
                             return option;
                         }),
                     );

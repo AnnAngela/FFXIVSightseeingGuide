@@ -18984,8 +18984,6 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
-            window['$gBus'] = this.$gBus;
-            window['notificationService'] = notificationService;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();
@@ -19011,6 +19009,7 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                             m: d.nextAvaliableTimeLeft,
                         });
                         option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
+                        option.length = 1;
                         return option;
                     }));
                 }
