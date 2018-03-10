@@ -19128,7 +19128,12 @@ let HomePage = class HomePage extends __WEBPACK_IMPORTED_MODULE_0_vue__["default
                 tempData.push(k);
             }
         }
-        tempData.sort((a, b) => a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime());
+        tempData.sort((a, b) => {
+            let diff = a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime();
+            if (diff === 0 && a.nextAvaliableTimeEnd && b.nextAvaliableTimeEnd)
+                diff = a.nextAvaliableTimeEnd.date.getTime() - b.nextAvaliableTimeEnd.date.getTime();
+            return diff;
+        });
         for (let succeedIndex in succeedData) {
             tempData.push(succeedData[succeedIndex]);
         }
@@ -25101,12 +25106,12 @@ class Sightseeing {
                     vaildTimes.sort((a, b) => a - b);
                     this.nextAvaliableTime = baseTime.addHours(i * 8);
                     this.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
-                    this.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
-                    let nextAvaliableTimeEndTime = this.endHour;
-                    if (nextAvaliableTimeEndTime < vaildTimes[0])
-                        nextAvaliableTimeEndTime += 24;
-                    this.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
-                    this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
+                    this.nextAvaliableTimeEnd = baseTime.addHours(i * 8);
+                    let nextAvaliableTimeEnd = this.endHour;
+                    if (nextAvaliableTimeEnd < vaildTimes[0])
+                        nextAvaliableTimeEnd += 24;
+                    this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd);
+                    this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEnd.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
                     if (i == 0) {
                         let nowHour = nowet.getHours();
                         if (baseTime.getHours() === 0 && this.startHour > 8)
@@ -25475,14 +25480,14 @@ var render = function() {
                           _vm._s(_vm.$t("info.endingAt")) +
                           ": ET " +
                           _vm._s(
-                            item.nextAvaliableTimeEndTime.toHourMinuteString()
+                            item.nextAvaliableTimeEnd.toHourMinuteString()
                           ) +
                           "\n                " +
                           _vm._s(_vm.$t("info.localTime")) +
                           ": " +
                           _vm._s(
                             _vm.$d(
-                              item.nextAvaliableTimeEndTime.getLocalTime(),
+                              item.nextAvaliableTimeEnd.getLocalTime(),
                               "long"
                             )
                           ) +

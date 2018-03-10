@@ -34,7 +34,7 @@ export class Sightseeing {
     timestr: string;
     action: string;
     nextAvaliableTime: EorzeaClock;
-    nextAvaliableTimeEndTime?: EorzeaClock;
+    nextAvaliableTimeEnd?: EorzeaClock;
     nextAvaliableTimeLeft?: number;
     vaildStatus: string;
     isStillWaiting: boolean = false;
@@ -73,12 +73,12 @@ export class Sightseeing {
                     this.nextAvaliableTime = baseTime.addHours(i * 8);
                     this.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
 
-                    this.nextAvaliableTimeEndTime = baseTime.addHours(i * 8);
-                    let nextAvaliableTimeEndTime: number = this.endHour;
-                    if (nextAvaliableTimeEndTime < vaildTimes[0]) nextAvaliableTimeEndTime += 24;
-                    this.nextAvaliableTimeEndTime.date.setUTCHours(nextAvaliableTimeEndTime);
+                    this.nextAvaliableTimeEnd = baseTime.addHours(i * 8);
+                    let nextAvaliableTimeEnd: number = this.endHour;
+                    if (nextAvaliableTimeEnd < vaildTimes[0]) nextAvaliableTimeEnd += 24;
+                    this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd);
 
-                    this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEndTime.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
+                    this.nextAvaliableTimeLeft = parseInt((this.nextAvaliableTimeEnd.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60 + '');
 
                     if (i == 0) {
                         let nowHour = nowet.getHours();

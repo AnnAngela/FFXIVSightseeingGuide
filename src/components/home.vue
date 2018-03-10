@@ -44,8 +44,8 @@
                     {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
                     {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
                     <br>
-                    {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEndTime.toHourMinuteString()}}
-                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEndTime.getLocalTime(), 'long')}}
+                    {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}}
+                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long')}}
                     {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
                 </div>
                 <div v-else-if="item.vaildStatus != 'panel-danger'">
@@ -169,7 +169,11 @@ export default class HomePage extends Vue {
                 tempData.push(k);
             }
         }
-        tempData.sort((a, b) => a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime());
+        tempData.sort((a, b) => {
+            let diff = a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime();
+            if (diff === 0 && a.nextAvaliableTimeEnd && b.nextAvaliableTimeEnd) diff =  a.nextAvaliableTimeEnd.date.getTime() - b.nextAvaliableTimeEnd.date.getTime();
+            return diff;
+        });
         for (let succeedIndex in succeedData) {
             tempData.push(succeedData[succeedIndex]);
         }
