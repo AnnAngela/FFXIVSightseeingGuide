@@ -19004,13 +19004,12 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                 else {
                     notificationService.sendNotification(nearSoonToCompleteData.map((d) => {
                         let option = optionTemplate.clone();
-                        option.body = d.id + ' ' + this.$i18n.t(d.area);
-                        option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                        let body = d.id + ' ' + this.$i18n.t(d.area);
+                        body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
-                        option.length = 1;
-                        return option;
+                        option.add(body);
+                        return option.extendTitle(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1));
                     }));
                 }
             });
@@ -25236,30 +25235,30 @@ const SightseeingData = [
 class SucceedSightseeingCounter {
     constructor() {
         let succeedIdsInStorage = (localStorage.getItem('comletedSightseeing') || '').split(',').filter(c => c != '');
-        this.succeedIds = new Set(succeedIdsInStorage);
+        this._succeedIds = new Set(succeedIdsInStorage);
     }
     store() {
-        localStorage.setItem('comletedSightseeing', Array.from(this.succeedIds.values()).join(','));
+        localStorage.setItem('comletedSightseeing', Array.from(this._succeedIds.values()).join(','));
     }
     contains(id) {
-        return this.succeedIds.has(id);
+        return this._succeedIds.has(id);
     }
     add(id) {
-        this.succeedIds.add(id);
+        this._succeedIds.add(id);
         this.store();
     }
     delete(id) {
-        this.succeedIds.delete(id);
+        this._succeedIds.delete(id);
         this.store();
     }
     toggle(id) {
         this[this.contains(id) ? 'delete' : 'add'](id);
     }
     countByGroup(group) {
-        return group.items.filter(item => this.succeedIds.has(item.id)).length;
+        return group.items.filter(item => this._succeedIds.has(item.id)).length;
     }
     count() {
-        return this.succeedIds.size;
+        return this._succeedIds.size;
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = SucceedSightseeingCounter;

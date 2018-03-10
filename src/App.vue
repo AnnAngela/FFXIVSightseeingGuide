@@ -110,13 +110,12 @@ export default class App extends Vue {
                     notificationService.sendNotification(
                         nearSoonToCompleteData.map((d: Sightseeing) => {
                             let option = optionTemplate.clone();
-                            option.body = d.id + ' ' + this.$i18n.t(d.area);
-                            option.body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                            let body = d.id + ' ' + this.$i18n.t(d.area);
+                            body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                                 m: d.nextAvaliableTimeLeft,
                             });
-                            option.title = this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1);
-                            option.length = 1;
-                            return option;
+                            option.add(body);
+                            return option.extendTitle(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1));
                         }),
                     );
                 }
