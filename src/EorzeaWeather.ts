@@ -25,10 +25,7 @@ export default class EorzeaWeather {
     static getForecast(areaName: string, seeds: number[]) {
         function getWeather(rates: WeatherRate[], seed: number) {
             for (let r of rates) {
-                if (r.rate == -1) {
-                    return r.weather;
-                }
-                if (seed < r.rate) {
+                if (r.rate === -1 || seed < r.rate) {
                     return r.weather;
                 } else {
                     seed -= r.rate;

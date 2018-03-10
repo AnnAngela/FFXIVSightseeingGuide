@@ -19,7 +19,7 @@ Vue.use(VueI18n);
 Vue.use(GlobalBus);
 
 const routerOption = {
-    "routes": [
+    routes: [
         { path: '/', component: HomePage },
         { path: '/weatheroverview', component: WeatherOverviewPage }
     ]

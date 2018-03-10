@@ -33,10 +33,10 @@ export class Sightseeing {
     time: number[];
     timestr: string;
     action: string;
-    nextAvaliableTime: EorzeaClock;
+    nextAvaliableTime: EorzeaClock = new EorzeaClock(undefined);
     nextAvaliableTimeEnd?: EorzeaClock;
     nextAvaliableTimeLeft?: number;
-    vaildStatus: string;
+    vaildStatus: string = '';
     isStillWaiting: boolean = false;
     startHour: number;
     endHour: number;
@@ -60,7 +60,7 @@ export class Sightseeing {
             let forecast = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
             if (this.weather == forecast) {
                 //天气匹配成功
-                let weatherAvaliableTime: number[] = Array.apply(null, { length: 8 }).map((_: undefined, index: number) => index + baseTime.addHours(i * 8).getHours());
+                let weatherAvaliableTime: number[] = Array.from({ length: 8 }, (_: undefined, index: number) => index + baseTime.addHours(i * 8).getHours());
                 if (i == 0) {
                     let invaildEnd = nowet.getHours() - baseTime.getHours();
                     weatherAvaliableTime.splice(0, invaildEnd);

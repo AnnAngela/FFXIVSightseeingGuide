@@ -71,12 +71,9 @@ export default class App extends Vue {
         return this.$i18n.locale;
     }
     created() {
-        let self = this;
         this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
         this.tick();
-        setInterval(function() {
-            self.tick();
-        }, 1000);
+        setInterval(this.tick.bind(this), 1000);
         if (NotificationService.isSupported) {
             let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
             let notificationService = new NotificationService({
@@ -114,8 +111,10 @@ export default class App extends Vue {
                             body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                                 m: d.nextAvaliableTimeLeft,
                             });
-                            option.add(body);
-                            return option.extendTitle(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1));
+                            return option.extend({
+                                title: this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1),
+                                body,
+                            });
                         }),
                     );
                 }

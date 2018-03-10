@@ -12,11 +12,9 @@
         ],
         "module": "es2015",
         "moduleResolution": "node",
+        "strict": true,
         "isolatedModules": false,
         "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "strictNullChecks": true,
         "allowSyntheticDefaultImports": true,
         "suppressImplicitAnyIndexErrors": true
     },

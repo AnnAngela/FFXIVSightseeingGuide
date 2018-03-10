@@ -18334,14 +18334,14 @@ class EorzeaClock {
             this.date = new Date(ts);
         }
         else {
-            this.date = new Date(((new Date()).getTime()) * EorzeaClock.ratio);
+            this.date = new Date(new Date().getTime() * EorzeaClock.ratio);
         }
     }
     getHours() {
         return this.date.getUTCHours();
     }
     addHours(hourspan) {
-        return new EorzeaClock(this.date.getTime() + (hourspan * 3600000));
+        return new EorzeaClock(this.date.getTime() + hourspan * 3600000);
     }
     getMinutes() {
         return this.date.getUTCMinutes();
@@ -18354,26 +18354,15 @@ class EorzeaClock {
     }
     toHourMinuteString() {
         let hour = this.getHours();
-        let hs = "";
-        if (hour < 10) {
-            hs = "0" + hour;
-        }
-        else {
-            hs += hour;
-        }
+        let hs = `${hour < 10 ? '0' : ''}${hour}`;
         let min = this.getMinutes();
-        let ms = "";
-        if (min < 10) {
-            ms = "0" + min;
-        }
-        else {
-            ms += min;
-        }
-        return hs + ":" + ms;
+        let ms = `${min < 10 ? '0' : ''}${min}`;
+        return `${hs}:${ms}`;
     }
 }
+/* harmony export (immutable) */ __webpack_exports__["a"] = EorzeaClock;
+
 EorzeaClock.ratio = 1440 / 70;
-/* harmony default export */ __webpack_exports__["a"] = (EorzeaClock);
 
 
 /***/ }),
@@ -18969,12 +18958,9 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         return this.$i18n.locale;
     }
     created() {
-        let self = this;
         this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
         this.tick();
-        setInterval(function () {
-            self.tick();
-        }, 1000);
+        setInterval(this.tick.bind(this), 1000);
         if (__WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */].isSupported) {
             let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
             let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */]({
@@ -19008,8 +18994,10 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                         body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
-                        option.add(body);
-                        return option.extendTitle(this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1));
+                        return option.extend({
+                            title: this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1),
+                            body,
+                        });
                     }));
                 }
             });
@@ -19186,10 +19174,7 @@ class EorzeaWeather {
     static getForecast(areaName, seeds) {
         function getWeather(rates, seed) {
             for (let r of rates) {
-                if (r.rate == -1) {
-                    return r.weather;
-                }
-                if (seed < r.rate) {
+                if (r.rate === -1 || seed < r.rate) {
                     return r.weather;
                 }
                 else {
@@ -19751,7 +19736,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_1_vue
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_2_vue_i18n__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue__["default"].use(__WEBPACK_IMPORTED_MODULE_3__globalBus__["a" /* default */]);
 const routerOption = {
-    "routes": [
+    routes: [
         { path: '/', component: __WEBPACK_IMPORTED_MODULE_5__components_home_vue__["a" /* default */] },
         { path: '/weatheroverview', component: __WEBPACK_IMPORTED_MODULE_6__components_weatheroverview_vue__["a" /* default */] }
     ]
@@ -25075,6 +25060,8 @@ exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.
 
 class Sightseeing {
     constructor(item) {
+        this.nextAvaliableTime = new __WEBPACK_IMPORTED_MODULE_0__EorzeaTime__["a" /* default */](undefined);
+        this.vaildStatus = '';
         this.isStillWaiting = false;
         this.id = item.id;
         this.area = item.area;
@@ -25095,7 +25082,7 @@ class Sightseeing {
             let forecast = __WEBPACK_IMPORTED_MODULE_1__EorzeaWeather__["a" /* default */].getForecast(this.area, forecastSeed)[0];
             if (this.weather == forecast) {
                 //天气匹配成功
-                let weatherAvaliableTime = Array.apply(null, { length: 8 }).map((_, index) => index + baseTime.addHours(i * 8).getHours());
+                let weatherAvaliableTime = Array.from({ length: 8 }, (_, index) => index + baseTime.addHours(i * 8).getHours());
                 if (i == 0) {
                     let invaildEnd = nowet.getHours() - baseTime.getHours();
                     weatherAvaliableTime.splice(0, invaildEnd);
