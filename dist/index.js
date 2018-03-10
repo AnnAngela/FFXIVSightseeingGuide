@@ -18984,7 +18984,8 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
-            window['$gBug'] = this.$gBus;
+            window['$gBus'] = this.$gBus;
+            window['notificationService'] = notificationService;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();

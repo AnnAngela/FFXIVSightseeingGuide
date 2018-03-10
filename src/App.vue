@@ -86,7 +86,8 @@ export default class App extends Vue {
                 }),
                 defaultOption: optionTemplate.clone(),
             });
-            window['$gBug'] = this.$gBus;
+            window['$gBus'] = this.$gBus;
+            window['notificationService'] = notificationService;
             this.$gBus.$on('nearSoonToCompleteGet', (nearSoonToCompleteData: Sightseeing[]) => {
                 if (nearSoonToCompleteData.length > 3) {
                     let now_option = optionTemplate.clone();
