@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter, { RouterOptions } from 'vue-router'
+import VueRouter from 'vue-router'
 import VueI18n from 'vue-i18n'
 import GlobalBus from './globalBus'
 
@@ -18,7 +18,7 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(GlobalBus);
 
-const routerOption: RouterOptions = {
+const routerOption = {
     routes: [
         { path: '/', component: HomePage },
         { path: '/weatheroverview', component: WeatherOverviewPage }
