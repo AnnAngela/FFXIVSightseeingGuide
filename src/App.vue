@@ -27,6 +27,15 @@
                             </ul>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown" :class="currentLang === 'ja-JP' ? 'hidden' : ''">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$t(currentHourSystem + 'hoursystem')}} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:;" @click="chhoursystem('12')">{{$t("12hoursystem")}}</a></li>
+                                <li><a href="javascript:;" @click="chhoursystem('24')">{{$t("24hoursystem")}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -67,10 +76,12 @@ export default class App extends Vue {
     eorzeaclock: string = '00:00';
     _lastWeatherChangeKey: number = 0;
     _lastHour: number = 0;
+    currentHourSystem: string = '24';
     get currentLang() {
         return this.$i18n.locale;
     }
     created() {
+        this.currentHourSystem = localStorage.getItem('hourSystem') === '24' ? '24' : '12';
         this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
         this.tick();
         setInterval(this.tick.bind(this), 1000);
@@ -140,6 +151,12 @@ export default class App extends Vue {
     chlang(v: string) {
         this.$i18n.locale = v;
         localStorage.setItem('lang', v);
+    }
+    chhoursystem(v: string) {
+        v = v === '24' ? '24' : '12';
+        localStorage.setItem('hourSystem', v);
+        this.currentHourSystem = v;
+        location.reload(false);
     }
 }
 </script>

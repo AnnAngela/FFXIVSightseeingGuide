@@ -121,7 +121,7 @@ export default class HomePage extends Vue {
             succeedCount: 0,
             allCount: SightseeingData.reduce<number>((s, ig) => (s += ig.items.length), 0),
         };
-
+        
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {
             let oldData: Sightseeing[] = this.calcData;
@@ -171,7 +171,7 @@ export default class HomePage extends Vue {
         }
         tempData.sort((a, b) => {
             let diff = a.nextAvaliableTime.date.getTime() - b.nextAvaliableTime.date.getTime();
-            if (diff === 0 && a.nextAvaliableTimeEnd && b.nextAvaliableTimeEnd) diff =  a.nextAvaliableTimeEnd.date.getTime() - b.nextAvaliableTimeEnd.date.getTime();
+            if (diff === 0 && a.nextAvaliableTimeEnd && b.nextAvaliableTimeEnd) diff = a.nextAvaliableTimeEnd.date.getTime() - b.nextAvaliableTimeEnd.date.getTime();
             return diff;
         });
         for (let succeedIndex in succeedData) {

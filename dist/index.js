@@ -18953,11 +18953,13 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
         this.eorzeaclock = '00:00';
         this._lastWeatherChangeKey = 0;
         this._lastHour = 0;
+        this.currentHourSystem = '24';
     }
     get currentLang() {
         return this.$i18n.locale;
     }
     created() {
+        this.currentHourSystem = localStorage.getItem('hourSystem') === '24' ? '24' : '12';
         this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
         this.tick();
         setInterval(this.tick.bind(this), 1000);
@@ -19020,6 +19022,12 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
     chlang(v) {
         this.$i18n.locale = v;
         localStorage.setItem('lang', v);
+    }
+    chhoursystem(v) {
+        v = v === '24' ? '24' : '12';
+        localStorage.setItem('hourSystem', v);
+        this.currentHourSystem = v;
+        location.reload(false);
     }
 };
 App = __decorate([
@@ -19750,11 +19758,13 @@ const messages = {
 const dateTimeFormats = {
     'en-US': {
         short: {
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         },
         long: {
             year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         }
     },
     'ja-JP': {
@@ -19768,11 +19778,13 @@ const dateTimeFormats = {
     },
     'zh-CN': {
         short: {
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         },
         long: {
             year: 'numeric', month: 'short', day: 'numeric',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         }
     }
 };
@@ -24904,6 +24916,70 @@ var render = function() {
                     ])
                   ])
                 ])
+              ]),
+              _vm._v(" "),
+              _c("ul", { staticClass: "nav navbar-nav navbar-right" }, [
+                _c(
+                  "li",
+                  {
+                    staticClass: "dropdown",
+                    class: _vm.currentLang === "ja-JP" ? "hidden" : ""
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "dropdown-toggle",
+                        attrs: {
+                          href: "javascript:;",
+                          "data-toggle": "dropdown",
+                          role: "button",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$t(_vm.currentHourSystem + "hoursystem")) +
+                            " "
+                        ),
+                        _c("span", { staticClass: "caret" })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("ul", { staticClass: "dropdown-menu" }, [
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:;" },
+                            on: {
+                              click: function($event) {
+                                _vm.chhoursystem("12")
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.$t("12hoursystem")))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "javascript:;" },
+                            on: {
+                              click: function($event) {
+                                _vm.chhoursystem("24")
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.$t("24hoursystem")))]
+                        )
+                      ])
+                    ])
+                  ]
+                )
               ])
             ]
           )
@@ -25762,6 +25838,8 @@ const en_US = {
         'en-US': 'English',
         'ja-JP': 'Japanese',
     },
+    '12hoursystem': '12-Hour System',
+    '24hoursystem': '24-Hour System',
     info: {
         home: 'Home',
         weatheroverview: 'Weather Overview',
@@ -25888,6 +25966,8 @@ const zh_CN = {
         'en-US': '英语',
         'ja-JP': '日语',
     },
+    '12hoursystem': '12小时制',
+    '24hoursystem': '24小时制',
     info: {
         home: '首页',
         weatheroverview: '天气总览',
@@ -26014,6 +26094,8 @@ const ja_JP = {
         'en-US': '英語',
         'ja-JP': '日本語',
     },
+    '12hoursystem': '12小时制',
+    '24hoursystem': '24小时制',
     info: {
         home: 'メインページ',
         weatheroverview: '天気概要',
