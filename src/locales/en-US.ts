@@ -4,6 +4,8 @@ const en_US = {
         'en-US': 'English',
         'ja-JP': 'Japanese',
     },
+    '12hoursystem': '12-Hour System',
+    '24hoursystem': '24-Hour System',
     info: {
         home: 'Home',
         weatheroverview: 'Weather Overview',

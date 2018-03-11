@@ -4,6 +4,8 @@ const zh_CN = {
         'en-US': '英语',
         'ja-JP': '日语',
     },
+    '12hoursystem': '12小时制',
+    '24hoursystem': '24小时制',
     info: {
         home: '首页',
         weatheroverview: '天气总览',

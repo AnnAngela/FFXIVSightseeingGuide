@@ -4,6 +4,8 @@ const ja_JP = {
         'en-US': '英語',
         'ja-JP': '日本語',
     },
+    '12hoursystem': '12小时制',
+    '24hoursystem': '24小时制',
     info: {
         home: 'メインページ',
         weatheroverview: '天気概要',

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { RouterOptions } from 'vue-router'
 import VueI18n from 'vue-i18n'
 import GlobalBus from './globalBus'
 
@@ -18,12 +18,12 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(GlobalBus);
 
-const routerOption = {
+const routerOption: RouterOptions = {
     routes: [
         { path: '/', component: HomePage },
         { path: '/weatheroverview', component: WeatherOverviewPage }
     ]
-}
+};
 
 const router = new VueRouter(routerOption);
 
@@ -31,16 +31,18 @@ const messages = {
     'en-US': en_US,
     'zh-CN': zh_CN,
     'ja-JP': ja_JP
-}
+};
 
 const dateTimeFormats = {
     'en-US': {
         short: {
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         },
         long: {
             year: 'numeric', month: 'short', day: 'numeric', weekday: 'short',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         }
     },
     'ja-JP': {
@@ -54,11 +56,13 @@ const dateTimeFormats = {
     },
     'zh-CN': {
         short: {
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         },
         long: {
             year: 'numeric', month: 'short', day: 'numeric',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: localStorage.getItem('hourSystem') === '24' ? false : true
         }
     }
 }
@@ -67,10 +71,10 @@ const i18n = new VueI18n({
     locale: 'zh-CN',
     messages,
     dateTimeFormats
-})
+});
 
 const app = new Vue({
     router,
     i18n,
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
