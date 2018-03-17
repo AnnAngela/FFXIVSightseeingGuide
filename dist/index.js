@@ -18967,8 +18967,8 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
             let optionTemplate = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["b" /* NotificationServiceOption */]({ lang: this.$i18n.locale, icon: './image/logo.png' });
             let notificationService = new __WEBPACK_IMPORTED_MODULE_3__NotificationService__["a" /* NotificationService */]({
                 welcomeOption: optionTemplate.extend({
-                    title: this.$i18n.t('notification.welcome.title') + '',
-                    body: this.$i18n.t('notification.welcome.body') + '',
+                    title: this.$t('notification.welcome.title') + '',
+                    body: this.$t('notification.welcome.body') + '',
                 }),
                 defaultOption: optionTemplate.clone(),
             });
@@ -18978,13 +18978,13 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                     let soon_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d) => {
                         let option = d.isStillWaiting ? soon_option : now_option;
-                        option.add(d.id + ' ' + this.$i18n.t(d.area));
+                        option.add(d.id + ' ' + this.$t(d.area));
                     });
                     notificationService.sendNotification([
-                        now_option.extendTitle(this.$i18n.tc('notification.availableNowTitle', 2, {
+                        now_option.extendTitle(this.$tc('notification.availableNowTitle', 2, {
                             n: now_option.length,
                         })),
-                        soon_option.extendTitle(this.$i18n.tc('notification.availableSoonTitle', 2, {
+                        soon_option.extendTitle(this.$tc('notification.availableSoonTitle', 2, {
                             n: soon_option.length,
                         })),
                     ]);
@@ -18992,12 +18992,14 @@ let App = class App extends __WEBPACK_IMPORTED_MODULE_0_vue__["default"] {
                 else {
                     notificationService.sendNotification(nearSoonToCompleteData.map((d) => {
                         let option = optionTemplate.clone();
-                        let body = d.id + ' ' + this.$i18n.t(d.area);
-                        body += this.$i18n.tc('info.lessThan', d.nextAvaliableTimeLeft, {
+                        let body = d.id + ' ' + this.$t(d.area);
+                        if (d.isStillWaiting)
+                            body += this.$t('info.isStillWaiting');
+                        body += this.$tc('info.lessThan', d.nextAvaliableTimeLeft, {
                             m: d.nextAvaliableTimeLeft,
                         });
                         return option.extend({
-                            title: this.$i18n.tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1),
+                            title: this.$tc(d.isStillWaiting ? 'notification.availableSoonTitle' : 'notification.availableNowTitle', 1),
                             body,
                         });
                     }));
