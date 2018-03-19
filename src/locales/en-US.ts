@@ -26,11 +26,13 @@ const en_US = {
         veryLongTimeToComplete: 'After 122 days (Earth time)',
         endingAt: 'Ending at',
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
+        additionalInfo: 'The endpoint of the time range of the sightseeing is 1 minute before that marked in this page. For example, if the time range of one sightseeing is marked as ET 18:00 - ET 5:00, that means the actual endpoint is ET 4:59. Please be care for it.',
     },
     sightseeingActGuide: 'Sightseeing strategy',
-    sightseeingClickIntroduction: '(Click the line below to mark it as completed. )',
+    sightseeingActGuideSeeHere: 'See Here.',
+    sightseeingClickIntroduction: 'Click the uncompleted line below to mark it as completed, and click the completed one to mark as uncompleted. ',
     introdution: {
-        text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in the end of the line "Sightseeing completion" to learn how to do.',
+        text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in "Sightseeing completion" to learn how to do.',
         button: 'I got it.',
     },
     notification: {

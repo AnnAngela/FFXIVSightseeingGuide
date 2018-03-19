@@ -5,16 +5,16 @@
             <button type="button" class="btn btn-success" @click="setFirstView()">{{$t('introdution.button')}}</button>
         </div>
         <ul class="nav nav-pills">
-            <li v-for="(item, index) in sourceData" 
-                :class="{active: activeGroup == index}" @click="switchGroup(index)" :key="item.groupName">
+            <li v-for="(item, index) in sourceData" :class="{active: activeGroup == index}" @click="switchGroup(index)" :key="item.groupName">
                 <a href="javascript:;">{{ item.groupName }}</a>
             </li>
         </ul>
         <p class="sightseeing alert" :class="alertClass">
-            {{$t('info.succeedSightseeingCountInfomation')}} {{$t('sightseeingClickIntroduction')}}:
-            {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}}
-            {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
-            <span :class="alertClass === 'alert-success' && 'hidden'"> | <a class="external" target="_blank" href="https://bbs.ngacn.cc/read.php?tid=7755329">{{$t('sightseeingActGuide')}}</a>[zh-cn]</span>
+            {{$t('info.succeedSightseeingCountInfomation')}}: {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}} {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
+            <span class="hr"><!-- 用来回避<p/>不能嵌套<hr>的静态检查错误 --></span>
+            <span class="ps">{{$t('sightseeingClickIntroduction')}}</span>
+            <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">{{$t('info.additionalInfo')}}</span>
+            <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">{{$t('sightseeingActGuide')}}<a class="external seehere" target="_blank" href="https://bbs.ngacn.cc/read.php?tid=7755329">{{$t('sightseeingActGuideSeeHere')}}</a>[zh-cn]</span>
         </p>
         <div v-for="item in calcData" :key="item.id" class="sightseeing panel" :class="item.vaildStatus === 'panel-danger' ? 'panel-default' : item.vaildStatus" @click="setComplete(item.id)">
             <div class="panel-heading">
@@ -40,17 +40,11 @@
             <div class="panel-body">
                 <div v-if="item.vaildStatus == 'panel-success'">{{$t("info.completed")}}</div>
                 <div v-else-if="item.vaildStatus == 'panel-primary'">
-                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
-                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
-                    {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
-                    <br>
-                    {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}}
-                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long')}}
-                    {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
+                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}} {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
+                    <br> {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long')}} {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
                 </div>
                 <div v-else-if="item.vaildStatus != 'panel-danger'">
-                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}}
-                    {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
+                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
                 </div>
                 <div v-else>
                     {{$t("info.veryLongTimeToComplete")}}
@@ -92,6 +86,30 @@ a.external {
         url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);
     padding-right: 12px;
 }
+.hr {
+    display: block;
+    height: 0;
+    border-style: inset;
+    border-width: 1px 0 0;
+    margin: 0.5em auto;
+    overflow: hidden;
+}
+.ps {
+    margin-left: 3em;
+    display: inline-block;
+}
+.ps:before {
+    content: 'P.S.';
+    margin-left: -3em;
+    display: inline-block;
+    width: 3em;
+}
+.ps + .ps:before {
+    content: 'P.S.S.';
+}
+.seehere {
+    font-style: italic;
+}
 </style>
 
 <script lang="ts">
@@ -121,7 +139,7 @@ export default class HomePage extends Vue {
             succeedCount: 0,
             allCount: SightseeingData.reduce<number>((s, ig) => (s += ig.items.length), 0),
         };
-        
+
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {
             let oldData: Sightseeing[] = this.calcData;

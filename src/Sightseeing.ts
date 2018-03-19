@@ -60,12 +60,12 @@ export class Sightseeing {
             let forecast = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
             if (this.weather == forecast) {
                 //天气匹配成功
-                let weatherAvaliableTime: number[] = Array.from({ length: 8 }, (_: undefined, index: number) => index + baseTime.addHours(i * 8).getHours());
-                if (i == 0) {
+                let weatherAvaliableTime: number[] = Array.from({ length: 8 }, (_, index: number) => index + baseTime.addHours(i * 8).getHours());
+                if (i === 0) {
                     let invaildEnd = nowet.getHours() - baseTime.getHours();
                     weatherAvaliableTime.splice(0, invaildEnd);
                 }
-                let vaildTimes = this.time.filter(t => weatherAvaliableTime.indexOf(t) != -1); // calc intersection
+                let vaildTimes = this.time.filter(t => weatherAvaliableTime.indexOf(t) !== -1); // calc intersection
                 if (vaildTimes.length != 0) {
                     //时间匹配成功
                     vaildTimes.sort((a, b) => a - b);

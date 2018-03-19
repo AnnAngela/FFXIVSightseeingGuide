@@ -25122,7 +25122,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\na.external {\n  cursor: pointer;\n  background-position: center right;\n  background-repeat: no-repeat;\n  background-image: -webkit-linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  background-image: linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  padding-right: 12px;\n}\n", ""]);
+exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\na.external {\n  cursor: pointer;\n  background-position: center right;\n  background-repeat: no-repeat;\n  background-image: -webkit-linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  background-image: linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  padding-right: 12px;\n}\n.hr {\n  display: block;\n  height: 0;\n  border-style: inset;\n  border-width: 1px 0 0;\n  margin: 0.5em auto;\n  overflow: hidden;\n}\n.ps {\n  margin-left: 3em;\n  display: inline-block;\n}\n.ps:before {\n  content: 'P.S.';\n  margin-left: -3em;\n  display: inline-block;\n  width: 3em;\n}\n.ps + .ps:before {\n  content: 'P.S.S.';\n}\n.seehere {\n  font-style: italic;\n}\n", ""]);
 
 // exports
 
@@ -25161,11 +25161,11 @@ class Sightseeing {
             if (this.weather == forecast) {
                 //天气匹配成功
                 let weatherAvaliableTime = Array.from({ length: 8 }, (_, index) => index + baseTime.addHours(i * 8).getHours());
-                if (i == 0) {
+                if (i === 0) {
                     let invaildEnd = nowet.getHours() - baseTime.getHours();
                     weatherAvaliableTime.splice(0, invaildEnd);
                 }
-                let vaildTimes = this.time.filter(t => weatherAvaliableTime.indexOf(t) != -1); // calc intersection
+                let vaildTimes = this.time.filter(t => weatherAvaliableTime.indexOf(t) !== -1); // calc intersection
                 if (vaildTimes.length != 0) {
                     //时间匹配成功
                     vaildTimes.sort((a, b) => a - b);
@@ -25403,15 +25403,13 @@ var render = function() {
         _vm._v(
           "\n        " +
             _vm._s(_vm.$t("info.succeedSightseeingCountInfomation")) +
-            " " +
-            _vm._s(_vm.$t("sightseeingClickIntroduction")) +
-            ":\n        " +
+            ": " +
             _vm._s(_vm.$t("info.activeGroupCount")) +
             ": " +
             _vm._s(_vm.succeedCounter.activeGroupCount) +
             " / " +
             _vm._s(_vm.succeedCounter.activeGroupAllCount) +
-            "\n        " +
+            " " +
             _vm._s(_vm.$t("info.totalCount")) +
             ": " +
             _vm._s(_vm.succeedCounter.succeedCount) +
@@ -25419,21 +25417,43 @@ var render = function() {
             _vm._s(_vm.succeedCounter.allCount) +
             "\n        "
         ),
-        _c("span", { class: _vm.alertClass === "alert-success" && "hidden" }, [
-          _vm._v(" | "),
-          _c(
-            "a",
-            {
-              staticClass: "external",
-              attrs: {
-                target: "_blank",
-                href: "https://bbs.ngacn.cc/read.php?tid=7755329"
-              }
-            },
-            [_vm._v(_vm._s(_vm.$t("sightseeingActGuide")))]
-          ),
-          _vm._v("[zh-cn]")
-        ])
+        _c("span", { staticClass: "hr" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "ps" }, [
+          _vm._v(_vm._s(_vm.$t("sightseeingClickIntroduction")))
+        ]),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "ps",
+            class: _vm.alertClass === "alert-success" && "hidden"
+          },
+          [_vm._v(_vm._s(_vm.$t("info.additionalInfo")))]
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            staticClass: "ps",
+            class: _vm.alertClass === "alert-success" && "hidden"
+          },
+          [
+            _vm._v(_vm._s(_vm.$t("sightseeingActGuide"))),
+            _c(
+              "a",
+              {
+                staticClass: "external seehere",
+                attrs: {
+                  target: "_blank",
+                  href: "https://bbs.ngacn.cc/read.php?tid=7755329"
+                }
+              },
+              [_vm._v(_vm._s(_vm.$t("sightseeingActGuideSeeHere")))]
+            ),
+            _vm._v("[zh-cn]")
+          ]
+        )
       ]),
       _vm._v(" "),
       _vm._l(_vm.calcData, function(item) {
@@ -25522,7 +25542,7 @@ var render = function() {
                           _vm._s(_vm.$t("info.startFrom")) +
                           ": ET " +
                           _vm._s(item.nextAvaliableTime.toHourMinuteString()) +
-                          "\n                " +
+                          " " +
                           _vm._s(_vm.$t("info.localTime")) +
                           ": " +
                           _vm._s(
@@ -25531,7 +25551,7 @@ var render = function() {
                               "long"
                             )
                           ) +
-                          "\n                " +
+                          " " +
                           _vm._s(
                             item.isStillWaiting
                               ? _vm.$t("info.isStillWaiting")
@@ -25541,13 +25561,13 @@ var render = function() {
                       ),
                       _c("br"),
                       _vm._v(
-                        "\n                " +
+                        " " +
                           _vm._s(_vm.$t("info.endingAt")) +
                           ": ET " +
                           _vm._s(
                             item.nextAvaliableTimeEnd.toHourMinuteString()
                           ) +
-                          "\n                " +
+                          " " +
                           _vm._s(_vm.$t("info.localTime")) +
                           ": " +
                           _vm._s(
@@ -25556,7 +25576,7 @@ var render = function() {
                               "long"
                             )
                           ) +
-                          "\n                " +
+                          " " +
                           _vm._s(
                             _vm.$tc(
                               "info.lessThan",
@@ -25576,7 +25596,7 @@ var render = function() {
                             _vm._s(
                               item.nextAvaliableTime.toHourMinuteString()
                             ) +
-                            "\n                " +
+                            " " +
                             _vm._s(_vm.$t("info.localTime")) +
                             ": " +
                             _vm._s(
@@ -25862,11 +25882,13 @@ const en_US = {
         veryLongTimeToComplete: 'After 122 days (Earth time)',
         endingAt: 'Ending at',
         lessThan: '( Less than one minute ) | ( Less than {m} minutes )',
+        additionalInfo: 'The endpoint of the time range of the sightseeing is 1 minute before that marked in this page. For example, if the time range of one sightseeing is marked as ET 18:00 - ET 5:00, that means the actual endpoint is ET 4:59. Please be care for it.',
     },
     sightseeingActGuide: 'Sightseeing strategy',
-    sightseeingClickIntroduction: '(Click the line below to mark it as completed. )',
+    sightseeingActGuideSeeHere: 'See Here.',
+    sightseeingClickIntroduction: 'Click the uncompleted line below to mark it as completed, and click the completed one to mark as uncompleted. ',
     introdution: {
-        text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in the end of the line "Sightseeing completion" to learn how to do.',
+        text: 'This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>Please kindly noted: this guide can only alert you that there are new sightseeings can be done, but not how to do them. Please click the link in "Sightseeing completion" to learn how to do.',
         button: 'I got it.',
     },
     notification: {
@@ -25990,11 +26012,13 @@ const zh_CN = {
         veryLongTimeToComplete: '122天后（地球时间）',
         endingAt: '结束时间',
         lessThan: '（还剩不到{m}分钟）',
+        additionalInfo: '探索笔记的时间段终点为本页标记的终点的前一分钟，例如若本页面所标记的时间段为ET 18:00 - ET 5:00，那么实际的时间段终点为ET 4:59，请注意。',
     },
     sightseeingActGuide: '探索笔记具体完成办法',
-    sightseeingClickIntroduction: '（点击下方的条目可以标记该探索笔记为已完成）',
+    sightseeingActGuideSeeHere: '参见此处。',
+    sightseeingClickIntroduction: '点击下方未完成的条目可以标记该探索笔记为已完成，点击已完成的可以标记为未完成。',
     introdution: {
-        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
+        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的链接以获取探索笔记的完成办法。',
         button: '我知道了',
     },
     notification: {
@@ -26118,11 +26142,13 @@ const ja_JP = {
         veryLongTimeToComplete: '122日後（地球時間）',
         endingAt: '終了時刻',
         lessThan: '（{m}分未満）',
+        additionalInfo: '探索笔记的时间段终点为本页标记的终点的前一分钟，例如若本页面所标记的时间段为ET 18:00 - ET 5:00，那么实际的时间段终点为ET 4:59，请注意。',
     },
     sightseeingActGuide: '探索笔记具体完成办法',
-    sightseeingClickIntroduction: '（点击下方的条目可以标记该探索笔记为已完成）',
+    sightseeingActGuideSeeHere: '参见此处。',
+    sightseeingClickIntroduction: '点击下方未完成的条目可以标记该探索笔记为已完成，点击已完成的可以标记为未完成。',
     introdution: {
-        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的最右侧链接以获取探索笔记的完成办法。',
+        text: '本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）<br>请您悉知：本指南仅能提示您可以完成的探索笔记，如何完成它们不在本指南的提示范围内，请点击下方【探索笔记完成情况】一栏的链接以获取探索笔记的完成办法。',
         button: '我知道了',
     },
     notification: {
