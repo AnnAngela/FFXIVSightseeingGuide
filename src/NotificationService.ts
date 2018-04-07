@@ -1,12 +1,12 @@
 declare const Notification: {
     prototype: Notification;
     readonly permission: string;
-    new (title: string, options?: NotificationOptions): Notification;
+    new(title: string, options?: NotificationOptions): Notification;
     requestPermission(callback?: NotificationPermissionCallback): Promise<string>;
 };
 
 interface NotificationServiceSetEventListener {
-    (effectedValue: Notification | undefined, isSucceed: boolean): void;
+    (isSucceed: boolean, effectedValue: Notification | undefined): void;
 }
 
 interface NotificationServiceSetListenerMap {
@@ -23,9 +23,10 @@ class NotificationServiceSet<T extends Notification> extends Set {
         this._listenerMap[event].add(callback);
     }
     add(value: Notification) {
+        let isSucceed = Set.prototype.add.bind(this)(value);
         if (this._listenerMap.add) {
             this._listenerMap.add.forEach((callback: NotificationServiceSetEventListener) => {
-                callback.bind(this)(value, true);
+                callback.bind(this)(isSucceed, value);
             });
         }
         return Set.prototype.add.bind(this)(value);
@@ -33,15 +34,16 @@ class NotificationServiceSet<T extends Notification> extends Set {
     clear() {
         if (this._listenerMap.clear) {
             this._listenerMap.clear.forEach((callback: NotificationServiceSetEventListener) => {
-                callback.bind(this)(undefined, true);
+                callback.bind(this)(true, undefined);
             });
         }
+        return Set.prototype.clear.bind(this)();
     }
     delete(value: Notification) {
         let isSucceed: boolean = Set.prototype.delete.bind(this)(value);
         if (this._listenerMap.delete) {
             this._listenerMap.delete.forEach((callback: NotificationServiceSetEventListener) => {
-                callback.bind(this)(value, isSucceed);
+                callback.bind(this)(isSucceed, value);
             });
         }
         return isSucceed;
@@ -131,7 +133,7 @@ export class NotificationService {
                 notification.close();
             });
         });
-        this.notificationSet.addEventListener('delete', (_, isSucceed) => {
+        this.notificationSet.addEventListener('delete', (isSucceed) => {
             if (isSucceed && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt: NotificationServiceOption) => {
                     if (this.notificationSet.size < 3) {

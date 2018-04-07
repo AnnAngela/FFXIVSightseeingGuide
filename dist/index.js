@@ -18334,7 +18334,7 @@ class EorzeaClock {
             this.date = new Date(ts);
         }
         else {
-            this.date = new Date(new Date().getTime() * EorzeaClock.ratio);
+            this.date = new Date(Date.now() * EorzeaClock.ratio);
         }
     }
     getHours() {
@@ -19111,18 +19111,19 @@ let HomePage = class HomePage extends __WEBPACK_IMPORTED_MODULE_0_vue__["default
         // 保证存入错误数据初始化时不出错
         if (index >= __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */].length) {
             this.switchGroup(0);
+            return; //防止因错误数据导致加载两次数据
         }
         let tempGroup = __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["b" /* SightseeingData */][index].items;
         let tempData = [];
         let succeedData = [];
         for (let tempItemIndex in tempGroup) {
             let k = new __WEBPACK_IMPORTED_MODULE_2__Sightseeing__["a" /* Sightseeing */](tempGroup[tempItemIndex]);
-            k.calcNextAvailableTime();
             if (this.succeedSightseeingCounter.contains(k.id)) {
                 k.vaildStatus = 'panel-success';
                 succeedData.push(k);
             }
             else {
+                k.calcNextAvailableTime();
                 tempData.push(k);
             }
         }
@@ -24641,9 +24642,10 @@ class NotificationServiceSet extends Set {
         this._listenerMap[event].add(callback);
     }
     add(value) {
+        let isSucceed = Set.prototype.add.bind(this)(value);
         if (this._listenerMap.add) {
             this._listenerMap.add.forEach((callback) => {
-                callback.bind(this)(value, true);
+                callback.bind(this)(isSucceed, value);
             });
         }
         return Set.prototype.add.bind(this)(value);
@@ -24651,15 +24653,16 @@ class NotificationServiceSet extends Set {
     clear() {
         if (this._listenerMap.clear) {
             this._listenerMap.clear.forEach((callback) => {
-                callback.bind(this)(undefined, true);
+                callback.bind(this)(true, undefined);
             });
         }
+        return Set.prototype.clear.bind(this)();
     }
     delete(value) {
         let isSucceed = Set.prototype.delete.bind(this)(value);
         if (this._listenerMap.delete) {
             this._listenerMap.delete.forEach((callback) => {
-                callback.bind(this)(value, isSucceed);
+                callback.bind(this)(isSucceed, value);
             });
         }
         return isSucceed;
@@ -24738,7 +24741,7 @@ class NotificationService {
                 notification.close();
             });
         });
-        this.notificationSet.addEventListener('delete', (_, isSucceed) => {
+        this.notificationSet.addEventListener('delete', (isSucceed) => {
             if (isSucceed && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt) => {
                     if (this.notificationSet.size < 3) {
@@ -25122,7 +25125,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\na.external {\n  cursor: pointer;\n  background-position: center right 2px;\n  background-repeat: no-repeat;\n  background-image: -webkit-linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  background-image: linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  padding-right: 14px;\n}\n.hr {\n  display: block;\n  height: 0;\n  border-style: inset;\n  border-width: 1px 0 0;\n  margin: 0.5em auto;\n  overflow: hidden;\n}\n.ps {\n  margin-left: 3em;\n  display: inline-block;\n}\n.ps:before {\n  content: 'P.S.';\n  margin-left: -3em;\n  display: inline-block;\n  width: 3em;\n}\n.ps + .ps:before {\n  content: 'P.S.S.';\n}\n.seehere {\n  font-style: italic;\n}\n", ""]);
+exports.push([module.i, "\n.sightseeing {\n  margin-top: 20px;\n}\n.sightseeing.panel {\n  cursor: pointer;\n  transition: all 1s;\n}\n.alert-primary {\n  color: #004085;\n  background-color: #cce5ff;\n  border-color: #b8daff;\n}\n.panel-postheader {\n  font-style: italic;\n  font-weight: lighter;\n  margin-top: -1.3em;\n}\n.weatherImg {\n  max-height: 1.25em;\n  margin-top: -0.25em;\n}\na.external {\n  cursor: pointer;\n  background-position: center right 2px;\n  background-repeat: no-repeat;\n  background-image: -webkit-linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  background-image: linear-gradient(transparent, transparent), url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%3E%3Cg%20transform%3D%22translate%28-826.429%20-698.791%29%22%3E%3Crect%20width%3D%225.982%22%20height%3D%225.982%22%20x%3D%22826.929%22%20y%3D%22702.309%22%20fill%3D%22%23fff%22%20stroke%3D%22%2306c%22%2F%3E%3Cg%3E%3Cpath%20d%3D%22M831.194%20698.791h5.234v5.391l-1.571%201.545-1.31-1.31-2.725%202.725-2.689-2.689%202.808-2.808-1.311-1.311z%22%20fill%3D%22%2306f%22%2F%3E%3Cpath%20d%3D%22M835.424%20699.795l.022%204.885-1.817-1.817-2.881%202.881-1.228-1.228%202.881-2.881-1.851-1.851z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E);\n  padding-right: 14px;\n}\n.hr {\n  display: block;\n  height: 0;\n  border-style: inset;\n  border-width: 1px 0 0;\n  margin: 0.5em auto;\n  overflow: hidden;\n}\n.ps {\n  margin-left: 2em;\n  display: inline-block;\n}\n.ps:before {\n  content: 'P.S.';\n  margin-left: -2em;\n  display: inline-block;\n  width: 2em;\n}\n.ps + .ps:before {\n  content: '';\n}\n.seehere {\n  font-style: italic;\n}\n", ""]);
 
 // exports
 

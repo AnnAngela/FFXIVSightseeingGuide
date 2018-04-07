@@ -95,17 +95,17 @@ a.external {
     overflow: hidden;
 }
 .ps {
-    margin-left: 3em;
+    margin-left: 2em;
     display: inline-block;
 }
 .ps:before {
     content: 'P.S.';
-    margin-left: -3em;
+    margin-left: -2em;
     display: inline-block;
-    width: 3em;
+    width: 2em;
 }
 .ps + .ps:before {
-    content: 'P.S.S.';
+    content: '';
 }
 .seehere {
     font-style: italic;
@@ -137,7 +137,7 @@ export default class HomePage extends Vue {
             activeGroupCount: 0,
             activeGroupAllCount: 0,
             succeedCount: 0,
-            allCount: SightseeingData.reduce<number>((s, ig) => (s += ig.items.length), 0),
+            allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0),
         };
 
         this.loadGroup(this.activeGroup);
@@ -171,6 +171,7 @@ export default class HomePage extends Vue {
         // 保证存入错误数据初始化时不出错
         if (index >= SightseeingData.length) {
             this.switchGroup(0);
+            return; //防止因错误数据导致加载两次数据
         }
 
         let tempGroup = SightseeingData[index].items;
@@ -179,11 +180,11 @@ export default class HomePage extends Vue {
 
         for (let tempItemIndex in tempGroup) {
             let k = new Sightseeing(tempGroup[tempItemIndex]);
-            k.calcNextAvailableTime();
             if (this.succeedSightseeingCounter.contains(k.id)) {
                 k.vaildStatus = 'panel-success';
                 succeedData.push(k);
             } else {
+                k.calcNextAvailableTime();
                 tempData.push(k);
             }
         }

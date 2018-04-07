@@ -5,7 +5,7 @@ export default class EorzeaClock {
         if (ts !== undefined) {
             this.date = new Date(ts);
         } else {
-            this.date = new Date(new Date().getTime() * EorzeaClock.ratio);
+            this.date = new Date(Date.now() * EorzeaClock.ratio);
         }
     }
     getHours(): number {
