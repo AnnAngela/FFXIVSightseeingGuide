@@ -109,6 +109,7 @@ export class NotificationService {
     };
     permission: boolean = NotificationService.isSupported && Notification.permission === NotificationService.PERMISSION.GRANTED;
     defaultOption: NotificationServiceOption = new NotificationServiceOption();
+    isOnBeforeunload = false;
     private notificationSet = new NotificationServiceSet();
     private notificationQueue: Set<NotificationServiceOption> = new Set();
     constructor({ welcomeOption, defaultOption }: NotificationServiceConstructorOption) {
@@ -129,6 +130,7 @@ export class NotificationService {
             return;
         }
         window.addEventListener('beforeunload', _ => {
+            this.isOnBeforeunload = true;
             this.notificationSet.forEach((notification: Notification) => {
                 notification.close();
             });
@@ -145,7 +147,7 @@ export class NotificationService {
         });
     }
     sendNotification(options: NotificationServiceOption | NotificationServiceOption[], isQueued: boolean = false) {
-        if (this.permission === true) {
+        if (this.permission === true && this.isOnBeforeunload === false) {
             if (Array.isArray(options)) {
                 options.forEach((option: NotificationServiceOption) => {
                     this.sendNotification(option, isQueued);

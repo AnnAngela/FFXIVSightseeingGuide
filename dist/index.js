@@ -24713,6 +24713,7 @@ class NotificationService {
     constructor({ welcomeOption, defaultOption }) {
         this.permission = NotificationService.isSupported && Notification.permission === NotificationService.PERMISSION.GRANTED;
         this.defaultOption = new NotificationServiceOption();
+        this.isOnBeforeunload = false;
         this.notificationSet = new NotificationServiceSet();
         this.notificationQueue = new Set();
         if (!NotificationService.isSupported) {
@@ -24737,6 +24738,7 @@ class NotificationService {
             return;
         }
         window.addEventListener('beforeunload', _ => {
+            this.isOnBeforeunload = true;
             this.notificationSet.forEach((notification) => {
                 notification.close();
             });
@@ -24753,7 +24755,7 @@ class NotificationService {
         });
     }
     sendNotification(options, isQueued = false) {
-        if (this.permission === true) {
+        if (this.permission === true && this.isOnBeforeunload === false) {
             if (Array.isArray(options)) {
                 options.forEach((option) => {
                     this.sendNotification(option, isQueued);
