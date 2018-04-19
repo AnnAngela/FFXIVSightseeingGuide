@@ -24643,7 +24643,7 @@ class NotificationServiceSet extends Set {
     }
     add(value) {
         let isSucceed = Set.prototype.add.bind(this)(value);
-        if (this._listenerMap.add) {
+        if (this._listenerMap.add instanceof Set) {
             this._listenerMap.add.forEach((callback) => {
                 callback.bind(this)(isSucceed, value);
             });
@@ -24651,7 +24651,7 @@ class NotificationServiceSet extends Set {
         return Set.prototype.add.bind(this)(value);
     }
     clear() {
-        if (this._listenerMap.clear) {
+        if (this._listenerMap.clear instanceof Set) {
             this._listenerMap.clear.forEach((callback) => {
                 callback.bind(this)(true, undefined);
             });
@@ -24660,12 +24660,45 @@ class NotificationServiceSet extends Set {
     }
     delete(value) {
         let isSucceed = Set.prototype.delete.bind(this)(value);
-        if (this._listenerMap.delete) {
+        if (this._listenerMap.delete instanceof Set) {
             this._listenerMap.delete.forEach((callback) => {
                 callback.bind(this)(isSucceed, value);
             });
         }
         return isSucceed;
+    }
+}
+class NotificationServiceQuitQueue extends Map {
+    constructor() {
+        super();
+        let date = new Date(), now = date.getTime();
+        date.setTime((Math.floor(date.getTime() / 1000) + 1) * 1000);
+        setTimeout(_ => {
+            this._clearExpriedNotification();
+            setInterval(_ => {
+                this._clearExpriedNotification();
+            }, 1000);
+        }, date.getTime() - now);
+    }
+    add(notification) {
+        let expire = Date.now() + 13000;
+        while (this._expired(expire).length !== 0)
+            expire += 2000;
+        return this.set(expire, notification);
+    }
+    _expired(t) {
+        let now = t || Date.now(), result = [];
+        for (let k of this.keys()) {
+            if (k < now)
+                result.push(k);
+        }
+        return result;
+    }
+    _clearExpriedNotification() {
+        this._expired().forEach(k => {
+            this.get(k).close();
+            this.delete(k);
+        });
     }
 }
 class NotificationServiceOption {
@@ -24714,6 +24747,7 @@ class NotificationService {
         this.permission = NotificationService.isSupported && Notification.permission === NotificationService.PERMISSION.GRANTED;
         this.defaultOption = new NotificationServiceOption();
         this.isOnBeforeunload = false;
+        this.notificationServiceQuitQueue = new NotificationServiceQuitQueue();
         this.notificationSet = new NotificationServiceSet();
         this.notificationQueue = new Set();
         if (!NotificationService.isSupported) {
@@ -24747,18 +24781,18 @@ class NotificationService {
             if (isSucceed && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt) => {
                     if (this.notificationSet.size < 3) {
-                        this.sendNotification(opt, true);
+                        this.sendNotification(opt);
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    sendNotification(options, isQueued = false) {
+    sendNotification(options) {
         if (this.permission === true && this.isOnBeforeunload === false) {
             if (Array.isArray(options)) {
                 options.forEach((option) => {
-                    this.sendNotification(option, isQueued);
+                    this.sendNotification(option);
                 });
             }
             else {
@@ -24766,7 +24800,7 @@ class NotificationService {
                     if (this.notificationSet.size < 3) {
                         let o = this.defaultOption.extend(options);
                         let notification = new Notification(options.title, o);
-                        this.bindNotification(notification, isQueued);
+                        this.bindNotification(notification);
                     }
                     else {
                         this.notificationQueue.add(options);
@@ -24775,7 +24809,7 @@ class NotificationService {
             }
         }
     }
-    bindNotification(notification, isQueued = false) {
+    bindNotification(notification) {
         this.notificationSet.add(notification);
         notification.addEventListener('error', _ => {
             notification.close();
@@ -24787,9 +24821,7 @@ class NotificationService {
         notification.addEventListener('close', _ => {
             this.notificationSet.delete(notification);
         });
-        setTimeout(_ => {
-            notification.close();
-        }, isQueued ? 10000 : 15000);
+        this.notificationServiceQuitQueue.add(notification);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = NotificationService;

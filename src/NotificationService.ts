@@ -13,7 +13,7 @@ interface NotificationServiceSetListenerMap {
     [key: string]: Set<NotificationServiceSetEventListener>;
 }
 
-class NotificationServiceSet<T extends Notification> extends Set {
+class NotificationServiceSet extends Set {
     private _listenerMap: NotificationServiceSetListenerMap = {};
     constructor() {
         super();
@@ -24,7 +24,7 @@ class NotificationServiceSet<T extends Notification> extends Set {
     }
     add(value: Notification) {
         let isSucceed = Set.prototype.add.bind(this)(value);
-        if (this._listenerMap.add) {
+        if (this._listenerMap.add instanceof Set) {
             this._listenerMap.add.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(isSucceed, value);
             });
@@ -32,7 +32,7 @@ class NotificationServiceSet<T extends Notification> extends Set {
         return Set.prototype.add.bind(this)(value);
     }
     clear() {
-        if (this._listenerMap.clear) {
+        if (this._listenerMap.clear instanceof Set) {
             this._listenerMap.clear.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(true, undefined);
             });
@@ -41,12 +41,44 @@ class NotificationServiceSet<T extends Notification> extends Set {
     }
     delete(value: Notification) {
         let isSucceed: boolean = Set.prototype.delete.bind(this)(value);
-        if (this._listenerMap.delete) {
+        if (this._listenerMap.delete instanceof Set) {
             this._listenerMap.delete.forEach((callback: NotificationServiceSetEventListener) => {
                 callback.bind(this)(isSucceed, value);
             });
         }
         return isSucceed;
+    }
+}
+
+class NotificationServiceQuitQueue extends Map {
+    constructor() {
+        super();
+        let date = new Date(), now = date.getTime();
+        date.setTime((Math.floor(date.getTime() / 1000) + 1) * 1000);
+        setTimeout(_ => {
+            this._clearExpriedNotification();
+            setInterval(_ => {
+                this._clearExpriedNotification();
+            }, 1000);
+        }, date.getTime() - now);
+    }
+    add(notification: Notification) {
+        let expire = Date.now() + 13000;
+        while (this._expired(expire).length!==0) expire += 2000;
+        return this.set(expire, notification);
+    }
+    private _expired(t?: number) {
+        let now = t || Date.now(), result: number[] = [];
+        for (let k of this.keys()) {
+            if (k < now) result.push(k);
+        }
+        return result;
+    }
+    private _clearExpriedNotification() {
+        this._expired().forEach(k => {
+            this.get(k).close();
+            this.delete(k);
+        });
     }
 }
 
@@ -110,6 +142,7 @@ export class NotificationService {
     permission: boolean = NotificationService.isSupported && Notification.permission === NotificationService.PERMISSION.GRANTED;
     defaultOption: NotificationServiceOption = new NotificationServiceOption();
     isOnBeforeunload = false;
+    notificationServiceQuitQueue = new NotificationServiceQuitQueue();
     private notificationSet = new NotificationServiceSet();
     private notificationQueue: Set<NotificationServiceOption> = new Set();
     constructor({ welcomeOption, defaultOption }: NotificationServiceConstructorOption) {
@@ -139,25 +172,25 @@ export class NotificationService {
             if (isSucceed && this.notificationQueue.size > 0) {
                 this.notificationQueue.forEach((opt: NotificationServiceOption) => {
                     if (this.notificationSet.size < 3) {
-                        this.sendNotification(opt, true);
+                        this.sendNotification(opt);
                         this.notificationQueue.delete(opt);
                     }
                 });
             }
         });
     }
-    sendNotification(options: NotificationServiceOption | NotificationServiceOption[], isQueued: boolean = false) {
+    sendNotification(options: NotificationServiceOption | NotificationServiceOption[]) {
         if (this.permission === true && this.isOnBeforeunload === false) {
             if (Array.isArray(options)) {
                 options.forEach((option: NotificationServiceOption) => {
-                    this.sendNotification(option, isQueued);
+                    this.sendNotification(option);
                 });
             } else {
                 if (options.length > 0) {
                     if (this.notificationSet.size < 3) {
                         let o = this.defaultOption.extend(options);
                         let notification: Notification = new Notification(options.title, o);
-                        this.bindNotification(notification, isQueued);
+                        this.bindNotification(notification);
                     } else {
                         this.notificationQueue.add(options);
                     }
@@ -165,7 +198,7 @@ export class NotificationService {
             }
         }
     }
-    private bindNotification(notification: Notification, isQueued: boolean = false) {
+    private bindNotification(notification: Notification) {
         this.notificationSet.add(notification);
         notification.addEventListener('error', _ => {
             notification.close();
@@ -177,8 +210,6 @@ export class NotificationService {
         notification.addEventListener('close', _ => {
             this.notificationSet.delete(notification);
         });
-        setTimeout(_ => {
-            notification.close();
-        }, isQueued ? 10000 : 15000);
+        this.notificationServiceQuitQueue.add(notification);
     }
 }
