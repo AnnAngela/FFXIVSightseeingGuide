@@ -24682,13 +24682,14 @@ class NotificationServiceQuitQueue extends Map {
     }
     add(notification) {
         let expire = Date.now() + 13000;
-        while (this._expired(expire).length !== 0)
+        while (this._expired(expire).length !== this.size)
             expire += 2000;
         return this.set(expire, notification);
     }
     _expired(t) {
         let now = t || Date.now(), result = [];
-        for (let k of this.keys()) {
+        let keys = this.keys();
+        for (let k of keys) {
             if (k < now)
                 result.push(k);
         }

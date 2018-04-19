@@ -64,12 +64,13 @@ class NotificationServiceQuitQueue extends Map {
     }
     add(notification: Notification) {
         let expire = Date.now() + 13000;
-        while (this._expired(expire).length!==0) expire += 2000;
+        while (this._expired(expire).length !== this.size) expire += 2000;
         return this.set(expire, notification);
     }
     private _expired(t?: number) {
         let now = t || Date.now(), result: number[] = [];
-        for (let k of this.keys()) {
+        let keys: IterableIterator<number> = this.keys();
+        for (let k of keys) {
             if (k < now) result.push(k);
         }
         return result;
