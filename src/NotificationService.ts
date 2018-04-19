@@ -67,10 +67,14 @@ class NotificationServiceQuitQueue extends Map {
         while (this._expired(expire).length !== this.size) expire += 2000;
         return this.set(expire, notification);
     }
+    deleteNotification(notification: Notification) {
+        this.forEach((v, k) => {
+            if (v === notification) this.delete(k);
+        });
+    }
     private _expired(t?: number) {
         let now = t || Date.now(), result: number[] = [];
-        let keys: IterableIterator<number> = this.keys();
-        for (let k of keys) {
+        for (let k of this.keys()) {
             if (k < now) result.push(k);
         }
         return result;
@@ -210,6 +214,7 @@ export class NotificationService {
         });
         notification.addEventListener('close', _ => {
             this.notificationSet.delete(notification);
+            this.notificationServiceQuitQueue.deleteNotification(notification);
         });
         this.notificationServiceQuitQueue.add(notification);
     }

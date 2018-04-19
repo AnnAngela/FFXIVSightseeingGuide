@@ -24686,10 +24686,15 @@ class NotificationServiceQuitQueue extends Map {
             expire += 2000;
         return this.set(expire, notification);
     }
+    deleteNotification(notification) {
+        this.forEach((v, k) => {
+            if (v === notification)
+                this.delete(k);
+        });
+    }
     _expired(t) {
         let now = t || Date.now(), result = [];
-        let keys = this.keys();
-        for (let k of keys) {
+        for (let k of this.keys()) {
             if (k < now)
                 result.push(k);
         }
@@ -24821,6 +24826,7 @@ class NotificationService {
         });
         notification.addEventListener('close', _ => {
             this.notificationSet.delete(notification);
+            this.notificationServiceQuitQueue.deleteNotification(notification);
         });
         this.notificationServiceQuitQueue.add(notification);
     }
