@@ -24681,7 +24681,7 @@ class NotificationServiceQuitQueue extends Map {
         }, date.getTime() - now);
     }
     add(notification) {
-        let expire = Date.now() + 13000;
+        let expire = Date.now() + 11000;
         while (this._expired(expire).length !== this.size)
             expire += 2000;
         return this.set(expire, notification);
