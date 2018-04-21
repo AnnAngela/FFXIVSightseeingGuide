@@ -116,29 +116,25 @@ a.external {
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import { SightseeingData, SightseeingGroup, Sightseeing } from '../Sightseeing';
-import { SucceedSightseeingCounter, SucceedCounter } from '../SightseeingCounter';
+import { SightseeingData, ISightseeingGroup, Sightseeing } from '../Sightseeing';
+import { SucceedSightseeingCounter, ISucceedCounter } from '../SightseeingCounter';
 
 @Component
 export default class HomePage extends Vue {
-    sourceData: SightseeingGroup[] = SightseeingData;
+    sourceData: ISightseeingGroup[] = SightseeingData;
     activeGroup: number = 0;
     calcData: Sightseeing[] = [];
-    succeedSightseeingCounter: SucceedSightseeingCounter;
-    succeedCounter: SucceedCounter;
+    succeedSightseeingCounter: SucceedSightseeingCounter = new SucceedSightseeingCounter();
+    succeedCounter: ISucceedCounter = {
+        activeGroupCount: 0,
+        activeGroupAllCount: 0,
+        succeedCount: 0,
+        allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0),
+    };
     isFirstView: boolean = localStorage.getItem('firstView') !== 'true';
-    alertClass: string;
+    alertClass: string="";
     created() {
-        this.succeedSightseeingCounter = new SucceedSightseeingCounter();
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
-
-        //初始化succeedCounter
-        this.succeedCounter = {
-            activeGroupCount: 0,
-            activeGroupAllCount: 0,
-            succeedCount: 0,
-            allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0),
-        };
 
         this.loadGroup(this.activeGroup);
         this.$gBus.$on('hourChange', (_: number) => {

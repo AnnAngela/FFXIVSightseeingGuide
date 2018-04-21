@@ -69,7 +69,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import EorzeaClock from './EorzeaTime';
 import { Sightseeing } from './Sightseeing';
-import { NotificationServiceOption, NotificationService } from './NotificationService';
+import { NotificationService } from './NotificationService';
 
 @Component
 export default class App extends Vue {
@@ -85,9 +85,9 @@ export default class App extends Vue {
         this.$i18n.locale = localStorage.getItem('lang') || 'zh-CN';
         this.tick();
         setInterval(this.tick.bind(this), 1000);
-        if (NotificationService.isSupported) {
-            let optionTemplate = new NotificationServiceOption({ lang: this.$i18n.locale, icon: './image/logo.png' });
-            let notificationService = new NotificationService({
+        if (NotificationService.Main.isSupported) {
+            let optionTemplate = new NotificationService.Option({ lang: this.$i18n.locale, icon: './image/logo.png' });
+            let notificationService = new NotificationService.Main({
                 welcomeOption: optionTemplate.extend({
                     title: this.$t('notification.welcome.title') + '',
                     body: this.$t('notification.welcome.body') + '',
@@ -99,7 +99,7 @@ export default class App extends Vue {
                     let now_option = optionTemplate.clone();
                     let soon_option = optionTemplate.clone();
                     nearSoonToCompleteData.forEach((d: Sightseeing) => {
-                        let option: NotificationServiceOption = d.isStillWaiting ? soon_option : now_option;
+                        let option: NotificationService.Option = d.isStillWaiting ? soon_option : now_option;
                         option.add(d.id + ' ' + this.$t(d.area));
                     });
                     notificationService.sendNotification([
@@ -119,7 +119,7 @@ export default class App extends Vue {
                         nearSoonToCompleteData.map((d: Sightseeing) => {
                             let option = optionTemplate.clone();
                             let body = d.id + ' ' + this.$t(d.area);
-                            if(d.isStillWaiting)body+=this.$t('info.isStillWaiting');
+                            if (d.isStillWaiting) body += this.$t('info.isStillWaiting');
                             body += this.$tc('info.lessThan', d.nextAvaliableTimeLeft, {
                                 m: d.nextAvaliableTimeLeft,
                             });

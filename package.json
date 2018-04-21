@@ -16,7 +16,9 @@
     "dev": "webpack-dev-server --config webpack.config.dev.js --open --hot"
   },
   "author": "zyzsdy",
-  "contributors": ["AnnAngela"],
+  "contributors": [
+    "AnnAngela"
+  ],
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.7",
@@ -37,7 +39,8 @@
     "sass-loader": "^6.0.6",
     "ts-loader": "^3.0.5",
     "ts-node": "^3.1.0",
-    "typescript": "^2.3.4",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.3",
     "typings": "^2.1.1",
     "uglify-es": "^3.3.7",
     "uglifyjs-webpack-plugin": "^1.1.6",

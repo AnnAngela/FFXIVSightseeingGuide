@@ -11,23 +11,23 @@ export default class EorzeaClock {
     getHours(): number {
         return this.date.getUTCHours();
     }
-    addHours(hourspan: number) {
+    addHours(hourspan: number): EorzeaClock {
         return new EorzeaClock(this.date.getTime() + hourspan * 3600000);
     }
     getMinutes(): number {
         return this.date.getUTCMinutes();
     }
-    getDays() {
+    getDays(): number {
         return Math.floor(this.date.getTime() / 86400000);
     }
-    getLocalTime() {
+    getLocalTime(): Date {
         return new Date(this.date.getTime() / EorzeaClock.ratio);
     }
-    toHourMinuteString() {
-        let hour = this.getHours();
-        let hs = `${hour < 10 ? '0' : ''}${hour}`;
-        let min = this.getMinutes();
-        let ms = `${min < 10 ? '0' : ''}${min}`;
+    toHourMinuteString(): string {
+        let hour: number = this.getHours();
+        let hs: string = `${hour < 10 ? "0" : ""}${hour}`;
+        let min: number = this.getMinutes();
+        let ms: string = `${min < 10 ? "0" : ""}${min}`;
         return `${hs}:${ms}`;
     }
 }

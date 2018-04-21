@@ -1,19 +1,19 @@
-export interface WeatherRate {
+export interface IWeatherRate {
     rate: number;
     weather: string;
 }
 
-export interface EorzeaArea {
+export interface IEorzeaArea {
     name: string;
     area?: string;
-    weatherRate: WeatherRate[];
+    weatherRate: IWeatherRate[];
 }
 
-export interface EorzeaAreaWeatherInfo {
-    [key: string]: EorzeaArea
+export interface IEorzeaAreaWeatherInfo {
+    [key: string]: IEorzeaArea;
 }
 
-const EorzeaAreaWeather: EorzeaAreaWeatherInfo = {
+export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
     "area.LimsaLominsa": {
         name: "area.LimsaLominsa",
         weatherRate: [
@@ -451,5 +451,4 @@ const EorzeaAreaWeather: EorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.ClearSkies" },
         ]
     },
-}
-export default EorzeaAreaWeather;
+};

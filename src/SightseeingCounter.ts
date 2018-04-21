@@ -1,40 +1,40 @@
-import { SightseeingGroup } from './Sightseeing';
+import { ISightseeingGroup } from "./Sightseeing";
 
 export class SucceedSightseeingCounter {
     private _succeedIds: Set<string>;
 
     constructor() {
-        let succeedIdsInStorage = (localStorage.getItem('comletedSightseeing') || '').split(',').filter(c => c != '');
+        let succeedIdsInStorage:string[] = (localStorage.getItem("comletedSightseeing") || "").split(",").filter(c => c !== "");
         this._succeedIds = new Set(succeedIdsInStorage);
     }
-    private store() {
-        localStorage.setItem('comletedSightseeing', Array.from(this._succeedIds.values()).join(','));
+    private store():void {
+        localStorage.setItem("comletedSightseeing", Array.from(this._succeedIds.values()).join(","));
     }
-    contains(id: string) {
+    contains(id: string):boolean {
         return this._succeedIds.has(id);
     }
-    add(id: string) {
+    add(id: string):void {
         this._succeedIds.add(id);
         this.store();
     }
-    delete(id: string) {
+    delete(id: string):void {
         this._succeedIds.delete(id);
         this.store();
     }
-    toggle(id: string) {
-        this[this.contains(id) ? 'delete' : 'add'](id);
+    toggle(id: string):void {
+        this[this.contains(id) ? "delete" : "add"](id);
     }
-    countByGroup(group: SightseeingGroup) {
+    countByGroup(group: ISightseeingGroup):number {
         return group.items.filter(item => this._succeedIds.has(item.id)).length;
     }
-    count() {
+    count():number {
         return this._succeedIds.size;
     }
 }
 
-export interface SucceedCounter {
-    activeGroupCount: number,
-    activeGroupAllCount: number,
-    succeedCount: number,
-    allCount: number
+export interface ISucceedCounter {
+    activeGroupCount: number;
+    activeGroupAllCount: number;
+    succeedCount: number;
+    allCount: number;
 }

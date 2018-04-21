@@ -42,7 +42,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import EorzeaClock from '../EorzeaTime'
 import EorzeaWeather from '../EorzeaWeather'
-import EorzeaWeatherData from '../EorzeaWeatherData'
+import {EorzeaAreaWeather} from '../EorzeaWeatherData'
 
 const timeTag = ["00:00", "08:00", "16:00"];
 
@@ -69,7 +69,7 @@ export default class WeatherOverviewPage extends Vue {
         let weatherSeeds = EorzeaWeather.forecastSeed(eorzeaNow, [-1, 0, 1, 2, 3, 4, 5]);
 
         this.weatherResult = [];
-        for(let area in EorzeaWeatherData){
+        for(let area in EorzeaAreaWeather){
             let forecastedWeather = EorzeaWeather.getForecast(area, weatherSeeds);
             this.weatherResult.push({
                 name: area,
