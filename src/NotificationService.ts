@@ -218,5 +218,4 @@ export module NotificationService {
             this.NSQuitQueue.add(notification);
         }
     }
-
 }

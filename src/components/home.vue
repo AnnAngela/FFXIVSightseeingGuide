@@ -132,7 +132,7 @@ export default class HomePage extends Vue {
         allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0),
     };
     isFirstView: boolean = localStorage.getItem('firstView') !== 'true';
-    alertClass: string="";
+    alertClass: string = "";
     created() {
         this.activeGroup = parseInt(localStorage.getItem('activeGroupIndex') || '0');
 

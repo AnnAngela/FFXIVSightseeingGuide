@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
 import VueRouter, { RouterOptions } from "vue-router";
 import VueI18n from "vue-i18n";
 import GlobalBus from "./globalBus";
@@ -14,26 +14,24 @@ import ja_JP from "./locales/ja-JP";
 import "jquery";
 import "bootstrap";
 
+type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
+type DateTimeFormats = VueI18n.DateTimeFormats;
+type LocaleMessages = VueI18n.LocaleMessages;
+
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(GlobalBus);
 
-const routerOption: any = {
+const routerOption: RouterOptions = {
     routes: [
-        { path: "/", component: HomePage },
-        { path: "/weatheroverview", component: WeatherOverviewPage }
+        { path: "/", component: <Component>HomePage },
+        { path: "/weatheroverview", component: <Component>WeatherOverviewPage }
     ]
 };
 
 const router: VueRouter = new VueRouter(routerOption);
 
-const messages: any = {
-    "en-US": en_US,
-    "zh-CN": zh_CN,
-    "ja-JP": ja_JP
-};
-
-const dateTimeFormats: any = {
+const dateTimeFormats: DateTimeFormats = {
     "en-US": {
         short: {
             hour: "2-digit", minute: "2-digit", second: "2-digit",
@@ -65,6 +63,12 @@ const dateTimeFormats: any = {
             hour12: localStorage.getItem("hourSystem") === "24" ? false : true
         }
     }
+};
+
+const messages: LocaleMessages = {
+    "en-US": en_US,
+    "zh-CN": zh_CN,
+    "ja-JP": ja_JP
 };
 
 const i18n: VueI18n = new VueI18n({

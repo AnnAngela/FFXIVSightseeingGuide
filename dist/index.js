@@ -19756,11 +19756,6 @@ const routerOption = {
     ]
 };
 const router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */](routerOption);
-const messages = {
-    "en-US": __WEBPACK_IMPORTED_MODULE_7__locales_en_US__["a" /* default */],
-    "zh-CN": __WEBPACK_IMPORTED_MODULE_8__locales_zh_CN__["a" /* default */],
-    "ja-JP": __WEBPACK_IMPORTED_MODULE_9__locales_ja_JP__["a" /* default */]
-};
 const dateTimeFormats = {
     "en-US": {
         short: {
@@ -19793,6 +19788,11 @@ const dateTimeFormats = {
             hour12: localStorage.getItem("hourSystem") === "24" ? false : true
         }
     }
+};
+const messages = {
+    "en-US": __WEBPACK_IMPORTED_MODULE_7__locales_en_US__["a" /* default */],
+    "zh-CN": __WEBPACK_IMPORTED_MODULE_8__locales_zh_CN__["a" /* default */],
+    "ja-JP": __WEBPACK_IMPORTED_MODULE_9__locales_ja_JP__["a" /* default */]
 };
 const i18n = new __WEBPACK_IMPORTED_MODULE_2_vue_i18n__["a" /* default */]({
     locale: "zh-CN",
