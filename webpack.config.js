@@ -1,7 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
+    mode: 'production',
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -18,6 +20,7 @@ module.exports = {
                 NODE_ENV: '"production"',
             },
         }),
+        new VueLoaderPlugin(),
     ],
     module: {
         rules: [
@@ -37,7 +40,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.css$/,
+                test: /\.s?css$/,
                 loader: 'css-loader',
             },
             {

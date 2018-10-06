@@ -46,6 +46,7 @@
     "url-loader": "^1",
     "vue-loader": "^15",
     "webpack": "^4",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3"
   }
 }
