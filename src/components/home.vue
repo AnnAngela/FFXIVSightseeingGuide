@@ -58,7 +58,7 @@
 .sightseeing {
   margin-top: 20px;
 }
-.sightseeing.panel {
+.sightseeing.card {
   cursor: pointer;
   transition: all 1s;
 }
@@ -98,9 +98,6 @@
   color: #004085;
   background-color: #cce5ff;
   border-color: #b8daff;
-}
-.card {
-  cursor: pointer;
 }
 .card-default {
   border-color: #ddd;
