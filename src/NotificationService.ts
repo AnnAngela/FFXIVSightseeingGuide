@@ -1,9 +1,3 @@
-declare const Notification: {
-    prototype: Notification;
-    readonly permission: string;
-    new(title: string, options?: NotificationOptions): Notification;
-    requestPermission(callback?: NotificationPermissionCallback): Promise<string>;
-};
 export module NotificationService {
     interface INSSetEventListener {
         (isSucceed: boolean, effectedValue: Notification | undefined): void;

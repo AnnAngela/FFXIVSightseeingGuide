@@ -451,4 +451,13 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.ClearSkies" },
         ]
     },
+    "area.EurekaAnemos": {
+        name: "area.EurekaAnemos",
+        weatherRate: [
+            { rate: 30, weather: "weather.FairSkies" },
+            { rate: 30, weather: "weather.Gales" },
+            { rate: 30, weather: "weather.Showers" },
+            { rate: -1, weather: "weather.Snow" },
+        ],
+    },
 };
