@@ -89,20 +89,20 @@ export class Sightseeing {
                         let nowHour: number = nowet.getHours();
                         if (baseTime.getHours() === 0 && this.startHour > 8) { nowHour += 24; }
                         if (this.startHour > nowHour) { this.isStillWaiting = true; }
-                        this.vaildStatus = "panel-primary";
+                        this.vaildStatus = "card-primary";
                     } else if (i <= 3) {
-                        this.vaildStatus = "panel-info";
+                        this.vaildStatus = "card-info";
                     } else if (i <= 6) {
-                        this.vaildStatus = "panel-warning";
+                        this.vaildStatus = "card-secondary";
                     } else {
-                        this.vaildStatus = "panel-default";
+                        this.vaildStatus = "card-default";
                     }
                     return;
                 }
             }
         }
         this.nextAvaliableTime = baseTime.addHours(50 * 8);
-        this.vaildStatus = "panel-danger";
+        this.vaildStatus = "card-danger";
     }
 }
 

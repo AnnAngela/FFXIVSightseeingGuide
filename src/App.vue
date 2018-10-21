@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <nav class="navbar navbar-dark bg-dark fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -10,11 +10,13 @@
                     <a class="navbar-brand" href="#">ET {{eorzeaclock}}</a>
                 </div>
 
-                <div class="collapse navbar-collapse flex-row" id="navbar-collapse-1">
-                    <ul class="navbar-nav flex-row">
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="navbar-nav align-items-stretch">
                         <li class="nav-item" :class="{active: $route.path == '/'}"><router-link class="nav-link" to="/">{{$t("info.home")}}</router-link></li>
                         <li class="nav-item" :class="{active: $route.path == '/weatheroverview'}"><router-link class="nav-link" to="/weatheroverview">{{$t("info.weatheroverview")}}</router-link></li>
-                        <li class="nav-item ml-auto dropdown">
+                    </ul>
+                    <ul class="navbar-nav ml-md-auto align-items-stretch">
+                        <li class="nav-item dropdown">
                             <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$t("lang." + currentLang)}} <span class="caret"></span></a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="javascript:;" @click="chlang('zh-CN')">{{$t("lang.zh-CN")}}</a>
@@ -22,11 +24,11 @@
                                 <a class="dropdown-item" href="javascript:;" @click="chlang('ja-JP')">{{$t("lang.ja-JP")}}</a>
                             </div>
                         </li>
-                        <li class="dropdown" :class="currentLang === 'ja-JP' ? 'hidden' : ''">
-                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$t(currentHourSystem + 'hoursystem')}} <span class="caret"></span></a>
+                        <li class="nav-item dropdown" :class="currentLang === 'ja-JP' ? 'hidden' : ''">
+                            <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$t(currentHourSystem + 'hoursystem')}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="javascript:;" @click="chhoursystem('12')">{{$t("12hoursystem")}}</a></li>
-                                <li><a href="javascript:;" @click="chhoursystem('24')">{{$t("24hoursystem")}}</a></li>
+                                <li><a class="dropdown-item" href="javascript:;" @click="chhoursystem('12')">{{$t("12hoursystem")}}</a></li>
+                                <li><a class="dropdown-item" href="javascript:;" @click="chhoursystem('24')">{{$t("24hoursystem")}}</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -44,9 +46,6 @@ html {
 }
 body {
   padding: 70px 0 42px;
-}
-.nav-item {
-  margin-right: 2em;
 }
 footer {
   position: fixed;
