@@ -41,8 +41,29 @@ module.exports = {
                 },
             },
             {
-                test: /\.s?css$/,
-                loader: 'css-loader',
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'vue-style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                ],
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    {
+                        loader: 'vue-style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
             },
             {
                 test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
