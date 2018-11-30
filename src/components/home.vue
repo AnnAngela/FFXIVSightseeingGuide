@@ -31,7 +31,7 @@
                 <div class="float-right card-postheader">
                     <span v-if="item.vaildStatus == 'card-primary'">{{$t("info.soonToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'card-info'">{{$t("info.fewHoursToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-warning'">{{$t("info.moreTimeToComplete")}}</span>
+                    <span v-if="item.vaildStatus == 'card-secondary'">{{$t("info.moreTimeToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'card-default'">{{$t("info.longTimeToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'card-danger'">{{$t("info.veryLongTimeToComplete")}}</span>
                     <span v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</span>

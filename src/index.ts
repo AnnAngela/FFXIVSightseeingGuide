@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions, PluginFunction, AsyncComponent } from "vue";
+import Vue from "vue";
 import VueRouter, { RouterOptions } from "vue-router";
 import VueI18n from "vue-i18n";
 import GlobalBus from "./globalBus";
@@ -14,7 +14,6 @@ import ja_JP from "./locales/ja-JP";
 import "jquery";
 import "bootstrap";
 
-type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent;
 type DateTimeFormats = VueI18n.DateTimeFormats;
 type LocaleMessages = VueI18n.LocaleMessages;
 
