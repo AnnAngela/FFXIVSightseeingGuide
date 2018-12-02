@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -21,10 +22,10 @@ module.exports = {
             },
         }),
         new VueLoaderPlugin(),
+        new UglifyJsPlugin(),
     ],
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.ts$/,
                 exclude: /node_modules|vue\/src/,
                 loader: 'ts-loader',
