@@ -105,6 +105,7 @@ const ja_JP: any = {
         Rain: "雨",
         Showers: "暴雨",
         Thunder: "雷",
+        EurekaPagosThunder: "暴雷",
         Thunderstorms: "雷雨",
         DustStorms: "砂塵",
         HeatWaves: "灼熱波",

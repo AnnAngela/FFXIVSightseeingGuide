@@ -61,7 +61,7 @@
 
 <style lang="scss">
 .weatherImg {
-  white-space: pre;
+  white-space: nowrap;
 }
 .weatherImg img {
   max-height: 1.25em;

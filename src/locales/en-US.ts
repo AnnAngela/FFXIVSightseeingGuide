@@ -105,6 +105,7 @@ const en_US: any = {
         Rain: "Rain",
         Showers: "Showers",
         Thunder: "Thunder",
+        EurekaPagosThunder: "Thunder",
         Thunderstorms: "Thunderstorms",
         DustStorms: "Dust Storms",
         HeatWaves: "Heat Waves",
