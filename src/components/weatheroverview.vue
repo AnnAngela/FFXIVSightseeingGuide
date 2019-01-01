@@ -1,33 +1,62 @@
 <template>
-    <div>
-        <h3>{{$t("info.weatheroverview")}}</h3>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>{{$t("info.area")}}</th>
-                    <th>{{$t("info.before")}}<br>{{hourString[0]}}~</th>
-                    <th>{{$t("info.now")}}<br>{{hourString[1]}}~</th>
-                    <th>{{hourString[2]}}~</th>
-                    <th>{{hourString[3]}}~</th>
-                    <th>{{hourString[4]}}~</th>
-                    <th>{{hourString[5]}}~</th>
-                    <th>{{hourString[6]}}~</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in weatherResult" :key="item.name">
-                    <td>{{$t(item.name)}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[0] + '.png'"> {{$t(item.weather[0])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[1] + '.png'"> {{$t(item.weather[1])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[2] + '.png'"> {{$t(item.weather[2])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[3] + '.png'"> {{$t(item.weather[3])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[4] + '.png'"> {{$t(item.weather[4])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[5] + '.png'"> {{$t(item.weather[5])}}</td>
-                    <td class="weatherImg"><img :src="'./image/weather/' + item.weather[6] + '.png'"> {{$t(item.weather[6])}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div>
+    <h3>{{$t("info.weatheroverview")}}</h3>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>{{$t("info.area")}}</th>
+          <th>
+            {{$t("info.before")}}
+            <br>
+            {{hourString[0]}}~
+          </th>
+          <th>
+            {{$t("info.now")}}
+            <br>
+            {{hourString[1]}}~
+          </th>
+          <th>{{hourString[2]}}~</th>
+          <th>{{hourString[3]}}~</th>
+          <th>{{hourString[4]}}~</th>
+          <th>{{hourString[5]}}~</th>
+          <th>{{hourString[6]}}~</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in weatherResult" :key="item.name">
+          <td>{{$t(item.name)}}</td>
+          <td class="weatherImg prev">
+            <img :src="'./image/weather/' + item.weather[0] + '.png'">
+            {{$t(item.weather[0])}}
+          </td>
+          <td class="weatherImg">
+            <img :src="'./image/weather/' + item.weather[1] + '.png'">
+            {{$t(item.weather[1])}}
+          </td>
+          <td class="weatherImg next">
+            <img :src="'./image/weather/' + item.weather[2] + '.png'">
+            {{$t(item.weather[2])}}
+          </td>
+          <td class="weatherImg next">
+            <img :src="'./image/weather/' + item.weather[3] + '.png'">
+            {{$t(item.weather[3])}}
+          </td>
+          <td class="weatherImg next">
+            <img :src="'./image/weather/' + item.weather[4] + '.png'">
+            {{$t(item.weather[4])}}
+          </td>
+          <td class="weatherImg next">
+            <img :src="'./image/weather/' + item.weather[5] + '.png'">
+            {{$t(item.weather[5])}}
+          </td>
+          <td class="weatherImg next">
+            <img :src="'./image/weather/' + item.weather[6] + '.png'">
+            {{$t(item.weather[6])}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style lang="scss">
@@ -37,6 +66,12 @@
 .weatherImg img {
   max-height: 1.25em;
   margin-top: -0.25em;
+}
+.prev {
+  opacity: 0.37;
+}
+.next {
+  opacity: 0.73;
 }
 </style>
 
