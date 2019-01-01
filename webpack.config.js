@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -21,8 +20,7 @@ module.exports = {
                 NODE_ENV: '"production"',
             },
         }),
-        new VueLoaderPlugin(),
-        new UglifyJsPlugin(),
+        new VueLoaderPlugin()
     ],
     module: {
         rules: [{

@@ -17,13 +17,15 @@ export module NotificationService {
             this._listenerMap[event].add(callback);
         }
         add(value: Notification): this {
-            let isSucceed: boolean = Set.prototype.add.bind(this)(value);
+            const isAlreadyHas: boolean = this.has(value);
+            Set.prototype.add.bind(this)(value);
+            let isSucceed: boolean = !isAlreadyHas && this.has(value);
             if (this._listenerMap.add instanceof Set) {
                 this._listenerMap.add.forEach((callback: INSSetEventListener) => {
                     callback.bind(this)(isSucceed, value);
                 });
             }
-            return Set.prototype.add.bind(this)(value);
+            return this;
         }
         clear(): void {
             if (this._listenerMap.clear instanceof Set) {
