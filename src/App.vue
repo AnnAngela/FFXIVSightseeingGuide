@@ -13,7 +13,7 @@
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="#">ET {{eorzeaclock}}</a>
+          <a class="navbar-brand" :href="'#' + $route.path">ET {{eorzeaclock}}</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -31,14 +31,12 @@
                 href="javascript:;"
                 class="nav-link dropdown-toggle"
                 data-toggle="dropdown"
+                data-target="#dropdown-menu"
                 role="button"
                 aria-haspopup="true"
                 aria-expanded="false"
-              >
-                {{$t("lang." + currentLang)}}
-                <span class="caret"></span>
-              </a>
-              <div class="dropdown-menu">
+              >{{$t("lang." + currentLang)}}</a>
+              <div class="dropdown-menu" id="dropdown-menu">
                 <a
                   class="dropdown-item"
                   href="javascript:;"
