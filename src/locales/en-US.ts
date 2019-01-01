@@ -92,6 +92,8 @@ const en_US: any = {
         Yanxia: "Yanxia",
         AzimSteppe: "The Azim Steppe",
         EurekaAnemos: "Eureka Anemos",
+        EurekaPagos: "Eureka Pagos",
+        EurekaPyros: "Eureka Pyros",
     },
     weather: {
         ClearSkies: "Clear Skies",

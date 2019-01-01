@@ -460,4 +460,26 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.Snow" },
         ],
     },
+    "area.EurekaPagos": {
+        name: "area.EurekaPagos",
+        weatherRate: [
+            { rate: 10, weather: "weather.FairSkies" },
+            { rate: 18, weather: "weather.Fog" },
+            { rate: 18, weather: "weather.HeatWaves" },
+            { rate: 18, weather: "weather.Snow" },
+            { rate: 18, weather: "weather.EurekaPagosThunder" },
+            { rate: -1, weather: "weather.Blizzards" },
+        ],
+    },
+    "area.EurekaPyros": {
+        name: "area.EurekaPyros",
+        weatherRate: [
+            { rate: 10, weather: "weather.FairSkies" },
+            { rate: 18, weather: "weather.HeatWaves" },
+            { rate: 18, weather: "weather.Thunder" },
+            { rate: 18, weather: "weather.Blizzards" },
+            { rate: 18, weather: "weather.UmbralWind" },
+            { rate: -1, weather: "weather.Snow" },
+        ],
+    },
 };

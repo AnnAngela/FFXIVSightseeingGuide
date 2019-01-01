@@ -92,6 +92,8 @@ const zh_CN: any = {
         Yanxia: "延夏",
         AzimSteppe: "太阳神草原",
         EurekaAnemos: "优雷卡常风之地",
+        EurekaPagos: "优雷卡恒冰之地",
+        EurekaPyros: "优雷卡永火之地",
     },
     weather: {
         ClearSkies: "碧空",
@@ -103,6 +105,7 @@ const zh_CN: any = {
         Rain: "小雨",
         Showers: "暴雨",
         Thunder: "打雷",
+        EurekaPagosThunder: "暴雷",
         Thunderstorms: "雷雨",
         DustStorms: "扬沙",
         HeatWaves: "热浪",
