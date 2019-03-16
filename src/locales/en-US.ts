@@ -94,6 +94,7 @@ const en_US: any = {
         EurekaAnemos: "Eureka Anemos",
         EurekaPagos: "Eureka Pagos",
         EurekaPyros: "Eureka Pyros",
+        EurekaHydatos: "Eureka Hydatos",
     },
     weather: {
         ClearSkies: "Clear Skies",

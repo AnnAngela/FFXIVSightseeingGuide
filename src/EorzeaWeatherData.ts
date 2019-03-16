@@ -482,4 +482,14 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.Snow" },
         ],
     },
+    "area.EurekaHydatos": {
+        name: "area.EurekaHydatos",
+        weatherRate: [
+            { rate: 12, weather: "weather.FairSkies" },
+            { rate: 34, weather: "weather.Showers" },
+            { rate: 56, weather: "weather.Gloom" },
+            { rate: 78, weather: "weather.Thunderstorms" },
+            { rate: -1, weather: "weather.Snow" },
+        ],
+    },
 };

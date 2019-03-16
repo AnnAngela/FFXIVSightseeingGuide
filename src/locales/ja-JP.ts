@@ -94,6 +94,7 @@ const ja_JP: any = {
         EurekaAnemos: "エウレカ・アネモス帯",
         EurekaPagos: "エウレカ・パゴス帯",
         EurekaPyros: "エウレカ・ピューロス帯",
+        EurekaHydatos: "エウレカ・ヒュダトス帯",
     },
     weather: {
         ClearSkies: "快晴",
