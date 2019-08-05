@@ -3,6 +3,10 @@ const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
+    performance: {
+        maxEntrypointSize: 1024 * 1024,
+        maxAssetSize: 1024 * 1024,
+    },
     mode: 'production',
     entry: './src/index.ts',
     output: {
@@ -24,47 +28,47 @@ module.exports = {
     ],
     module: {
         rules: [{
-                test: /\.ts$/,
-                exclude: /node_modules|vue\/src/,
-                loader: 'ts-loader',
-                options: {
-                    appendTsSuffixTo: [/\.vue$/],
-                },
+            test: /\.ts$/,
+            exclude: /node_modules|vue\/src/,
+            loader: 'ts-loader',
+            options: {
+                appendTsSuffixTo: [/\.vue$/],
             },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    esModule: true,
-                },
+        },
+        {
+            test: /\.vue$/,
+            loader: 'vue-loader',
+            options: {
+                esModule: true,
             },
-            {
-                test: /\.css$/,
-                use: [
-                    { loader: "style-loader" },
-                    { loader: 'css-loader' },
-                ],
+        },
+        {
+            test: /\.css$/,
+            use: [
+                { loader: "style-loader" },
+                { loader: 'css-loader' },
+            ],
+        },
+        {
+            test: /\.scss$/,
+            use: [
+                { loader: "style-loader" },
+                { loader: 'css-loader' },
+                { loader: 'sass-loader' },
+            ],
+        },
+        {
+            test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+            loader: 'url-loader',
+            query: {
+                limit: 10000,
+                name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    { loader: "style-loader" },
-                    { loader: 'css-loader' },
-                    { loader: 'sass-loader' },
-                ],
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
-                },
-            },
-            {
-                test: /bootstrap.+\.js$/,
-                loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
-            },
+        },
+        {
+            test: /bootstrap.+\.js$/,
+            loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
+        },
         ],
     },
     //devtool: 'cheap-module-source-map',

@@ -1,57 +1,89 @@
 <template>
-    <div>
-        <div class="introdutionlead alert alert-info collapse" :class="isFirstView ? 'show' : 'hidden'">
-            <p class="lead" v-html="$t('introdution.text')"></p>
-            <button type="button" class="btn btn-success" @click="setFirstView()">{{$t('introdution.button')}}</button>
-        </div>
-        <ul class="nav nav-pills">
-            <li class="nav-item" v-for="(item, index) in sourceData" @click="switchGroup(index)" :key="item.groupName">
-                <a class="nav-link text-secondary" :class="activeGroup == index ? 'active bg-secondary text-light' : ''" href="javascript:;">{{ item.groupName }}</a>
-            </li>
-        </ul>
-        <p class="sightseeing alert" :class="alertClass">
-            {{$t('info.succeedSightseeingCountInfomation')}}: {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}} {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
-            <span class="hr"><!-- 用来回避<p/>不能嵌套<hr>的静态检查错误 --></span>
-            <span class="ps">{{$t('sightseeingClickIntroduction')}}</span>
-            <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">{{$t('info.additionalInfo')}}</span>
-            <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">{{$t('sightseeingActGuide')}}<a class="external seehere" target="_blank" href="https://bbs.ngacn.cc/read.php?tid=7755329">{{$t('sightseeingActGuideSeeHere')}}</a>[zh-cn]</span>
-        </p>
-        <div v-for="item in calcData" :key="item.id" class="sightseeing card" :class="item.vaildStatus === 'card-danger' ? 'card-default' : item.vaildStatus" @click="setComplete(item.id)">
-            <div class="card-header">
-                <span class="card-title">
-                    <span>{{item.id}}</span>
-                    <span v-if="item.subarea != undefined">{{$t(item.subarea)}}</span>
-                    <span v-else>{{$t(item.area)}}</span>
-                    <span>x:{{item.pos.x}} y:{{item.pos.y}}</span>
-                    <img class="weatherImg" :src="'./image/weather/' + item.weather + '.png'">
-                    <span>{{$t(item.weather)}}</span>
-                    <span>{{item.timestr}}</span>
-                    <span>{{$t(item.action)}}</span>
-                </span>
-                <div class="float-right card-postheader">
-                    <span v-if="item.vaildStatus == 'card-primary'">{{$t("info.soonToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-info'">{{$t("info.fewHoursToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-secondary'">{{$t("info.moreTimeToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-default'">{{$t("info.longTimeToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-danger'">{{$t("info.veryLongTimeToComplete")}}</span>
-                    <span v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</span>
-                </div>
-            </div>
-            <div class="card-body">
-                <div v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</div>
-                <div v-else-if="item.vaildStatus == 'card-primary'">
-                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}} {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
-                    <br> {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long')}} {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
-                </div>
-                <div v-else-if="item.vaildStatus != 'card-danger'">
-                    {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long')}}
-                </div>
-                <div v-else>
-                    {{$t("info.veryLongTimeToComplete")}}
-                </div>
-            </div>
-        </div>
+  <div>
+    <div class="introdutionlead alert alert-info collapse" :class="isFirstView ? 'show' : 'hidden'">
+      <p class="lead" v-html="$t('introdution.text')"></p>
+      <button
+        type="button"
+        class="btn btn-success"
+        @click="setFirstView()"
+      >{{$t('introdution.button')}}</button>
     </div>
+    <ul class="nav nav-pills">
+      <li
+        class="nav-item"
+        v-for="(item, index) in sourceData"
+        @click="switchGroup(index)"
+        :key="item.groupName"
+      >
+        <a
+          class="nav-link text-secondary"
+          :class="activeGroup == index ? 'active bg-secondary text-light' : ''"
+          href="javascript:;"
+        >{{ item.groupName }}</a>
+      </li>
+    </ul>
+    <p class="sightseeing alert" :class="alertClass">
+      {{$t('info.succeedSightseeingCountInfomation')}}: {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}} {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
+      <span
+        class="hr"
+      >
+        <!-- 用来回避<p/>不能嵌套<hr>的静态检查错误 -->
+      </span>
+      <span class="ps">{{$t('sightseeingClickIntroduction')}}</span>
+      <span
+        :class="alertClass === 'alert-success' && 'hidden'"
+        class="ps"
+      >{{$t('info.additionalInfo')}}</span>
+      <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">
+        {{$t('sightseeingActGuide')}}
+        <a
+          class="external seehere"
+          target="_blank"
+          href="https://bbs.ngacn.cc/read.php?tid=7755329"
+        >{{$t('sightseeingActGuideSeeHere')}}</a>[zh-cn]
+      </span>
+    </p>
+    <div
+      v-for="item in calcData"
+      :key="item.id"
+      class="sightseeing card"
+      :class="item.vaildStatus === 'card-danger' ? 'card-default' : item.vaildStatus"
+      @click="setComplete(item.id)"
+    >
+      <div class="card-header">
+        <span class="card-title">
+          <span>{{item.id}}</span>
+          <span v-if="item.subarea != undefined">{{$t(item.subarea)}}</span>
+          <span v-else>{{$t(item.area)}}</span>
+          <span>x:{{item.pos.x}} y:{{item.pos.y}}</span>
+          <img class="weatherImg" :src="'./image/weather/' + item.weather + '.png'" />
+          <span>{{$t(item.weather)}}</span>
+          <span>{{item.timestr}}</span>
+          <span>{{$t(item.action)}}</span>
+        </span>
+        <div class="float-right card-postheader">
+          <span v-if="item.vaildStatus == 'card-primary'">{{$t("info.soonToComplete")}}</span>
+          <span v-if="item.vaildStatus == 'card-info'">{{$t("info.fewHoursToComplete")}}</span>
+          <span v-if="item.vaildStatus == 'card-secondary'">{{$t("info.moreTimeToComplete")}}</span>
+          <span v-if="item.vaildStatus == 'card-default'">{{$t("info.longTimeToComplete")}}</span>
+          <span v-if="item.vaildStatus == 'card-danger'">{{$t("info.veryLongTimeToComplete")}}</span>
+          <span v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</div>
+        <div v-else-if="item.vaildStatus == 'card-primary'">
+          {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long').replace(nowYear, "")}} {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
+          <br />
+          {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long').replace(nowYear, "")}} {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
+        </div>
+        <div
+          v-else-if="item.vaildStatus != 'card-danger'"
+        >{{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long').replace(nowYear, "")}}</div>
+        <div v-else>{{$t("info.veryLongTimeToComplete")}}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -207,6 +239,7 @@ import {
 
 @Component
 export default class HomePage extends Vue {
+  nowYear: RegExp = RegExp(`${new Date().getFullYear()}年`, "g");
   sourceData: ISightseeingGroup[] = SightseeingData;
   activeGroup: number = 0;
   calcData: Sightseeing[] = [];
