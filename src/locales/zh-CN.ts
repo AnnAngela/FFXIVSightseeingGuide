@@ -94,7 +94,7 @@ const zh_CN: any = {
         EurekaAnemos: "优雷卡常风之地",
         EurekaPagos: "优雷卡恒冰之地",
         EurekaPyros: "优雷卡永火之地",
-        EurekaHydatos: "优雷卡亘水之地",
+        EurekaHydatos: "优雷卡丰水之地",
     },
     weather: {
         ClearSkies: "碧空",
