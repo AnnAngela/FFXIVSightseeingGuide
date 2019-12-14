@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { PluginObject } from "Vue";
+import { PluginObject } from "vue";
 
 declare module "vue/types/vue" {
     // tslint:disable-next-line:interface-name
@@ -9,7 +9,7 @@ declare module "vue/types/vue" {
 }
 
 class GlobalBus implements PluginObject<never> {
-    install(vue: typeof Vue):void {
+    install(vue: typeof Vue): void {
         vue.prototype.$gBus = new Vue();
     }
 }
