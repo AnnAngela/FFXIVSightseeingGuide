@@ -24,3 +24,9 @@ jobs:
         npm run build-ci
       env:
         CI: true
+    - name: Commit and push files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "GitHub Action Build" -a
+        git push
