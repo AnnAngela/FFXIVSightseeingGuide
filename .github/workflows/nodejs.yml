@@ -25,10 +25,11 @@ jobs:
       env:
         CI: true
     - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m "GitHub Action Build" -a
+      uses: zwaldowski/git-commit-action@v1
+      with:
+        author_email: action@github.com
+        author_name: GitHub Action
+        commit_message: GitHub Action Build
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:

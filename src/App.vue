@@ -28,7 +28,7 @@
           <ul class="navbar-nav ml-md-auto align-items-stretch">
             <li class="nav-item dropdown">
               <a
-                href="javascript:;"
+                href="javascript:void(0);"
                 class="nav-link dropdown-toggle"
                 data-toggle="dropdown"
                 data-target="#dropdown-menu"
@@ -39,24 +39,24 @@
               <div class="dropdown-menu" id="dropdown-menu">
                 <a
                   class="dropdown-item"
-                  href="javascript:;"
+                  href="javascript:void(0);"
                   @click="chlang('zh-CN')"
                 >{{$t("lang.zh-CN")}}</a>
                 <a
                   class="dropdown-item"
-                  href="javascript:;"
+                  href="javascript:void(0);"
                   @click="chlang('en-US')"
                 >{{$t("lang.en-US")}}</a>
                 <a
                   class="dropdown-item"
-                  href="javascript:;"
+                  href="javascript:void(0);"
                   @click="chlang('ja-JP')"
                 >{{$t("lang.ja-JP")}}</a>
               </div>
             </li>
             <li class="nav-item dropdown" :class="currentLang === 'ja-JP' ? 'hidden' : ''">
               <a
-                href="javascript:;"
+                href="javascript:void(0);"
                 class="nav-link dropdown-toggle"
                 data-toggle="dropdown"
                 role="button"
@@ -70,14 +70,14 @@
                 <li>
                   <a
                     class="dropdown-item"
-                    href="javascript:;"
+                    href="javascript:void(0);"
                     @click="chhoursystem('12')"
                   >{{$t("12hoursystem")}}</a>
                 </li>
                 <li>
                   <a
                     class="dropdown-item"
-                    href="javascript:;"
+                    href="javascript:void(0);"
                     @click="chhoursystem('24')"
                   >{{$t("24hoursystem")}}</a>
                 </li>

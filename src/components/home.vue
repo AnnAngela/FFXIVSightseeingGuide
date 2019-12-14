@@ -18,7 +18,7 @@
         <a
           class="nav-link text-secondary"
           :class="activeGroup == index ? 'active bg-secondary text-light' : ''"
-          href="javascript:;"
+          href="javascript:void(0);"
         >{{ item.groupName }}</a>
       </li>
     </ul>
