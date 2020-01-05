@@ -492,6 +492,17 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.Snow" },
         ],
     },
+    "area.TheCrystarium": {
+        name: "area.TheCrystarium",
+        weatherRate: [
+            { rate: 20, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Thunderstorms" }
+        ]
+    },
     "area.Lakeland": {
         name: "area.Lakeland",
         weatherRate: [
@@ -501,6 +512,17 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Rain" },
             { rate: 5, weather: "weather.Thunderstorms" }
+        ]
+    },
+    "area.Eulmore": {
+        name: "area.Eulmore",
+        weatherRate: [
+            { rate: 10, weather: "weather.Gales" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.ClearSkies" }
         ]
     },
     "area.Kholusia": {
@@ -554,26 +576,4 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.ClearSkies" }
         ]
     },
-    "area.TheCrystarium": {
-        name: "area.TheCrystarium",
-        weatherRate: [
-            { rate: 20, weather: "weather.ClearSkies" },
-            { rate: 40, weather: "weather.FairSkies" },
-            { rate: 15, weather: "weather.Clouds" },
-            { rate: 10, weather: "weather.Fog" },
-            { rate: 10, weather: "weather.Rain" },
-            { rate: 5, weather: "weather.Thunderstorms" }
-        ]
-    },
-    "area.Eulmore": {
-        name: "area.Eulmore",
-        weatherRate: [
-            { rate: 10, weather: "weather.Gales" },
-            { rate: 10, weather: "weather.Rain" },
-            { rate: 10, weather: "weather.Fog" },
-            { rate: 15, weather: "weather.Clouds" },
-            { rate: 40, weather: "weather.FairSkies" },
-            { rate: 15, weather: "weather.ClearSkies" }
-        ]
-    }
 };
