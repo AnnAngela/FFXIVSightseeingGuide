@@ -1,8 +1,8 @@
 // tslint:disable:max-line-length
 const ja_JP: any = {
     lang: {
-        "zh-CN": "中国語（簡体字）",
-        "en-US": "英語",
+        "zh-CN": "中国語（簡体字） - 简体中文",
+        "en-US": "英語 - English",
         "ja-JP": "日本語",
     },
     "12hoursystem": "12小时制",
@@ -95,6 +95,14 @@ const ja_JP: any = {
         EurekaPagos: "エウレカ・パゴス帯",
         EurekaPyros: "エウレカ・ピューロス帯",
         EurekaHydatos: "エウレカ・ヒュダトス帯",
+        TheCrystarium: "クリスタリウム",
+        Eulmore: "ユールモア",
+        Lakeland: "レイクランド",
+        Kholusia: "コルシア島",
+        AmhAraeng: "アム・アレーン",
+        IlMheg: "イル・メグ",
+        TheRaktikaGreatwood: "ラケティカ大森林",
+        TheTempest: "テンペスト",
     },
     weather: {
         ClearSkies: "快晴",

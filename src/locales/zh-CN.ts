@@ -2,8 +2,8 @@
 const zh_CN: any = {
     lang: {
         "zh-CN": "简体中文",
-        "en-US": "英语",
-        "ja-JP": "日语",
+        "en-US": "英语 - English",
+        "ja-JP": "日语 - 日本語",
     },
     "12hoursystem": "12小时制",
     "24hoursystem": "24小时制",
@@ -95,6 +95,14 @@ const zh_CN: any = {
         EurekaPagos: "优雷卡恒冰之地",
         EurekaPyros: "优雷卡永火之地",
         EurekaHydatos: "优雷卡丰水之地",
+        Lakeland: "雷克兰德",
+        Kholusia: "珂露西亚岛",
+        AmhAraeng: "安穆·艾兰",
+        IlMheg: "伊尔美格",
+        TheRaktikaGreatwood: "拉凯提卡大森林",
+        TheTempest: "黑风海",
+        TheCrystarium: "水晶都",
+        Eulmore: "游末邦",
     },
     weather: {
         ClearSkies: "碧空",

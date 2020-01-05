@@ -1,9 +1,9 @@
 // tslint:disable:max-line-length
 const en_US: any = {
     lang: {
-        "zh-CN": "Chinese (Simplified)",
+        "zh-CN": "Chinese (Simplified) - 简体中文",
         "en-US": "English",
-        "ja-JP": "Japanese",
+        "ja-JP": "Japanese - 日本語",
     },
     "12hoursystem": "12-Hour System",
     "24hoursystem": "24-Hour System",
@@ -95,6 +95,14 @@ const en_US: any = {
         EurekaPagos: "Eureka Pagos",
         EurekaPyros: "Eureka Pyros",
         EurekaHydatos: "Eureka Hydatos",
+        TheCrystarium: "The Crystarium",
+        Eulmore: "Eulmore",
+        Lakeland: "Lakeland",
+        Kholusia: "Kholusia",
+        AmhAraeng: "Amh Araeng",
+        IlMheg: "Il Mheg",
+        TheRaktikaGreatwood: "The Rak'tika Greatwood",
+        TheTempest: "The Tempest",
     },
     weather: {
         ClearSkies: "Clear Skies",

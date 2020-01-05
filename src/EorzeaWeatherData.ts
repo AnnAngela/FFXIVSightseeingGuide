@@ -492,4 +492,88 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.Snow" },
         ],
     },
+    "area.Lakeland": {
+        name: "area.Lakeland",
+        weatherRate: [
+            { rate: 20, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Thunderstorms" }
+        ]
+    },
+    "area.Kholusia": {
+        name: "area.Kholusia",
+        weatherRate: [
+            { rate: 10, weather: "weather.Gales" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.ClearSkies" }
+        ]
+    },
+    "area.AmhAraeng": {
+        name: "area.AmhAraeng",
+        weatherRate: [
+            { rate: 45, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.DustStorms" },
+            { rate: 10, weather: "weather.HeatWaves" },
+            { rate: 20, weather: "weather.ClearSkies" }
+        ]
+    },
+    "area.IlMheg": {
+        name: "area.IlMheg",
+        weatherRate: [
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.Thunderstorms" },
+            { rate: 15, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" }
+        ]
+    },
+    "area.TheRaktikaGreatwood": {
+        name: "area.TheRaktikaGreatwood",
+        weatherRate: [
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.UmbralWind" },
+            { rate: 15, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.Clouds" }
+        ]
+    },
+    "area.TheTempest": {
+        name: "area.TheTempest",
+        weatherRate: [
+            { rate: 20, weather: "weather.Clouds" },
+            { rate: 60, weather: "weather.FairSkies" },
+            { rate: 20, weather: "weather.ClearSkies" }
+        ]
+    },
+    "area.TheCrystarium": {
+        name: "area.TheCrystarium",
+        weatherRate: [
+            { rate: 20, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Thunderstorms" }
+        ]
+    },
+    "area.Eulmore": {
+        name: "area.Eulmore",
+        weatherRate: [
+            { rate: 10, weather: "weather.Gales" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.ClearSkies" }
+        ]
+    }
 };
