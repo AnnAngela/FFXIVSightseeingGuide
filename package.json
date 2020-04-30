@@ -23,7 +23,7 @@
     "license": "MIT",
     "dependencies": {
         "@types/vue": "^2.0.0",
-        "jquery": "^3.4.0",
+        "jquery": "^3.5.0",
         "vue": "^2.6.7",
         "vue-class-component": "^6.3.2",
         "vue-i18n": "^8.8.2",
