@@ -17,7 +17,7 @@ const zh_CN: any = {
         activeGroupCount: "当前已完成",
         totalCount: "总计已完成",
         soonToComplete: "现在就可以完成",
-        fewHoursToComplete: "几小时内就可以完成",
+        fewHoursToComplete: "一小时内就可以完成",
         moreTimeToComplete: "多等一会就可以完成",
         longTimeToComplete: "可能要等很久",
         completed: "已完成",
