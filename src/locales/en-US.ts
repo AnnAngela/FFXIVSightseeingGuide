@@ -17,7 +17,7 @@ const en_US: any = {
         activeGroupCount: "Current page",
         totalCount: "Total",
         soonToComplete: "Soon to compelete",
-        fewHoursToComplete: "Few hours to complete",
+        fewHoursToComplete: "(1 Eorzea day) 70 minutes to complete",
         moreTimeToComplete: "More time to complete",
         longTimeToComplete: "Long time to complete",
         completed: "Completed",
