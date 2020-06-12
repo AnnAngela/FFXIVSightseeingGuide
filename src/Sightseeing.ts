@@ -1,6 +1,8 @@
 import EorzeaClock from "./EorzeaTime";
 import EorzeaWeather from "./EorzeaWeather";
 
+type RegardedAsTheSameWeather = string[][];
+
 export interface ISightseeingGroup {
     groupName: string;
     items: ISightseeingItem[];
@@ -52,13 +54,24 @@ export class Sightseeing {
         this.startHour = item.startHour;
         this.endHour = item.endHour;
     }
+    compareWeather(a: string, b: string): boolean {
+        const regardedAsTheSameWeather: RegardedAsTheSameWeather = [
+            ["weather.ClearSkies", "weather.FairSkies"]
+        ];
+        for (let i: number = 0; i < regardedAsTheSameWeather.length; i++) {
+            if (regardedAsTheSameWeather[i].includes(a) && regardedAsTheSameWeather[i].includes(b)) {
+                return true;
+            }
+        }
+        return a === b;
+    }
     calcNextAvailableTime(): void {
         let nowet: EorzeaClock = new EorzeaClock(undefined);
         let baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(nowet);
         for (let i: number = 0; i < 10000; i++) {
             let forecastSeed: number[] = EorzeaWeather.forecastSeed(baseTime, [i]);
             let forecast: string = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
-            if (this.weather === forecast) {
+            if (this.compareWeather(this.weather, forecast)) {
                 // 天气匹配成功
                 let weatherAvaliableTime: number[] = Array.from(
                     { length: 8 },

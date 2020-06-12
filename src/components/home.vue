@@ -8,6 +8,14 @@
         @click="setFirstView()"
       >{{$t('introdution.button')}}</button>
     </div>
+    <div class="introdutionlead alert alert-info collapse" :class="isWeatherRegardedAsTheSameWeatherView ? 'show' : 'hidden'">
+      <p class="lead" v-html="$t('weatherRegardedAsTheSameWeather')"></p>
+      <button
+        type="button"
+        class="btn btn-success"
+        @click="setWeatherRegardedAsTheSameWeatherView()"
+      >{{$t('introdution.button')}}</button>
+    </div>
     <ul class="nav nav-pills">
       <li
         class="nav-item"
@@ -252,6 +260,8 @@ export default class HomePage extends Vue {
   };
   isFirstView: boolean =
     (localStorage.getItem("isFirstView") || "true") === "true";
+  isWeatherRegardedAsTheSameWeatherView: boolean =
+    (localStorage.getItem("isWeatherRegardedAsTheSameWeatherView") || "true") === "true";
   alertClass: string = "";
   created() {
     localStorage.removeItem("firstView");
@@ -347,6 +357,10 @@ export default class HomePage extends Vue {
   setFirstView() {
     localStorage.setItem("isFirstView", "false");
     this.isFirstView = false;
+  }
+  setWeatherRegardedAsTheSameWeatherView() {
+    localStorage.setItem("isWeatherRegardedAsTheSameWeatherView", "false");
+    this.isWeatherRegardedAsTheSameWeatherView = false;
   }
 }
 </script>
