@@ -32,7 +32,7 @@ const ja_JP: any = {
     sightseeingActGuide: "探索笔记具体完成办法",
     sightseeingActGuideSeeHere: "参见此处。",
     sightseeingClickIntroduction: "点击下方未完成的条目可以标记该探索笔记为已完成，点击已完成的可以标记为未完成。",
-    weatherRegardedAsTheSameWeather:"由于版本更新，“碧空”和“晴朗”现在被视为是一样的天气。本指南已经适配相关改动。",
+    weatherRegardedAsTheSameWeather: "由于版本更新，“碧空”和“晴朗”、“小雨”和“暴雨”、“小雪”和“暴雪”现在被视为是一样的天气。本指南已经适配相关改动。",
     introdution: {
         text: "本指南将会计算艾欧泽亚大陆上的天气情况以匹配将来符合天气和时间条件从而能够完成的探索笔记。<br>本指南将会在有新的探索笔记可以完成时通过浏览器右下角通知的形式告知您，您可以点击该通知来直接地返回到该页面。（需要您的浏览器支持通知功能）",
         button: "我知道了",

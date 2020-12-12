@@ -32,7 +32,7 @@ const en_US: any = {
     sightseeingActGuide: "Sightseeing strategy",
     sightseeingActGuideSeeHere: "See Here.",
     sightseeingClickIntroduction: "Click the uncompleted line below to mark it as completed, and click the completed one to mark as uncompleted. ",
-    weatherRegardedAsTheSameWeather:"Due to the game update, \"Clear Skies\" and \"Fair Skies\" are now considered to be the same weather. This guide has been adapted to relevant changes.",
+    weatherRegardedAsTheSameWeather: "Due to the game update, \"Clear Skies\" and \"Fair Skies\", \"Rain\" and \"Showers\", \"Snow\" and \"Blizzards\" are now considered to be the same weather. This guide has been adapted to relevant changes.",
     introdution: {
         text: "This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>",
         button: "I got it.",

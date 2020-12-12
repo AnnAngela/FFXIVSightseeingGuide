@@ -4,30 +4,30 @@ export class SucceedSightseeingCounter {
     private _succeedIds: Set<string>;
 
     constructor() {
-        let succeedIdsInStorage:string[] = (localStorage.getItem("comletedSightseeing") || "").split(",").filter(c => c !== "");
+        let succeedIdsInStorage: string[] = (localStorage.getItem("completedSightseeing") || "").split(",").filter(c => c !== "");
         this._succeedIds = new Set(succeedIdsInStorage);
     }
-    private store():void {
-        localStorage.setItem("comletedSightseeing", Array.from(this._succeedIds.values()).join(","));
+    private store(): void {
+        localStorage.setItem("completedSightseeing", Array.from(this._succeedIds.values()).join(","));
     }
-    contains(id: string):boolean {
+    contains(id: string): boolean {
         return this._succeedIds.has(id);
     }
-    add(id: string):void {
+    add(id: string): void {
         this._succeedIds.add(id);
         this.store();
     }
-    delete(id: string):void {
+    delete(id: string): void {
         this._succeedIds.delete(id);
         this.store();
     }
-    toggle(id: string):void {
+    toggle(id: string): void {
         this[this.contains(id) ? "delete" : "add"](id);
     }
-    countByGroup(group: ISightseeingGroup):number {
+    countByGroup(group: ISightseeingGroup): number {
         return group.items.filter(item => this._succeedIds.has(item.id)).length;
     }
-    count():number {
+    count(): number {
         return this._succeedIds.size;
     }
 }

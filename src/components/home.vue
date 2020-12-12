@@ -1,20 +1,26 @@
 <template>
   <div>
-    <div class="introdutionlead alert alert-info collapse" :class="isFirstView ? 'show' : 'hidden'">
+    <div
+      class="introdutionlead alert alert-info collapse"
+      :class="isFirstView ? 'show' : 'hidden'"
+    >
       <p class="lead" v-html="$t('introdution.text')"></p>
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="setFirstView()"
-      >{{$t('introdution.button')}}</button>
+      <button type="button" class="btn btn-success" @click="setFirstView()">
+        {{ $t("introdution.button") }}
+      </button>
     </div>
-    <div class="introdutionlead alert alert-info collapse" :class="isWeatherRegardedAsTheSameWeatherView ? 'show' : 'hidden'">
+    <div
+      class="introdutionlead alert alert-info collapse"
+      :class="isWeatherRegardedAsTheSameWeatherView ? 'show' : 'hidden'"
+    >
       <p class="lead" v-html="$t('weatherRegardedAsTheSameWeather')"></p>
       <button
         type="button"
         class="btn btn-success"
         @click="setWeatherRegardedAsTheSameWeatherView()"
-      >{{$t('introdution.button')}}</button>
+      >
+        {{ $t("introdution.button") }}
+      </button>
     </div>
     <ul class="nav nav-pills">
       <li
@@ -27,68 +33,128 @@
           class="nav-link text-secondary"
           :class="activeGroup == index ? 'active bg-secondary text-light' : ''"
           href="javascript:void(0);"
-        >{{ item.groupName }}</a>
+          >{{ item.groupName }}</a
+        >
       </li>
     </ul>
     <p class="sightseeing alert" :class="alertClass">
-      {{$t('info.succeedSightseeingCountInfomation')}}: {{$t('info.activeGroupCount')}}: {{succeedCounter.activeGroupCount}} / {{succeedCounter.activeGroupAllCount}} {{$t('info.totalCount')}}: {{succeedCounter.succeedCount}} / {{succeedCounter.allCount}}
-      <span
-        class="hr"
-      >
+      {{ $t("info.succeedSightseeingCountInfomation") }}:
+      {{ $t("info.activeGroupCount") }}: {{ succeedCounter.activeGroupCount }} /
+      {{ succeedCounter.activeGroupAllCount }} {{ $t("info.totalCount") }}:
+      {{ succeedCounter.succeedCount }} / {{ succeedCounter.allCount }}
+      <span class="hr">
         <!-- 用来回避<p/>不能嵌套<hr>的静态检查错误 -->
       </span>
-      <span class="ps">{{$t('sightseeingClickIntroduction')}}</span>
-      <span
-        :class="alertClass === 'alert-success' && 'hidden'"
-        class="ps"
-      >{{$t('info.additionalInfo')}}</span>
-      <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">
-        {{$t('sightseeingActGuide')}}
-        <a
+      <span class="ps">{{ $t("sightseeingClickIntroduction") }}</span>
+      <span :class="alertClass === 'alert-success' && 'hidden'" class="ps">{{
+        $t("info.additionalInfo")
+      }}</span>
+      <span :class="alertClass === 'alert-success' && 'hidden'" class="ps"
+        >{{ $t("sightseeingActGuide")
+        }}<a
           class="external seehere"
           target="_blank"
           href="https://bbs.ngacn.cc/read.php?tid=7755329"
-        >{{$t('sightseeingActGuideSeeHere')}}</a>[zh-cn]
+          >{{ $t("sightseeingActGuideSeeHere") }}</a
+        >[zh-cn]
       </span>
     </p>
     <div
       v-for="item in calcData"
       :key="item.id"
       class="sightseeing card"
-      :class="item.vaildStatus === 'card-danger' ? 'card-default' : item.vaildStatus"
+      :class="
+        item.vaildStatus === 'card-danger' ? 'card-default' : item.vaildStatus
+      "
       @click="setComplete(item.id)"
     >
       <div class="card-header">
         <span class="card-title">
-          <span>{{item.id}}</span>
-          <span v-if="item.subarea != undefined">{{$t(item.subarea)}}</span>
-          <span v-else>{{$t(item.area)}}</span>
-          <span>x:{{item.pos.x}} y:{{item.pos.y}}</span>
-          <img class="weatherImg" :src="'./image/weather/' + item.weather + '.png'" />
-          <span>{{$t(item.weather)}}</span>
-          <span>{{item.timestr}}</span>
-          <span>{{$t(item.action)}}</span>
+          <span>{{ item.id }}</span>
+          <span v-if="item.subarea != undefined">{{ $t(item.subarea) }}</span>
+          <span v-else>{{ $t(item.area) }}</span>
+          <span class="mr-2">x:{{ item.pos.x }} y:{{ item.pos.y }}</span>
+          <span v-for="(weather, index) in item.weathers" :key="weather"
+            ><span v-if="index !== 0" class="mx-1"> | </span
+            ><img
+              class="inlineImg"
+              :src="'./image/weather/' + weather + '.png'"
+            />
+            <span :class="weather === item.forecast ? 'forecast' : ''">{{
+              $t(weather)
+            }}</span></span
+          >
+          <span class="ml-2 mr-3">{{ item.timestr }}</span
+          ><img
+            class="inlineImg"
+            :src="'./image/emote/' + item.action + '.png'"
+          />
+          <span>{{ $t(item.action) }}</span>
         </span>
         <div class="float-right card-postheader">
-          <span v-if="item.vaildStatus == 'card-primary'">{{$t("info.soonToComplete")}}</span>
-          <span v-if="item.vaildStatus == 'card-info'">{{$t("info.fewHoursToComplete")}}</span>
-          <span v-if="item.vaildStatus == 'card-secondary'">{{$t("info.moreTimeToComplete")}}</span>
-          <span v-if="item.vaildStatus == 'card-default'">{{$t("info.longTimeToComplete")}}</span>
-          <span v-if="item.vaildStatus == 'card-danger'">{{$t("info.veryLongTimeToComplete")}}</span>
-          <span v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</span>
+          <span v-if="item.vaildStatus == 'card-primary'">{{
+            $t("info.soonToComplete")
+          }}</span>
+          <span v-if="item.vaildStatus == 'card-info'">{{
+            $t("info.fewHoursToComplete")
+          }}</span>
+          <span v-if="item.vaildStatus == 'card-secondary'">{{
+            $t("info.moreTimeToComplete")
+          }}</span>
+          <span v-if="item.vaildStatus == 'card-default'">{{
+            $t("info.longTimeToComplete")
+          }}</span>
+          <span v-if="item.vaildStatus == 'card-danger'">{{
+            $t("info.veryLongTimeToComplete")
+          }}</span>
+          <span v-if="item.vaildStatus == 'card-success'">{{
+            $t("info.completed")
+          }}</span>
         </div>
       </div>
       <div class="card-body">
-        <div v-if="item.vaildStatus == 'card-success'">{{$t("info.completed")}}</div>
-        <div v-else-if="item.vaildStatus == 'card-primary'">
-          {{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long').replace(nowYear, "")}} {{item.isStillWaiting ? $t('info.isStillWaiting') : ""}}
-          <br />
-          {{$t("info.endingAt")}}: ET {{item.nextAvaliableTimeEnd.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTimeEnd.getLocalTime(), 'long').replace(nowYear, "")}} {{$tc("info.lessThan", item.nextAvaliableTimeLeft, { m: item.nextAvaliableTimeLeft })}}
+        <div v-if="item.vaildStatus == 'card-success'">
+          {{ $t("info.completed") }}
         </div>
-        <div
-          v-else-if="item.vaildStatus != 'card-danger'"
-        >{{$t("info.startFrom")}}: ET {{item.nextAvaliableTime.toHourMinuteString()}} {{$t("info.localTime")}}: {{$d(item.nextAvaliableTime.getLocalTime(), 'long').replace(nowYear, "")}}</div>
-        <div v-else>{{$t("info.veryLongTimeToComplete")}}</div>
+        <div v-else-if="item.vaildStatus == 'card-primary'">
+          {{ $t("info.startFrom") }}: ET
+          {{ item.nextAvaliableTime.toHourMinuteString() }}
+          {{ $t("info.localTime") }}:
+          {{
+            $d(item.nextAvaliableTime.getLocalTime(), "long").replace(
+              nowYear,
+              ""
+            )
+          }}
+          {{ item.isStillWaiting ? $t("info.isStillWaiting") : "" }}
+          <br />
+          {{ $t("info.endingAt") }}: ET
+          {{ item.nextAvaliableTimeEnd.toHourMinuteString() }}
+          {{ $t("info.localTime") }}:
+          {{
+            $d(item.nextAvaliableTimeEnd.getLocalTime(), "long").replace(
+              nowYear,
+              ""
+            )
+          }}
+          {{
+            $tc("info.lessThan", item.nextAvaliableTimeLeft, {
+              m: item.nextAvaliableTimeLeft,
+            })
+          }}
+        </div>
+        <div v-else-if="item.vaildStatus != 'card-danger'">
+          {{ $t("info.startFrom") }}: ET
+          {{ item.nextAvaliableTime.toHourMinuteString() }}
+          {{ $t("info.localTime") }}:
+          {{
+            $d(item.nextAvaliableTime.getLocalTime(), "long").replace(
+              nowYear,
+              ""
+            )
+          }}
+        </div>
+        <div v-else>{{ $t("info.veryLongTimeToComplete") }}</div>
       </div>
     </div>
   </div>
@@ -191,7 +257,7 @@
   font-style: italic;
   font-weight: lighter;
 }
-.weatherImg {
+.inlineImg {
   max-height: 1.25em;
   margin-top: -0.25em;
 }
@@ -229,6 +295,12 @@ a.external {
 .seehere {
   font-style: italic;
 }
+.forecast {
+  border-bottom: 1px gray solid;
+}
+.card-primary .forecast {
+  border-color: white;
+}
 </style>
 
 <script lang="ts">
@@ -238,11 +310,11 @@ import Component from "vue-class-component";
 import {
   SightseeingData,
   ISightseeingGroup,
-  Sightseeing
+  Sightseeing,
 } from "../Sightseeing";
 import {
   SucceedSightseeingCounter,
-  ISucceedCounter
+  ISucceedCounter,
 } from "../SightseeingCounter";
 
 @Component
@@ -256,12 +328,13 @@ export default class HomePage extends Vue {
     activeGroupCount: 0,
     activeGroupAllCount: 0,
     succeedCount: 0,
-    allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0)
+    allCount: SightseeingData.reduce((s, ig) => (s += ig.items.length), 0),
   };
   isFirstView: boolean =
     (localStorage.getItem("isFirstView") || "true") === "true";
   isWeatherRegardedAsTheSameWeatherView: boolean =
-    (localStorage.getItem("isWeatherRegardedAsTheSameWeatherView") || "true") === "true";
+    (localStorage.getItem("isWeatherRegardedAsTheSameWeatherView") ||
+      "true") === "true";
   alertClass: string = "";
   created() {
     localStorage.removeItem("firstView");

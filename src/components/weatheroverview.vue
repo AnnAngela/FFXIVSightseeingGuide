@@ -1,57 +1,57 @@
 <template>
   <div>
-    <h3>{{$t("info.weatheroverview")}}</h3>
+    <h3>{{ $t("info.weatheroverview") }}</h3>
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>{{$t("info.area")}}</th>
+          <th>{{ $t("info.area") }}</th>
           <th>
-            {{$t("info.before")}}
-            <br>
-            {{hourString[0]}}~
+            {{ $t("info.before") }}
+            <br />
+            {{ hourString[0] }}~
           </th>
           <th>
-            {{$t("info.now")}}
-            <br>
-            {{hourString[1]}}~
+            {{ $t("info.now") }}
+            <br />
+            {{ hourString[1] }}~
           </th>
-          <th>{{hourString[2]}}~</th>
-          <th>{{hourString[3]}}~</th>
-          <th>{{hourString[4]}}~</th>
-          <th>{{hourString[5]}}~</th>
-          <th>{{hourString[6]}}~</th>
+          <th>{{ hourString[2] }}~</th>
+          <th>{{ hourString[3] }}~</th>
+          <th>{{ hourString[4] }}~</th>
+          <th>{{ hourString[5] }}~</th>
+          <th>{{ hourString[6] }}~</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in weatherResult" :key="item.name">
-          <td>{{$t(item.name)}}</td>
-          <td class="weatherImg prev">
-            <img :src="'./image/weather/' + item.weather[0] + '.png'">
-            {{$t(item.weather[0])}}
+          <td>{{ $t(item.name) }}</td>
+          <td class="inlineImg prev">
+            <img :src="'./image/weather/' + item.weather[0] + '.png'" />
+            {{ $t(item.weather[0]) }}
           </td>
-          <td class="weatherImg">
-            <img :src="'./image/weather/' + item.weather[1] + '.png'">
-            {{$t(item.weather[1])}}
+          <td class="inlineImg">
+            <img :src="'./image/weather/' + item.weather[1] + '.png'" />
+            {{ $t(item.weather[1]) }}
           </td>
-          <td class="weatherImg next">
-            <img :src="'./image/weather/' + item.weather[2] + '.png'">
-            {{$t(item.weather[2])}}
+          <td class="inlineImg next">
+            <img :src="'./image/weather/' + item.weather[2] + '.png'" />
+            {{ $t(item.weather[2]) }}
           </td>
-          <td class="weatherImg next">
-            <img :src="'./image/weather/' + item.weather[3] + '.png'">
-            {{$t(item.weather[3])}}
+          <td class="inlineImg next">
+            <img :src="'./image/weather/' + item.weather[3] + '.png'" />
+            {{ $t(item.weather[3]) }}
           </td>
-          <td class="weatherImg next">
-            <img :src="'./image/weather/' + item.weather[4] + '.png'">
-            {{$t(item.weather[4])}}
+          <td class="inlineImg next">
+            <img :src="'./image/weather/' + item.weather[4] + '.png'" />
+            {{ $t(item.weather[4]) }}
           </td>
-          <td class="weatherImg next">
-            <img :src="'./image/weather/' + item.weather[5] + '.png'">
-            {{$t(item.weather[5])}}
+          <td class="inlineImg next">
+            <img :src="'./image/weather/' + item.weather[5] + '.png'" />
+            {{ $t(item.weather[5]) }}
           </td>
-          <td class="weatherImg next">
-            <img :src="'./image/weather/' + item.weather[6] + '.png'">
-            {{$t(item.weather[6])}}
+          <td class="inlineImg next">
+            <img :src="'./image/weather/' + item.weather[6] + '.png'" />
+            {{ $t(item.weather[6]) }}
           </td>
         </tr>
       </tbody>
@@ -60,10 +60,10 @@
 </template>
 
 <style lang="scss">
-.weatherImg {
+.inlineImg {
   white-space: nowrap;
 }
-.weatherImg img {
+.inlineImg img {
   max-height: 1.25em;
   margin-top: -0.25em;
 }
@@ -104,8 +104,8 @@ export default class WeatherOverviewPage extends Vue {
     let baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(eorzeaNow);
     let baseHour = baseTime.getHours() / 8;
     this.hourString = [-1, 0, 1, 2, 3, 4, 5]
-      .map(i => baseHour + i)
-      .map(bh => timeTag[(bh + 3) % 3]);
+      .map((i) => baseHour + i)
+      .map((bh) => timeTag[(bh + 3) % 3]);
     let weatherSeeds = EorzeaWeather.forecastSeed(eorzeaNow, [
       -1,
       0,
@@ -113,7 +113,7 @@ export default class WeatherOverviewPage extends Vue {
       2,
       3,
       4,
-      5
+      5,
     ]);
 
     this.weatherResult = [];
@@ -121,7 +121,7 @@ export default class WeatherOverviewPage extends Vue {
       let forecastedWeather = EorzeaWeather.getForecast(area, weatherSeeds);
       this.weatherResult.push({
         name: area,
-        weather: forecastedWeather
+        weather: forecastedWeather,
       });
     }
   }
