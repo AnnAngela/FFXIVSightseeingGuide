@@ -9,20 +9,30 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
         filename: 'index.js',
-        libraryTarget: 'var',
+        library: {
+            type: 'var',
+            name: "vFFXIVSightseeingGuide",
+        },
     },
     resolve: {
         extensions: ['.ts', '.js'],
     },
     plugins: [
-        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"development"',
             },
         }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            'window.jQuery': 'jquery'
+        }),
         new VueLoaderPlugin(),
     ],
+    optimization: {
+        moduleIds: "named",
+    },
     module: {
         rules: [
             {
@@ -68,20 +78,23 @@ module.exports = {
             {
                 test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
                 loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                options: {
                 },
             },
             {
-                test: /bootstrap.+\.js$/,
-                loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
+                test: /bootstrap/,
+                loader: 'imports-loader',
+                options: {
+                    imports: 'default jquery $',
+                },
             },
         ],
     },
     devServer: {
         historyApiFallback: true,
         noInfo: true,
+        open: true,
+        hot: true,
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-source-map',
 };
