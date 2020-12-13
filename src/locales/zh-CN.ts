@@ -23,7 +23,7 @@ const zh_CN: any = {
         completed: "已完成",
         startFrom: "开始时间",
         localTime: "本地时间",
-        isStillWaiting: "（尚未开始）",
+        isStillWaiting: "（天气已就绪，但尚未开始）",
         veryLongTimeToComplete: "122天后（地球时间）",
         endingAt: "结束时间",
         lessThan: "（还剩不到{m}分钟）",

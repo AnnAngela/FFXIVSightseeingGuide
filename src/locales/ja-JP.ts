@@ -23,7 +23,7 @@ const ja_JP: any = {
         completed: "完了しました",
         startFrom: "開始時間",
         localTime: "現地時間",
-        isStillWaiting: "（まだ始まっていない）",
+        isStillWaiting: "（天候は条件を満たしていますが、まだ始まっていません）",
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
         lessThan: "（{m}分未満）",

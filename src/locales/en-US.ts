@@ -23,7 +23,7 @@ const en_US: any = {
         completed: "Completed",
         startFrom: "Start from",
         localTime: "Local Time",
-        isStillWaiting: "(Not avaiable yet)",
+        isStillWaiting: "(The weather has met the conditions, but not avaiable yet)",
         veryLongTimeToComplete: "After 122 days (Earth time)",
         endingAt: "Ending at",
         lessThan: "( Less than one minute ) | ( Less than {m} minutes )",
