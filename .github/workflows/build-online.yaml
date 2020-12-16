@@ -28,6 +28,5 @@ jobs:
         author_name: AnnAngela
         author_email: AnnAngela@users.noreply.github.com
         branch: master
-        cwd: '/home/runner/work/FFXIVSightseeingGuide/FFXIVSightseeingGuide'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
