@@ -1,1 +1,35 @@
+name: Build Online
 
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build
+      run: |
+        npm ci
+        npm run build
+      env:
+        CI: true
+    - name: commit, push
+      uses: EndBug/add-and-commit@v5 # You can change this to use a specific version
+      with:
+        add: 'dist'
+        author_name: AnnAngela
+        author_email: AnnAngela@users.noreply.github.com
+        branch: master
+        # The local path to the directory where your repository is located. You should use actions/checkout first to set it up
+        # Default: '.'
+        cwd: '.'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
