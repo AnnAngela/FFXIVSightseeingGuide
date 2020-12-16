@@ -18,7 +18,7 @@ jobs:
     - name: npm install, build
       run: |
         npm ci
-        npm run build
+        npm run build-ci
       env:
         CI: true
     - name: commit, push
