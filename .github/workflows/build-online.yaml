@@ -25,8 +25,8 @@ jobs:
       uses: EndBug/add-and-commit@v5 # You can change this to use a specific version
       with:
         add: 'dist'
-        author_name: AnnAngela
-        author_email: AnnAngela@users.noreply.github.com
+        author_name: GitHub Actions
+        author_email: no-reply@github.com
         branch: master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
