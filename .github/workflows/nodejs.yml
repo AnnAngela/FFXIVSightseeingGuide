@@ -3,12 +3,12 @@ name: Node CI
 on:
   push:
     branches: [ master ]
-    paths-ignore:
-      - '.*/**'
+    paths:
+    - 'src/**'
   pull_request:
     branches: [ master ]
-    paths-ignore:
-      - '.*/**'
+    paths:
+    - 'src/**'
   workflow_dispatch:
 
 jobs:
