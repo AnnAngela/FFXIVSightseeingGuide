@@ -1,5 +1,8 @@
 // tslint:disable:max-line-length
-const en_US: any = {
+interface i18nObject {
+    [key: string]: string | i18nObject;
+}
+const en_US: i18nObject = {
     lang: {
         "zh-CN": "Chinese (Simplified) - 简体中文",
         "en-US": "English",

@@ -1,5 +1,8 @@
 // tslint:disable:max-line-length
-const ja_JP: any = {
+interface i18nObject {
+    [key: string]: string | i18nObject;
+}
+const ja_JP: i18nObject = {
     lang: {
         "zh-CN": "中国語（簡体字） - 简体中文",
         "en-US": "英語 - English",
