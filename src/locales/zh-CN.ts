@@ -104,6 +104,12 @@ const zh_CN: any = {
         TheTempest: "黑风海",
         TheCrystarium: "水晶都",
         Eulmore: "游末邦",
+        LyheMheg: "丽耶美格梦园",
+        TheBozjanSouthernFront: "南方博兹雅战线",
+        TheFeastingGrounds: "狼狱演习场",
+        SealRock: "尘封秘岩",
+        TheFieldsofGlory: "荣誉野",
+        OnsalHakair: "昂萨哈凯尔",
     },
     weather: {
         ClearSkies: "碧空",

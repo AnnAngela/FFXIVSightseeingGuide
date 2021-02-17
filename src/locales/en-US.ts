@@ -104,6 +104,12 @@ const en_US: any = {
         IlMheg: "Il Mheg",
         TheRaktikaGreatwood: "The Rak'tika Greatwood",
         TheTempest: "The Tempest",
+        LyheMheg: "Lyhe Mheg",
+        TheBozjanSouthernFront: "The Bozjan Southern Front",
+        TheFeastingGrounds: "The Feasting Grounds",
+        SealRock: "Seal Rock",
+        TheFieldsofGlory: "The Fields of Glory",
+        OnsalHakair: "Onsal Hakair",
     },
     weather: {
         ClearSkies: "Clear Skies",

@@ -104,6 +104,12 @@ const ja_JP: any = {
         IlMheg: "イル・メグ",
         TheRaktikaGreatwood: "ラケティカ大森林",
         TheTempest: "テンペスト",
+        LyheMheg: "リェー・メグ",
+        TheBozjanSouthernFront: "南方ボズヤ戦線",
+        TheFeastingGrounds: "ウルヴズジェイル演習場",
+        SealRock: "シールロック",
+        TheFieldsofGlory: "フィールド・オブ・グローリー",
+        OnsalHakair: "オンサル・ハカイル",
     },
     weather: {
         ClearSkies: "快晴",

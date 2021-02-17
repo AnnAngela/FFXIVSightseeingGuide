@@ -576,4 +576,54 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.ClearSkies" }
         ]
     },
+    "area.LyheMheg": {
+        name: "area.LyheMheg",
+        weatherRate: [
+            { rate: 50, weather: "weather.ClearSkies" },
+            { rate: 50, weather: "weather.FairSkies" },
+        ]
+    },
+    "area.TheBozjanSouthernFront": {
+        name: "area.TheBozjanSouthernFront",
+        weatherRate: [
+            { rate: 52, weather: "weather.FairSkies" },
+            { rate: 12, weather: "weather.Rain" },
+            { rate: 12, weather: "weather.Wind" },
+            { rate: 12, weather: "weather.Thunder" },
+            { rate: 12, weather: "weather.DustStorms" }
+        ]
+    },
+    "area.TheFeastingGrounds": {
+        name: "area.TheFeastingGrounds",
+        weatherRate: [
+            { rate: 50, weather: "weather.FairSkies" },
+            { rate: 50, weather: "weather.Rain" },
+        ]
+    },
+    "area.SealRock": {
+        name: "area.SealRock",
+        weatherRate: [
+            { rate: 15, weather: "weather.Fog" },
+            { rate: 25, weather: "weather.Rain" },
+            { rate: 60, weather: "weather.FairSkies" }
+        ]
+    },
+    "area.TheFieldsofGlory": {
+        name: "area.TheFieldsofGlory",
+        weatherRate: [
+            { rate: 35, weather: "weather.FairSkies" },
+            { rate: 30, weather: "weather.Snow" },
+            { rate: 20, weather: "weather.Blizzards" },
+            { rate: 15, weather: "weather.Fog" }
+        ]
+    },
+    "area.OnsalHakair": {
+        name: "area.OnsalHakair",
+        weatherRate: [
+            { rate: 50, weather: "weather.FairSkies" },
+            { rate: 30, weather: "weather.Wind" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Gales" },
+            { rate: 5, weather: "weather.Fog" }]
+    },
 };
