@@ -21,8 +21,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: 30, weather: "weather.FairSkies" },
             { rate: 10, weather: "weather.Fog" },
-            { rate: -1, weather: "weather.Rain" }
-        ]
+            { rate: -1, weather: "weather.Rain" },
+        ],
     },
     "area.MiddleLa": {
         name: "area.MiddleLa",
@@ -33,7 +33,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Wind" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.LowerLa": {
         name: "area.LowerLa",
@@ -44,7 +44,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Wind" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.EasternLa": {
         name: "area.EasternLa",
@@ -55,7 +55,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Clouds" },
             { rate: 5, weather: "weather.Rain" },
             { rate: -1, weather: "weather.Showers" },
-        ]
+        ],
     },
     "area.WesternLa": {
         name: "area.WesternLa",
@@ -66,7 +66,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Wind" },
             { rate: -1, weather: "weather.Gales" },
-        ]
+        ],
     },
     "area.UpperLa": {
         name: "area.UpperLa",
@@ -77,7 +77,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Thunder" },
             { rate: -1, weather: "weather.Thunderstorms" },
-        ]
+        ],
     },
     "area.OuterLa": {
         name: "area.OuterLa",
@@ -87,7 +87,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 15, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.Mist": {
         name: "area.Mist",
@@ -98,7 +98,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.FairSkies" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.Wolves": {
         name: "area.Wolves",
@@ -108,7 +108,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 30, weather: "weather.FairSkies" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Thunderstorms" },
-        ]
+        ],
     },
     "area.Gridania": {
         name: "area.Gridania",
@@ -120,7 +120,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.CentralShroud": {
         name: "area.CentralShroud",
@@ -132,7 +132,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.EastShroud": {
         name: "area.EastShroud",
@@ -144,7 +144,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.SouthShroud": {
         name: "area.SouthShroud",
@@ -156,7 +156,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Clouds" },
             { rate: 30, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.NorthShroud": {
         name: "area.NorthShroud",
@@ -168,7 +168,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Clouds" },
             { rate: 30, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.TheLavenderBeds": {
         name: "area.TheLavenderBeds",
@@ -180,7 +180,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.Uldah": {
         name: "area.Uldah",
@@ -190,7 +190,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 25, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.WesternThanalan": {
         name: "area.WesternThanalan",
@@ -200,7 +200,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 25, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.CentralThanalan": {
         name: "area.CentralThanalan",
@@ -211,7 +211,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.EasternThanalan": {
         name: "area.EasternThanalan",
@@ -222,7 +222,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 5, weather: "weather.Rain" },
             { rate: -1, weather: "weather.Showers" },
-        ]
+        ],
     },
     "area.SouthernThanalan": {
         name: "area.SouthernThanalan",
@@ -232,7 +232,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.FairSkies" },
             { rate: 10, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Fog" },
-        ]
+        ],
     },
     "area.NorthernThanalan": {
         name: "area.NorthernThanalan",
@@ -241,7 +241,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Fog" },
-        ]
+        ],
     },
     "area.TheGoblet": {
         name: "area.TheGoblet",
@@ -251,7 +251,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 25, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.MorDhona": {
         name: "area.MorDhona",
@@ -261,7 +261,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 30, weather: "weather.Gloom" },
             { rate: 15, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.Ishgard": {
         name: "area.Ishgard",
@@ -271,7 +271,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 5, weather: "weather.ClearSkies" },
             { rate: 15, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Fog" },
-        ]
+        ],
     },
     "area.CoerthasCentral": {
         name: "area.CoerthasCentral",
@@ -282,7 +282,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 5, weather: "weather.ClearSkies" },
             { rate: 15, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Fog" },
-        ]
+        ],
     },
     "area.CoerthasWestern": {
         name: "area.CoerthasWestern",
@@ -293,7 +293,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 5, weather: "weather.ClearSkies" },
             { rate: 15, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Fog" },
-        ]
+        ],
     },
     "area.TheSeaofClouds": {
         name: "area.TheSeaofClouds",
@@ -304,7 +304,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Wind" },
             { rate: -1, weather: "weather.UmbralWind" },
-        ]
+        ],
     },
     "area.AzysLla": {
         name: "area.AzysLla",
@@ -312,7 +312,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 35, weather: "weather.FairSkies" },
             { rate: 35, weather: "weather.Clouds" },
             { rate: -1, weather: "weather.Thunder" },
-        ]
+        ],
     },
     "area.DravanianForelands": {
         name: "area.DravanianForelands",
@@ -323,7 +323,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.DustStorms" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.DravanianHinterlands": {
         name: "area.DravanianHinterlands",
@@ -334,7 +334,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Showers" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.ChurningMists": {
         name: "area.ChurningMists",
@@ -344,7 +344,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.UmbralStatic" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.Idyllshire": {
         name: "area.Idyllshire",
@@ -355,7 +355,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Showers" },
             { rate: 30, weather: "weather.ClearSkies" },
             { rate: -1, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.RhalgrsReach": {
         name: "area.RhalgrsReach",
@@ -365,7 +365,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Thunder" },
-        ]
+        ],
     },
     "area.TheFringes": {
         name: "area.TheFringes",
@@ -375,7 +375,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Thunder" },
-        ]
+        ],
     },
     "area.ThePeaks": {
         name: "area.ThePeaks",
@@ -386,7 +386,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Wind" },
             { rate: -1, weather: "weather.DustStorms" },
-        ]
+        ],
     },
     "area.TheLochs": {
         name: "area.TheLochs",
@@ -396,7 +396,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: -1, weather: "weather.Thunderstorms" },
-        ]
+        ],
     },
     "area.Kugane": {
         name: "area.Kugane",
@@ -406,7 +406,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.Shirogane": {
         name: "area.Shirogane",
@@ -416,7 +416,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.RubySea": {
         name: "area.RubySea",
@@ -426,7 +426,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.Yanxia": {
         name: "area.Yanxia",
@@ -437,7 +437,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.AzimSteppe": {
         name: "area.AzimSteppe",
@@ -449,7 +449,7 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
-        ]
+        ],
     },
     "area.EurekaAnemos": {
         name: "area.EurekaAnemos",
@@ -500,8 +500,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Rain" },
-            { rate: 5, weather: "weather.Thunderstorms" }
-        ]
+            { rate: 5, weather: "weather.Thunderstorms" },
+        ],
     },
     "area.Lakeland": {
         name: "area.Lakeland",
@@ -511,8 +511,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Fog" },
             { rate: 10, weather: "weather.Rain" },
-            { rate: 5, weather: "weather.Thunderstorms" }
-        ]
+            { rate: 5, weather: "weather.Thunderstorms" },
+        ],
     },
     "area.Eulmore": {
         name: "area.Eulmore",
@@ -522,8 +522,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 15, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
-            { rate: 15, weather: "weather.ClearSkies" }
-        ]
+            { rate: 15, weather: "weather.ClearSkies" },
+        ],
     },
     "area.Kholusia": {
         name: "area.Kholusia",
@@ -533,8 +533,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.Fog" },
             { rate: 15, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
-            { rate: 15, weather: "weather.ClearSkies" }
-        ]
+            { rate: 15, weather: "weather.ClearSkies" },
+        ],
     },
     "area.AmhAraeng": {
         name: "area.AmhAraeng",
@@ -543,8 +543,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.DustStorms" },
             { rate: 10, weather: "weather.HeatWaves" },
-            { rate: 20, weather: "weather.ClearSkies" }
-        ]
+            { rate: 20, weather: "weather.ClearSkies" },
+        ],
     },
     "area.IlMheg": {
         name: "area.IlMheg",
@@ -554,8 +554,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 10, weather: "weather.Thunderstorms" },
             { rate: 15, weather: "weather.ClearSkies" },
-            { rate: 40, weather: "weather.FairSkies" }
-        ]
+            { rate: 40, weather: "weather.FairSkies" },
+        ],
     },
     "area.TheRaktikaGreatwood": {
         name: "area.TheRaktikaGreatwood",
@@ -565,23 +565,23 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 10, weather: "weather.UmbralWind" },
             { rate: 15, weather: "weather.ClearSkies" },
             { rate: 40, weather: "weather.FairSkies" },
-            { rate: 15, weather: "weather.Clouds" }
-        ]
+            { rate: 15, weather: "weather.Clouds" },
+        ],
     },
     "area.TheTempest": {
         name: "area.TheTempest",
         weatherRate: [
             { rate: 20, weather: "weather.Clouds" },
             { rate: 60, weather: "weather.FairSkies" },
-            { rate: 20, weather: "weather.ClearSkies" }
-        ]
+            { rate: 20, weather: "weather.ClearSkies" },
+        ],
     },
     "area.LyheMheg": {
         name: "area.LyheMheg",
         weatherRate: [
             { rate: 50, weather: "weather.ClearSkies" },
             { rate: 50, weather: "weather.FairSkies" },
-        ]
+        ],
     },
     "area.TheBozjanSouthernFront": {
         name: "area.TheBozjanSouthernFront",
@@ -590,23 +590,23 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 12, weather: "weather.Rain" },
             { rate: 12, weather: "weather.Wind" },
             { rate: 12, weather: "weather.Thunder" },
-            { rate: 12, weather: "weather.DustStorms" }
-        ]
+            { rate: 12, weather: "weather.DustStorms" },
+        ],
     },
     "area.TheFeastingGrounds": {
         name: "area.TheFeastingGrounds",
         weatherRate: [
             { rate: 50, weather: "weather.FairSkies" },
             { rate: 50, weather: "weather.Rain" },
-        ]
+        ],
     },
     "area.SealRock": {
         name: "area.SealRock",
         weatherRate: [
             { rate: 15, weather: "weather.Fog" },
             { rate: 25, weather: "weather.Rain" },
-            { rate: 60, weather: "weather.FairSkies" }
-        ]
+            { rate: 60, weather: "weather.FairSkies" },
+        ],
     },
     "area.TheFieldsofGlory": {
         name: "area.TheFieldsofGlory",
@@ -614,8 +614,8 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 35, weather: "weather.FairSkies" },
             { rate: 30, weather: "weather.Snow" },
             { rate: 20, weather: "weather.Blizzards" },
-            { rate: 15, weather: "weather.Fog" }
-        ]
+            { rate: 15, weather: "weather.Fog" },
+        ],
     },
     "area.OnsalHakair": {
         name: "area.OnsalHakair",
@@ -624,6 +624,6 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 30, weather: "weather.Wind" },
             { rate: 10, weather: "weather.Rain" },
             { rate: 5, weather: "weather.Gales" },
-            { rate: 5, weather: "weather.Fog" }]
+            { rate: 5, weather: "weather.Fog" }],
     },
 };

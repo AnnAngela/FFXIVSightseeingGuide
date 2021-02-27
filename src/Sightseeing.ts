@@ -1,8 +1,6 @@
 import EorzeaClock from "./EorzeaTime";
 import EorzeaWeather from "./EorzeaWeather";
 
-type RegardedAsTheSameWeather = string[][];
-
 export interface ISightseeingGroup {
     groupName: string;
     items: ISightseeingItem[];
@@ -38,11 +36,11 @@ export class Sightseeing {
     nextAvaliableTime: EorzeaClock = new EorzeaClock(undefined);
     nextAvaliableTimeEnd?: EorzeaClock;
     nextAvaliableTimeLeft?: number;
-    vaildStatus: string = "";
-    isStillWaiting: boolean = false;
+    vaildStatus = "";
+    isStillWaiting = false;
     startHour: number;
     endHour: number;
-    forecast: string = "";
+    forecast = "";
     constructor(item: ISightseeingItem) {
         this.id = item.id;
         this.area = item.area;
@@ -59,22 +57,24 @@ export class Sightseeing {
         return a.includes(b);
     }
     calcNextAvailableTime(): void {
-        let nowet: EorzeaClock = new EorzeaClock(undefined);
-        let baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(nowet);
-        for (let i: number = 0; i < 10000; i++) {
-            let forecastSeed: number[] = EorzeaWeather.forecastSeed(baseTime, [i]);
-            let forecast: string = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
+        const nowet: EorzeaClock = new EorzeaClock(undefined);
+        const baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(nowet);
+        for (let i = 0; i < 10000; i++) {
+            const forecastSeed: number[] = EorzeaWeather.forecastSeed(baseTime, [i]);
+            const forecast: string = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
             if (this.compareWeather(this.weathers, forecast)) {
                 // 天气匹配成功
-                let weatherAvaliableTime: number[] = Array.from(
+                const weatherAvaliableTime: number[] = Array.from(
                     { length: 8 },
                     (_, index: number) => index + baseTime.addHours(i * 8).getHours()
                 );
                 if (i === 0) {
-                    let invaildEnd: number = nowet.getHours() - baseTime.getHours();
-                    weatherAvaliableTime.splice(0, invaildEnd);
+                    const invaildEnd: number = nowet.getHours() - 1 - baseTime.getHours();
+                    if (invaildEnd > 0) {
+                        weatherAvaliableTime.splice(0, invaildEnd);
+                    }
                 }
-                let vaildTimes: number[] = this.time.filter(t => weatherAvaliableTime.indexOf(t) !== -1); // calc intersection
+                const vaildTimes: number[] = this.time.filter(t => weatherAvaliableTime.includes(t)); // calc intersection
                 if (vaildTimes.length !== 0) {
                     // 时间匹配成功
                     vaildTimes.sort((a, b) => a - b);
@@ -87,9 +87,7 @@ export class Sightseeing {
                     if (nextAvaliableTimeEnd < vaildTimes[0]) { nextAvaliableTimeEnd += 24; }
                     this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd);
 
-                    this.nextAvaliableTimeLeft = parseInt(
-                        (this.nextAvaliableTimeEnd.getLocalTime().getTime() - nowet.getLocalTime().getTime())
-                        / 1000 / 60 + "", undefined);
+                    this.nextAvaliableTimeLeft = Math.floor((this.nextAvaliableTimeEnd.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60);
 
                     if (i === 0) {
                         let nowHour: number = nowet.getHours();
@@ -108,7 +106,7 @@ export class Sightseeing {
                 }
             }
         }
-        this.nextAvaliableTime = baseTime.addHours(50 * 8);
+        this.nextAvaliableTime = baseTime.addHours(10000 * 8);
         this.vaildStatus = "card-danger";
     }
 }
@@ -179,7 +177,7 @@ export const SightseeingData: ISightseeingGroup[] = [
             { id: "54", area: "area.CentralThanalan", pos: { x: 18, y: 26 }, weathers: ["weather.ClearSkies", "weather.FairSkies"], time: [12, 13, 14, 15, 16], action: "action.Sit", timestr: "12:00~17:00", startHour: 12, endHour: 17 },
             { id: "55", area: "area.EasternThanalan", pos: { x: 30, y: 26 }, weathers: ["weather.ClearSkies", "weather.FairSkies"], time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~17:00", startHour: 12, endHour: 17 },
             { id: "56", area: "area.EasternThanalan", pos: { x: 10, y: 16 }, weathers: ["weather.ClearSkies", "weather.FairSkies"], time: [8, 9, 10, 11], action: "action.Lookout", timestr: "8:00~12:00", startHour: 8, endHour: 12 },
-            { id: "57", area: "area.EasternThanalan", pos: { x: 25, y: 14 }, weathers: [/*"weather.Rain", */"weather.Showers"], time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Pray", timestr: "18:00~5:00", startHour: 18, endHour: 5 },
+            { id: "57", area: "area.EasternThanalan", pos: { x: 25, y: 14 }, weathers: [/* "weather.Rain", */"weather.Showers"], time: [0, 1, 2, 3, 4, 18, 19, 20, 21, 22, 23], action: "action.Pray", timestr: "18:00~5:00", startHour: 18, endHour: 5 },
             { id: "58", area: "area.SouthernThanalan", pos: { x: 12, y: 22 }, weathers: ["weather.Fog"], time: [5, 6, 7], action: "action.Pray", timestr: "5:00~8:00", startHour: 5, endHour: 8 },
             { id: "59", area: "area.SouthernThanalan", pos: { x: 19, y: 20 }, weathers: ["weather.ClearSkies", "weather.FairSkies"], time: [5, 6, 7], action: "action.Lookout", timestr: "5:00~8:00", startHour: 5, endHour: 8 },
             { id: "60", area: "area.SouthernThanalan", pos: { x: 21, y: 38 }, weathers: ["weather.HeatWaves"], time: [12, 13, 14, 15, 16], action: "action.Lookout", timestr: "12:00~17:00", startHour: 12, endHour: 17 },

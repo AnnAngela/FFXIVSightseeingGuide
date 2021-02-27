@@ -1,7 +1,7 @@
 export default class EorzeaClock {
-    static ratio = 1440 / 70;
+    static ratio: number = 1440 / 70;
     date: Date;
-    constructor(ts: number | undefined = undefined) {
+    constructor(ts?: number) {
         if (ts !== undefined) {
             this.date = new Date(ts);
         } else {
@@ -24,10 +24,10 @@ export default class EorzeaClock {
         return new Date(this.date.getTime() / EorzeaClock.ratio);
     }
     toHourMinuteString(): string {
-        let hour: number = this.getHours();
-        let hs: string = `${hour < 10 ? "0" : ""}${hour}`;
-        let min: number = this.getMinutes();
-        let ms: string = `${min < 10 ? "0" : ""}${min}`;
+        const hour: number = this.getHours();
+        const hs = `${hour < 10 ? "0" : ""}${hour}`;
+        const min: number = this.getMinutes();
+        const ms = `${min < 10 ? "0" : ""}${min}`;
         return `${hs}:${ms}`;
     }
 }

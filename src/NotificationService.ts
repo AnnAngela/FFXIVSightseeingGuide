@@ -1,7 +1,7 @@
-export module NotificationService {
-    interface INSSetEventListener {
-        (isSucceed: boolean, effectedValue: Notification | undefined): void;
-    }
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace NotificationService {
+    // eslint-disable-next-line no-unused-vars
+    type INSSetEventListener = (isSucceed: boolean, effectedValue: Notification | undefined) => void;
 
     interface INSSetListenerMap {
         [key: string]: Set<INSSetEventListener>;
@@ -19,7 +19,7 @@ export module NotificationService {
         add(value: Notification): this {
             const isAlreadyHas: boolean = this.has(value);
             Set.prototype.add.bind(this)(value);
-            let isSucceed: boolean = !isAlreadyHas && this.has(value);
+            const isSucceed: boolean = !isAlreadyHas && this.has(value);
             if (this._listenerMap.add instanceof Set) {
                 this._listenerMap.add.forEach((callback: INSSetEventListener) => {
                     callback.bind(this)(isSucceed, value);
@@ -36,7 +36,7 @@ export module NotificationService {
             return Set.prototype.clear.bind(this)();
         }
         delete(value: Notification): boolean {
-            let isSucceed: boolean = Set.prototype.delete.bind(this)(value);
+            const isSucceed: boolean = Set.prototype.delete.bind(this)(value);
             if (this._listenerMap.delete instanceof Set) {
                 this._listenerMap.delete.forEach((callback: INSSetEventListener) => {
                     callback.bind(this)(isSucceed, value);
@@ -46,10 +46,10 @@ export module NotificationService {
         }
     }
 
-    class NSQuitQueue extends Map {
+    class NSQuitQueue extends Map<number, Notification> {
         constructor() {
             super();
-            let date: Date = new Date(), now: number = date.getTime();
+            const date: Date = new Date(); const now: number = date.getTime();
             date.setTime((Math.floor(date.getTime() / 2000) + 1) * 2000);
             setTimeout(() => {
                 this._clearExpriedNotification();
@@ -67,16 +67,16 @@ export module NotificationService {
             });
         }
         private _expired(t?: number): number[] {
-            let now: number = t || Date.now() - 13000, result: number[] = [];
-            for (let k of this.keys()) {
+            const now: number = t || Date.now() - 13000; const result: number[] = [];
+            for (const k of this.keys()) {
                 if (k < now) { result.push(k); }
             }
             return result;
         }
         private _clearExpriedNotification(): void {
-            let expiredKey: number | undefined = this._expired()[0];
+            const expiredKey: number | undefined = this._expired()[0];
             if (expiredKey) {
-                this.get(expiredKey).close();
+                this.get(expiredKey)?.close();
                 this.delete(expiredKey);
             }
         }
@@ -91,29 +91,34 @@ export module NotificationService {
     }
 
     export class Option implements INSOptions {
-        title: string = "";
-        body: string = "";
-        length: number = 0;
+        title = "";
+        body = "";
+        length = 0;
         constructor(option?: INSOptions) {
             if (option) {
                 this._copyOption(this, option);
             }
         }
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
         protected _copyOption(target: Option, src: any): void {
             ["title", "lang", "body", "icon"].forEach((key: string) => {
-                if (src[key]) { target[key] = src[key]; }
+                if (key in src) {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                    target[key] = src[key];
+                }
             });
         }
         clone(): Option {
             return new Option(this);
         }
+        // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
         extend(option?: any): Option {
-            let new_option: Option = this.clone();
+            const newOption: Option = this.clone();
             if (option) {
-                this._copyOption(new_option, option);
+                this._copyOption(newOption, option);
             }
-            if (new_option.length === 0) { new_option.length = 1; }
-            return new_option;
+            if (newOption.length === 0) { newOption.length = 1; }
+            return newOption;
         }
         extendTitle(title: string): Option {
             return this.extend({
@@ -153,7 +158,7 @@ export module NotificationService {
             if (this.permission === true) {
                 if (welcomeOption) { this.sendNotification(welcomeOption); }
             } else if (Notification.permission === Main.PERMISSION.NEEDGRANTED) {
-                Notification.requestPermission((permission: NotificationPermission) => {
+                void Notification.requestPermission((permission: NotificationPermission) => {
                     if (permission === Main.PERMISSION.GRANTED) {
                         this.permission = true;
                         if (welcomeOption) { this.sendNotification(welcomeOption); }
@@ -188,8 +193,8 @@ export module NotificationService {
                 } else {
                     if (options.length > 0) {
                         if (this.notificationSet.size < 3) {
-                            let o: Option = this.defaultOption.extend(options);
-                            let notification: Notification = new Notification(options.title, o);
+                            const o: Option = this.defaultOption.extend(options);
+                            const notification: Notification = new Notification(options.title, o);
                             this.bindNotification(notification);
                         } else {
                             this.notificationQueue.add(options);

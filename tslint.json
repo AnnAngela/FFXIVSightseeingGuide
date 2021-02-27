@@ -1,0 +1,54 @@
+{
+    "rulesDirectory": [
+        "./src"
+    ],
+    "defaultSeverity": "warn",
+    "extends": "tslint:recommended",
+    "rules": {
+        "max-classes-per-file": [
+            true,
+            99999
+        ],
+        "typedef": [
+            true,
+            "call-signature",
+            "arrow-call-signature",
+            "parameter",
+            "arrow-parameter",
+            "property-declaration",
+            "variable-declaration",
+            "member-variable-declaration",
+            "object-destructuring",
+            "array-destructuring"
+        ],
+        "no-console": [
+            true,
+            "debug"
+        ],
+        "no-unused-expression": true,
+        "space-before-function-paren": false,
+        "object-literal-key-quotes": [
+            true,
+            "as-needed"
+        ],
+        "max-line-length": [
+            true,
+            173
+        ],
+        "no-for-in": true,
+        "variable-name": {
+            "options": [
+                "require-const-for-all-caps",
+                "allow-leading-underscore",
+                "ban-keywords",
+                "check-format"
+            ]
+        }
+    },
+    "include": [
+        "./**/*.ts",
+        "./**/*.vue",
+        ".eslintrc.js"
+    ],
+    "strict": true
+}

@@ -1,4 +1,4 @@
-// tslint:disable:max-line-length
+/* eslint-disable camelcase */
 interface i18nObject {
     [key: string]: string | i18nObject;
 }

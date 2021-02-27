@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Vue from "vue";
 import VueRouter, { RouterOptions } from "vue-router";
 import VueI18n from "vue-i18n";
@@ -24,60 +25,60 @@ Vue.use(GlobalBus);
 const routerOption: RouterOptions = {
     routes: [
         { path: "/", component: HomePage },
-        { path: "/weatheroverview", component: WeatherOverviewPage }
-    ]
+        { path: "/weatheroverview", component: WeatherOverviewPage },
+    ],
 };
 
 const router: VueRouter = new VueRouter(routerOption);
 
 const dateTimeFormats: DateTimeFormats = {
     "en-US": {
-        short: {
+        "short": {
             hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: localStorage.getItem("hourSystem") === "24" ? false : true
+            hour12: localStorage.getItem("hourSystem") === "24" ? false : true,
         },
-        long: {
+        "long": {
             year: "numeric", month: "short", day: "numeric", weekday: "short",
             hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: localStorage.getItem("hourSystem") === "24" ? false : true
-        }
+            hour12: localStorage.getItem("hourSystem") === "24" ? false : true,
+        },
     },
     "ja-JP": {
-        short: {
-            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true
+        "short": {
+            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true,
         },
-        long: {
+        "long": {
             year: "numeric", month: "short", day: "numeric", weekday: "short",
-            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true
-        }
+            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true,
+        },
     },
     "zh-CN": {
-        short: {
+        "short": {
             hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: localStorage.getItem("hourSystem") === "24" ? false : true
+            hour12: localStorage.getItem("hourSystem") === "24" ? false : true,
         },
-        long: {
+        "long": {
             year: "numeric", month: "short", day: "numeric",
             hour: "2-digit", minute: "2-digit", second: "2-digit",
-            hour12: localStorage.getItem("hourSystem") === "24" ? false : true
-        }
-    }
+            hour12: localStorage.getItem("hourSystem") === "24" ? false : true,
+        },
+    },
 };
 
 const messages: LocaleMessages = {
     "en-US": en_US,
     "zh-CN": zh_CN,
-    "ja-JP": ja_JP
+    "ja-JP": ja_JP,
 };
 
 const i18n: VueI18n = new VueI18n({
     locale: "zh-CN",
     messages,
-    dateTimeFormats
+    dateTimeFormats,
 });
 
-const app: Vue = new Vue({
+new Vue({
     router,
     i18n,
-    render: h => h(App)
+    render: h => h(App),
 }).$mount("#app");

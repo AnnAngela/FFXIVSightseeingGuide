@@ -4,7 +4,7 @@ export class SucceedSightseeingCounter {
     private _succeedIds: Set<string>;
 
     constructor() {
-        let succeedIdsInStorage: string[] = (localStorage.getItem("completedSightseeing") || "").split(",").filter(c => c !== "");
+        const succeedIdsInStorage: string[] = (localStorage.getItem("completedSightseeing") || "").split(",").filter(c => c !== "");
         this._succeedIds = new Set(succeedIdsInStorage);
     }
     private store(): void {
