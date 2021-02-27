@@ -138,9 +138,13 @@
             )
           }}
           {{
-            $tc("info.lessThan", item.nextAvaliableTimeLeft, {
-              m: item.nextAvaliableTimeLeft,
-            })
+            $tc(
+              item.isOversize ? "info.lessThan2" : "info.lessThan",
+              item.nextAvaliableTimeLeft,
+              {
+                m: item.nextAvaliableTimeLeft,
+              }
+            )
           }}
         </div>
         <div v-else-if="item.vaildStatus != 'card-danger'">
