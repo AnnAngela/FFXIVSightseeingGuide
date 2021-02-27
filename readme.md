@@ -1,4 +1,4 @@
-![Node CI](https://github.com/AnnAngela/FFXIVSightseeingGuide/workflows/Node%20CI/badge.svg)
+[![Node CI](https://github.com/AnnAngela/FFXIVSightseeingGuide/actions/workflows/nodejs.yml/badge.svg)](https://github.com/AnnAngela/FFXIVSightseeingGuide/actions/workflows/nodejs.yml)
 
 [FFXIVSightseeingGuide](https://annangela.github.io/FFXIVSightseeingGuide/#/): A simple tool to show when and which the sightseeings are avaible in Final Fantasy XIV. This tool includes vue, vue-router, jquery and bootstrap, used typescript and webpack.
 
