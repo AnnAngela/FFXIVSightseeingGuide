@@ -14,6 +14,9 @@ export default class EorzeaClock {
     addHours(hourspan: number): EorzeaClock {
         return new EorzeaClock(this.date.getTime() + hourspan * 3600000);
     }
+    clone(): EorzeaClock {
+        return this.addHours(0);
+    }
     getMinutes(): number {
         return this.date.getUTCMinutes();
     }

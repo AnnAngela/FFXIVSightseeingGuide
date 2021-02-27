@@ -60,13 +60,14 @@ export class Sightseeing {
         const nowet: EorzeaClock = new EorzeaClock(undefined);
         const baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(nowet);
         for (let i = 0; i < 10000; i++) {
+            const currentTime: EorzeaClock = baseTime.addHours(i * 8);
             const forecastSeed: number[] = EorzeaWeather.forecastSeed(baseTime, [i]);
             const forecast: string = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
             if (this.compareWeather(this.weathers, forecast)) {
                 // 天气匹配成功
                 const weatherAvaliableTime: number[] = Array.from(
                     { length: 8 },
-                    (_, index: number) => index + baseTime.addHours(i * 8).getHours()
+                    (_, index: number) => index + currentTime.getHours()
                 );
                 if (i === 0) {
                     const invaildEnd: number = nowet.getHours() - 1 - baseTime.getHours();
@@ -79,10 +80,10 @@ export class Sightseeing {
                     // 时间匹配成功
                     vaildTimes.sort((a, b) => a - b);
 
-                    this.nextAvaliableTime = baseTime.addHours(i * 8);
+                    this.nextAvaliableTime = currentTime.clone();
                     this.nextAvaliableTime.date.setUTCHours(vaildTimes[0]);
 
-                    this.nextAvaliableTimeEnd = baseTime.addHours(i * 8);
+                    this.nextAvaliableTimeEnd = currentTime.clone();
                     let nextAvaliableTimeEnd: number = this.endHour;
                     if (nextAvaliableTimeEnd < vaildTimes[0]) { nextAvaliableTimeEnd += 24; }
                     this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd);
