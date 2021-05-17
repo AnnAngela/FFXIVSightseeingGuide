@@ -10,7 +10,8 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-
+paths:
+  - src 
 on:
   push:
     branches: [ master ]
