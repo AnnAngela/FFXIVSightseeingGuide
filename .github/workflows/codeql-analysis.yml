@@ -10,14 +10,17 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-paths:
-  - src 
+
 on:
   push:
     branches: [ master ]
+    paths:
+      - src
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
+    paths:
+      - src
   schedule:
     - cron: '26 0 * * *'
   workflow_dispatch:
@@ -55,8 +58,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    # - name: Autobuild
+    #   uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
