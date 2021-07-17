@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
     mode: 'development',
@@ -9,7 +9,7 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
         filename: 'index.js',
-        libraryTarget: 'var',
+        // libraryTarget: 'var',
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -42,26 +42,16 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: 'vue-style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
+                    { loader: "style-loader" },
+                    { loader: 'css-loader' },
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
-                    {
-                        loader: 'vue-style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
-                    {
-                        loader: 'sass-loader',
-                    },
+                    { loader: "style-loader" },
+                    { loader: 'css-loader' },
+                    { loader: 'sass-loader' },
                 ],
             },
             {
@@ -78,7 +68,18 @@ module.exports = {
             },
             {
                 test: /bootstrap.+\.js$/,
-                loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
+                use: [
+                    {
+                        loader: "imports-loader",
+                        options: {
+                            /* imports: [
+                                "default jQuery",
+                                "default jQuery $",
+                            ], */
+                            wrapper: "window",
+                        },
+                    }
+                ],
             },
         ],
     },
@@ -86,5 +87,5 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true,
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
 };
