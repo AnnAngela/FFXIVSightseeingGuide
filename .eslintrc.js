@@ -16,12 +16,10 @@ module.exports = {
         sourceType: "module",
         include: [
             "./**/*.ts",
-            "./**/*.vue",
-            ".eslintrc.js"
+            "./**/*.vue"
         ],
-        extraFileExtension: [
-            ".vue",
-            ".js"
+        extraFileExtensions: [
+            ".vue"
         ]
     },
     plugins: [

@@ -64,7 +64,7 @@
       :key="item.id"
       class="sightseeing card"
       :class="
-        item.vaildStatus === 'card-danger' ? 'card-default' : item.vaildStatus
+        item.validStatus === 'card-danger' ? 'card-default' : item.validStatus
       "
       @click="setComplete(item.id)"
     >
@@ -92,31 +92,31 @@
           <span>{{ $t(item.action) }}</span>
         </span>
         <div class="float-right card-postheader">
-          <span v-if="item.vaildStatus == 'card-primary'">{{
+          <span v-if="item.validStatus == 'card-primary'">{{
             $t("info.soonToComplete")
           }}</span>
-          <span v-if="item.vaildStatus == 'card-info'">{{
+          <span v-if="item.validStatus == 'card-info'">{{
             $t("info.fewHoursToComplete")
           }}</span>
-          <span v-if="item.vaildStatus == 'card-secondary'">{{
+          <span v-if="item.validStatus == 'card-secondary'">{{
             $t("info.moreTimeToComplete")
           }}</span>
-          <span v-if="item.vaildStatus == 'card-default'">{{
+          <span v-if="item.validStatus == 'card-default'">{{
             $t("info.longTimeToComplete")
           }}</span>
-          <span v-if="item.vaildStatus == 'card-danger'">{{
+          <span v-if="item.validStatus == 'card-danger'">{{
             $t("info.veryLongTimeToComplete")
           }}</span>
-          <span v-if="item.vaildStatus == 'card-success'">{{
+          <span v-if="item.validStatus == 'card-success'">{{
             $t("info.completed")
           }}</span>
         </div>
       </div>
       <div class="card-body">
-        <div v-if="item.vaildStatus == 'card-success'">
+        <div v-if="item.validStatus == 'card-success'">
           {{ $t("info.completed") }}
         </div>
-        <div v-else-if="item.vaildStatus == 'card-primary'">
+        <div v-else-if="item.validStatus == 'card-primary'">
           {{ $t("info.startFrom") }}: ET
           {{ item.nextAvaliableTime.toHourMinuteString() }}
           {{ $t("info.localTime") }}:
@@ -138,16 +138,12 @@
             )
           }}
           {{
-            $tc(
-              item.isOversize ? "info.lessThan2" : "info.lessThan",
-              item.nextAvaliableTimeLeft,
-              {
-                m: item.nextAvaliableTimeLeft,
-              }
-            )
+            $tc("info.lessThan", item.nextAvaliableTimeLeft, {
+              m: item.nextAvaliableTimeLeft,
+            })
           }}
         </div>
-        <div v-else-if="item.vaildStatus != 'card-danger'">
+        <div v-else-if="item.validStatus != 'card-danger'">
           {{ $t("info.startFrom") }}: ET
           {{ item.nextAvaliableTime.toHourMinuteString() }}
           {{ $t("info.localTime") }}:
@@ -355,11 +351,11 @@ export default class HomePage extends Vue {
       newData.forEach((sightseeing: Sightseeing) => {
         oldData.forEach((s: Sightseeing) => {
           if (s.id !== sightseeing.id) return;
-          if (sightseeing.vaildStatus === "card-primary") {
-            if (s.vaildStatus === "card-info")
+          if (sightseeing.validStatus === "card-primary") {
+            if (s.validStatus === "card-info")
               nearSoonToCompleteData.push(sightseeing);
             else if (
-              s.vaildStatus === "card-primary" &&
+              s.validStatus === "card-primary" &&
               s.isStillWaiting === true &&
               sightseeing.isStillWaiting === false
             )
@@ -394,7 +390,7 @@ export default class HomePage extends Vue {
     for (let tempItemIndex in tempGroup) {
       let k = new Sightseeing(tempGroup[tempItemIndex]);
       if (this.succeedSightseeingCounter.contains(k.id)) {
-        k.vaildStatus = "card-success";
+        k.validStatus = "card-success";
         succeedData.push(k);
       } else {
         k.calcNextAvailableTime();

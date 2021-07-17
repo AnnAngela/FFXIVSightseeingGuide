@@ -30,7 +30,6 @@ const en_US: i18nObject = {
         veryLongTimeToComplete: "After 122 days (Earth time)",
         endingAt: "Ending at",
         lessThan: "(Less than one minute) | (Less than {m} minutes)",
-        lessThan2: "(Less than one minute, but didnt calc next weather period) | (Less than {m} minutes, but didnt calc next weather period)",
         additionalInfo: "The endpoint of the time range of the sightseeing is 1 minute before that marked in this page. For example, if the time range of one sightseeing is marked as ET 18:00 - ET 5:00, that means the actual endpoint is ET 4:59. Please be care for it.",
     },
     sightseeingActGuide: "Sightseeing strategy",

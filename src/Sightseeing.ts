@@ -15,7 +15,7 @@ export class Sightseeing {
     nextAvaliableTime: EorzeaClock = new EorzeaClock(undefined);
     nextAvaliableTimeEnd?: EorzeaClock;
     nextAvaliableTimeLeft?: number;
-    vaildStatus = "";
+    validStatus = "";
     isStillWaiting = false;
     startHour: number;
     endHour: number;
@@ -33,67 +33,75 @@ export class Sightseeing {
         this.startHour = item.startHour;
         this.endHour = item.endHour;
     }
-    compareWeather(a: string[], b: string): boolean {
-        return a.includes(b);
+    protected compareWeather(weather: string): boolean {
+        return this.weathers.includes(weather);
     }
-    calcNextAvailableTime(): void {
+    private convertTo48Hours(time: number): number {
+        return time < this.startHour ? time + 24 : time;
+    }
+    private static lastArrayItem<T>(array: T[]): T {
+        return array[array.length - 1];
+    }
+    public calcNextAvailableTime(): void {
         const nowet: EorzeaClock = new EorzeaClock(undefined);
         const baseTime: EorzeaClock = EorzeaWeather.calcBaseDate(nowet);
+        let isActive = false;
+        let startTime = -1;
+        let endTime = -1;
+        let firstActivePhrase = -1;
+        let firstForecast = "";
         for (let i = 0; i < 10000; i++) {
             const currentTime: EorzeaClock = baseTime.addHours(i * 8);
             const forecastSeed: number[] = EorzeaWeather.forecastSeed(baseTime, [i]);
             const forecast: string = EorzeaWeather.getForecast(this.area, forecastSeed)[0];
-            if (this.compareWeather(this.weathers, forecast)) {
-                // 天气匹配成功
+            if (this.compareWeather(forecast)) {
                 const weatherAvaliableTime: number[] = Array.from(
                     { length: 8 },
                     (_, index: number) => index + currentTime.getHours()
                 );
                 if (i === 0) {
-                    const invaildEnd: number = nowet.getHours() - 1 - baseTime.getHours();
-                    if (invaildEnd > 0) {
-                        weatherAvaliableTime.splice(0, invaildEnd);
+                    const invalidEnd: number = nowet.getHours() - 1 - baseTime.getHours();
+                    if (invalidEnd > 0) {
+                        weatherAvaliableTime.splice(0, invalidEnd);
                     }
                 }
-                const vaildTimes: number[] = this.time.filter(t => weatherAvaliableTime.includes(t)); // calc intersection
-                if (vaildTimes.length !== 0) {
-                    // 时间匹配成功
-                    vaildTimes.sort((a, b) => a - b);
-
-                    const nextAvaliableTime = vaildTimes[0];
+                const validTimes: number[] = this.time.filter(t => weatherAvaliableTime.includes(t));
+                if (validTimes.length > 0) {
+                    validTimes.sort((a, b) => this.convertTo48Hours(a) - this.convertTo48Hours(b));
+                    if (!isActive) {
+                        isActive = true;
+                        startTime = Math.min(weatherAvaliableTime[0], this.startHour);
+                        firstActivePhrase = i;
+                        firstForecast = forecast;
+                    }
+                    endTime = Sightseeing.lastArrayItem(validTimes);
+                }
+                if (isActive && endTime !== Sightseeing.lastArrayItem(weatherAvaliableTime)) {
                     this.nextAvaliableTime = currentTime.clone();
-                    this.nextAvaliableTime.date.setUTCHours(nextAvaliableTime);
-
-                    const nextAvaliableTimeEnd = vaildTimes[vaildTimes.length - 1];
+                    this.nextAvaliableTime.date.setUTCHours(startTime);
                     this.nextAvaliableTimeEnd = currentTime.clone();
-                    this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd + 1);
+                    this.nextAvaliableTimeEnd.date.setUTCHours(endTime + 1);
 
                     this.nextAvaliableTimeLeft = Math.floor((this.nextAvaliableTimeEnd.getLocalTime().getTime() - nowet.getLocalTime().getTime()) / 1000 / 60);
 
-                    if (this.startHour < this.endHour || this.startHour > nextAvaliableTime) {
-                        this.isOversize = nextAvaliableTimeEnd < this.endHour - 1;
+                    if (firstActivePhrase === 0) {
+                        if (this.startHour > this.convertTo48Hours(nowet.getHours())) {
+                            this.isStillWaiting = true;
+                        }
+                        this.validStatus = "card-primary";
+                    } else if (firstActivePhrase <= 3) {
+                        this.validStatus = "card-info";
+                    } else if (firstActivePhrase <= 6) {
+                        this.validStatus = "card-secondary";
                     } else {
-                        this.isOversize = true;
+                        this.validStatus = "card-default";
                     }
-
-                    if (i === 0) {
-                        let nowHour: number = nowet.getHours();
-                        if (baseTime.getHours() === 0 && this.startHour > 8) { nowHour += 24; }
-                        if (this.startHour > nowHour) { this.isStillWaiting = true; }
-                        this.vaildStatus = "card-primary";
-                    } else if (i <= 3) {
-                        this.vaildStatus = "card-info";
-                    } else if (i <= 6) {
-                        this.vaildStatus = "card-secondary";
-                    } else {
-                        this.vaildStatus = "card-default";
-                    }
-                    this.forecast = forecast;
+                    this.forecast = firstForecast;
                     return;
                 }
             }
         }
         this.nextAvaliableTime = baseTime.addHours(10000 * 8);
-        this.vaildStatus = "card-danger";
+        this.validStatus = "card-danger";
     }
 }

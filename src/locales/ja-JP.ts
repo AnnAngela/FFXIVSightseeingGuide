@@ -30,7 +30,6 @@ const ja_JP: i18nObject = {
         veryLongTimeToComplete: "122日後（地球時間）",
         endingAt: "終了時刻",
         lessThan: "（{m}分未満）",
-        lessThan2: "（{m}分未満）（未计算下一天气是否仍然符合条件）",
         additionalInfo: "探索笔记的时间段终点为本页标记的终点的前一分钟，例如若本页面所标记的时间段为ET 18:00 - ET 5:00，那么实际的时间段终点为ET 4:59，请注意。",
     },
     sightseeingActGuide: "探索笔记具体完成办法",

@@ -20,7 +20,7 @@
     "include": [
         "./**/*.ts",
         "./**/*.vue",
-        ".eslintrc.js"
+        "./**/**/*.vue"
     ],
     "exclude": [
         "./**/*.js",
