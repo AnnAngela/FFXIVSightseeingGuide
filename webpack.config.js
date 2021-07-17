@@ -59,11 +59,15 @@ module.exports = {
         },
         {
             test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-            loader: 'url-loader',
-            query: {
-                limit: 10000,
-                name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
-            },
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                    },
+                },
+            ],
         },
         {
             test: /bootstrap.+\.js$/,
