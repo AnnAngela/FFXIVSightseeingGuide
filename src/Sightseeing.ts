@@ -15,7 +15,7 @@ export class Sightseeing {
     nextAvaliableTime: EorzeaClock = new EorzeaClock(undefined);
     nextAvaliableTimeEnd?: EorzeaClock;
     nextAvaliableTimeLeft?: number;
-    vaildStatus = "";
+    validStatus = "";
     isStillWaiting = false;
     startHour: number;
     endHour: number;
@@ -50,21 +50,21 @@ export class Sightseeing {
                     (_, index: number) => index + currentTime.getHours()
                 );
                 if (i === 0) {
-                    const invaildEnd: number = nowet.getHours() - 1 - baseTime.getHours();
-                    if (invaildEnd > 0) {
-                        weatherAvaliableTime.splice(0, invaildEnd);
+                    const invalidEnd: number = nowet.getHours() - 1 - baseTime.getHours();
+                    if (invalidEnd > 0) {
+                        weatherAvaliableTime.splice(0, invalidEnd);
                     }
                 }
-                const vaildTimes: number[] = this.time.filter(t => weatherAvaliableTime.includes(t)); // calc intersection
-                if (vaildTimes.length !== 0) {
+                const validTimes: number[] = this.time.filter(t => weatherAvaliableTime.includes(t)); // calc intersection
+                if (validTimes.length !== 0) {
                     // 时间匹配成功
-                    vaildTimes.sort((a, b) => a - b);
+                    validTimes.sort((a, b) => a - b);
 
-                    const nextAvaliableTime = vaildTimes[0];
+                    const nextAvaliableTime = validTimes[0];
                     this.nextAvaliableTime = currentTime.clone();
                     this.nextAvaliableTime.date.setUTCHours(nextAvaliableTime);
 
-                    const nextAvaliableTimeEnd = vaildTimes[vaildTimes.length - 1];
+                    const nextAvaliableTimeEnd = validTimes[validTimes.length - 1];
                     this.nextAvaliableTimeEnd = currentTime.clone();
                     this.nextAvaliableTimeEnd.date.setUTCHours(nextAvaliableTimeEnd + 1);
 
@@ -80,13 +80,13 @@ export class Sightseeing {
                         let nowHour: number = nowet.getHours();
                         if (baseTime.getHours() === 0 && this.startHour > 8) { nowHour += 24; }
                         if (this.startHour > nowHour) { this.isStillWaiting = true; }
-                        this.vaildStatus = "card-primary";
+                        this.validStatus = "card-primary";
                     } else if (i <= 3) {
-                        this.vaildStatus = "card-info";
+                        this.validStatus = "card-info";
                     } else if (i <= 6) {
-                        this.vaildStatus = "card-secondary";
+                        this.validStatus = "card-secondary";
                     } else {
-                        this.vaildStatus = "card-default";
+                        this.validStatus = "card-default";
                     }
                     this.forecast = forecast;
                     return;
@@ -94,6 +94,6 @@ export class Sightseeing {
             }
         }
         this.nextAvaliableTime = baseTime.addHours(10000 * 8);
-        this.vaildStatus = "card-danger";
+        this.validStatus = "card-danger";
     }
 }
