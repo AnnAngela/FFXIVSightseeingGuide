@@ -79,7 +79,7 @@ module.exports = {
                     {
                         loader: 'imports-loader',
                         options: {
-                            imports: [
+                            /* imports: [
                                 {
                                     syntax: "named",
                                     moduleName: "jquery",
@@ -90,7 +90,7 @@ module.exports = {
                                     moduleName: "jquery",
                                     name: "$",
                                 },
-                            ],
+                            ], */
                             wrapper: "window",
                         },
                     },

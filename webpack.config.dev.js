@@ -26,6 +26,10 @@ module.exports = {
         new ESLintPlugin({
             exclude: ['node_modules', 'dist'],
         }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
     ],
     module: {
         rules: [
