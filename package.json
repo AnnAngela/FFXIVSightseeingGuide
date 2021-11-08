@@ -11,7 +11,7 @@
     "bugs": "https://github.com/AnnAngela/FFXIVSightseeingGuide/issues",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "webpack --config webpack.config.js --progress",
+        "build": "webpack --config webpack.config.js --progress && node copyToResult.js",
         "build-ci": "webpack --config webpack.config.js",
         "build-dev": "webpack --config webpack.config.dev.js --progress",
         "dev": "webpack-dev-server --config webpack.config.dev.js --open --hot"
