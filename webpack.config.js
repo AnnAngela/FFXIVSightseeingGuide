@@ -13,7 +13,6 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
         filename: 'index.js',
-        libraryTarget: 'var',
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -59,15 +58,38 @@ module.exports = {
         },
         {
             test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-            loader: 'url-loader',
-            query: {
-                limit: 10000,
-                name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
-            },
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                    },
+                },
+            ]
         },
         {
             test: /bootstrap.+\.js$/,
-            loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
+            use: [
+                {
+                    loader: 'imports-loader',
+                    options: {
+                        imports: [
+                            {
+                                syntax: "namespace",
+                                moduleName: "jquery",
+                                name: "jQuery",
+                            },
+                            {
+                                syntax: "namespace",
+                                moduleName: "jquery",
+                                name: "$",
+                            },
+                        ],
+                        wrapper: "window",
+                    },
+                },
+            ],
         },
         ],
     },

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -22,6 +23,9 @@ module.exports = {
             },
         }),
         new VueLoaderPlugin(),
+        new ESLintPlugin({
+            exclude: ['node_modules', 'dist'],
+        }),
     ],
     module: {
         rules: [
@@ -67,11 +71,13 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                query: {
-                    limit: 10000,
-                    name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
-                },
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                    },
+                }]
             },
             {
                 test: /bootstrap.+\.js$/,

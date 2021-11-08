@@ -226,7 +226,7 @@ export default class App extends Vue {
     v = v === "24" ? "24" : "12";
     localStorage.setItem("hourSystem", v);
     this.currentHourSystem = v;
-    location.reload(false);
+    location.reload();
   }
 }
 </script>
