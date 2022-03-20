@@ -4,19 +4,21 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
+    performance: {
+        maxEntrypointSize: 1024 * 1024,
+        maxAssetSize: 1024 * 1024,
+    },
     mode: 'development',
     entry: './src/index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
         filename: 'index.js',
-        libraryTarget: 'var',
     },
     resolve: {
         extensions: ['.ts', '.js'],
     },
     plugins: [
-        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"development"',
@@ -25,10 +27,6 @@ module.exports = {
         new VueLoaderPlugin(),
         new ESLintPlugin({
             exclude: ['node_modules', 'dist'],
-        }),
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
         }),
     ],
     module: {
@@ -51,47 +49,57 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: 'vue-style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
+                    { loader: "style-loader" },
+                    { loader: 'css-loader' },
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
-                    {
-                        loader: 'vue-style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                    },
-                    {
-                        loader: 'sass-loader',
-                    },
+                    { loader: "style-loader" },
+                    { loader: 'css-loader' },
+                    { loader: 'sass-loader' },
                 ],
             },
             {
                 test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10000,
+                            name: path.posix.join('static', 'fonts/[name].[hash:7].[ext]'),
+                        },
                     },
-                }]
+                ]
             },
             {
                 test: /bootstrap.+\.js$/,
-                loader: 'imports-loader?jQuery=jquery,$=jquery,this=>window',
+                use: [
+                    {
+                        loader: 'imports-loader',
+                        options: {
+                            /* imports: [
+                                {
+                                    syntax: "named",
+                                    moduleName: "jquery",
+                                    name: "jQuery",
+                                },
+                                {
+                                    syntax: "named",
+                                    moduleName: "jquery",
+                                    name: "$",
+                                },
+                            ], */
+                            wrapper: "window",
+                        },
+                    },
+                ],
             },
         ],
     },
     devServer: {
         historyApiFallback: true,
-        noInfo: true,
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval-cheap-module-source-map',
 };

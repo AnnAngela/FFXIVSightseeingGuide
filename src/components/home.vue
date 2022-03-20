@@ -11,14 +11,10 @@
     </div>
     <div
       class="introdutionlead alert alert-info collapse"
-      :class="isWeatherRegardedAsTheSameWeatherView ? 'show' : 'hidden'"
+      :class="isUpdatelogView ? 'show' : 'hidden'"
     >
-      <p class="lead" v-html="$t('weatherRegardedAsTheSameWeather')"></p>
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="setWeatherRegardedAsTheSameWeatherView()"
-      >
+      <p class="lead" v-html="$t('updatelog')"></p>
+      <button type="button" class="btn btn-success" @click="setUpdatelogView()">
         {{ $t("introdution.button") }}
       </button>
     </div>
@@ -321,13 +317,16 @@ import {
   ISucceedCounter,
 } from "../SightseeingCounter";
 
+const updatelog_date = "2022-3-20";
+
 @Component
 export default class HomePage extends Vue {
   nowYear: RegExp = RegExp(`${new Date().getFullYear()}年`, "g");
   sourceData: ISightseeingGroup[] = SightseeingData;
   activeGroup: number = 0;
   calcData: Sightseeing[] = [];
-  succeedSightseeingCounter: SucceedSightseeingCounter = new SucceedSightseeingCounter();
+  succeedSightseeingCounter: SucceedSightseeingCounter =
+    new SucceedSightseeingCounter();
   succeedCounter: ISucceedCounter = {
     activeGroupCount: 0,
     activeGroupAllCount: 0,
@@ -336,9 +335,8 @@ export default class HomePage extends Vue {
   };
   isFirstView: boolean =
     (localStorage.getItem("isFirstView") || "true") === "true";
-  isWeatherRegardedAsTheSameWeatherView: boolean =
-    (localStorage.getItem("isWeatherRegardedAsTheSameWeatherView") ||
-      "true") === "true";
+  isUpdatelogView: boolean =
+    (localStorage.getItem("isUpdatelogView") || "") !== updatelog_date;
   alertClass: string = "";
   created() {
     localStorage.removeItem("firstView");
@@ -413,9 +411,10 @@ export default class HomePage extends Vue {
     for (let succeedIndex in succeedData) {
       tempData.push(succeedData[succeedIndex]);
     }
-    this.succeedCounter.activeGroupCount = this.succeedSightseeingCounter.countByGroup(
-      SightseeingData[this.activeGroup]
-    );
+    this.succeedCounter.activeGroupCount =
+      this.succeedSightseeingCounter.countByGroup(
+        SightseeingData[this.activeGroup]
+      );
     this.succeedCounter.activeGroupAllCount =
       SightseeingData[this.activeGroup].items.length;
     this.succeedCounter.succeedCount = this.succeedSightseeingCounter.count();
@@ -435,9 +434,9 @@ export default class HomePage extends Vue {
     localStorage.setItem("isFirstView", "false");
     this.isFirstView = false;
   }
-  setWeatherRegardedAsTheSameWeatherView() {
-    localStorage.setItem("isWeatherRegardedAsTheSameWeatherView", "false");
-    this.isWeatherRegardedAsTheSameWeatherView = false;
+  setUpdatelogView() {
+    localStorage.setItem("isUpdatelogView", updatelog_date);
+    this.isUpdatelogView = false;
   }
 }
 </script>

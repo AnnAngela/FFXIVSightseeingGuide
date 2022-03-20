@@ -357,6 +357,16 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: -1, weather: "weather.FairSkies" },
         ],
     },
+    "area.Empyreum": {
+        name: "area.Empyreum",
+        weatherRate: [
+            { rate: 5, weather: "weather.Snow" },
+            { rate: 20, weather: "weather.FairSkies" },
+            { rate: 40, weather: "weather.ClearSkies" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.Fog" },
+        ],
+    },
     "area.RhalgrsReach": {
         name: "area.RhalgrsReach",
         weatherRate: [
@@ -437,6 +447,17 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 15, weather: "weather.Clouds" },
             { rate: 40, weather: "weather.FairSkies" },
             { rate: -1, weather: "weather.ClearSkies" },
+        ],
+    },
+    "area.DomanEnclave": {
+        name: "area.DomanEnclave",
+        weatherRate: [
+            { rate: 5, weather: "weather.Showers" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Clouds" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 20, weather: "weather.ClearSkies" },
         ],
     },
     "area.AzimSteppe": {
@@ -576,6 +597,92 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 20, weather: "weather.ClearSkies" },
         ],
     },
+    "area.RadzAtHan": {
+        name: "area.RadzAtHan",
+        weatherRate: [
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Rain" },
+            { rate: 15, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 20, weather: "weather.Clouds" },
+        ],
+    },
+    "area.Thavnair": {
+        name: "area.Thavnair",
+        weatherRate: [
+            { rate: 10, weather: "weather.Fog" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Showers" },
+            { rate: 15, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 20, weather: "weather.Clouds" },
+        ],
+    },
+    "area.Garlemald": {
+        name: "area.Garlemald",
+        weatherRate: [
+            { rate: 45, weather: "weather.Snow" },
+            { rate: 5, weather: "weather.Thunder" },
+            { rate: 5, weather: "weather.Rain" },
+            { rate: 5, weather: "weather.Fog" },
+            { rate: 25, weather: "weather.Clouds" },
+            { rate: 10, weather: "weather.FairSkies" },
+            { rate: 5, weather: "weather.ClearSkies" },
+        ],
+    },
+    "area.OldSharlayan": {
+        name: "area.OldSharlayan",
+        weatherRate: [
+            { rate: 10, weather: "weather.ClearSkies" },
+            { rate: 40, weather: "weather.FairSkies" },
+            { rate: 20, weather: "weather.Clouds" },
+            { rate: 15, weather: "weather.Fog" },
+            { rate: 15, weather: "weather.Snow" },
+        ],
+    },
+    "area.Labyrinthos": {
+        name: "area.Labyrinthos",
+        weatherRate: [
+            { rate: 15, weather: "weather.ClearSkies" },
+            { rate: 45, weather: "weather.FairSkies" },
+            { rate: 25, weather: "weather.Clouds" },
+            { rate: 15, weather: "weather.Rain" },
+        ],
+    },
+    "area.MareLamentorum": {
+        name: "area.MareLamentorum",
+        weatherRate: [
+            { rate: 15, weather: "weather.UmbralWind" },
+            { rate: 15, weather: "weather.MoonDust" },
+            { rate: 70, weather: "weather.FairSkies" },
+        ],
+    },
+    "area.UltimaThule": {
+        name: "area.UltimaThule",
+        weatherRate: [
+            { rate: 15, weather: "weather.AstromagneticStorm" },
+            { rate: 70, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.UmbralWind" },
+        ],
+    },
+    "area.Elpis": {
+        name: "area.Elpis",
+        weatherRate: [
+            { rate: 25, weather: "weather.Clouds" },
+            { rate: 15, weather: "weather.UmbralWind" },
+            { rate: 45, weather: "weather.FairSkies" },
+            { rate: 15, weather: "weather.ClearSkies" },
+        ],
+    },
+    "area.Diadem": {
+        name: "area.Diadem",
+        weatherRate: [
+            { rate: 30, weather: "weather.FairSkies" },
+            { rate: 30, weather: "weather.Fog" },
+            { rate: 30, weather: "weather.Wind" },
+            { rate: 10, weather: "weather.UmbralWind" },
+        ],
+    },
     "area.LyheMheg": {
         name: "area.LyheMheg",
         weatherRate: [
@@ -593,11 +700,28 @@ export const EorzeaAreaWeather: IEorzeaAreaWeatherInfo = {
             { rate: 12, weather: "weather.DustStorms" },
         ],
     },
+    "area.Zadnor": {
+        name: "area.Zadnor",
+        weatherRate: [
+            { rate: 60, weather: "weather.FairSkies" },
+            { rate: 10, weather: "weather.Rain" },
+            { rate: 10, weather: "weather.Wind" },
+            { rate: 10, weather: "weather.Thunder" },
+            { rate: 10, weather: "weather.Snow" },
+        ],
+    },
     "area.TheFeastingGrounds": {
         name: "area.TheFeastingGrounds",
         weatherRate: [
             { rate: 50, weather: "weather.FairSkies" },
             { rate: 50, weather: "weather.Rain" },
+        ],
+    },
+    "area.Lichenweed": {
+        name: "area.Lichenweed",
+        weatherRate: [
+            { rate: 65, weather: "weather.FairSkies" },
+            { rate: 35, weather: "weather.Rain" },
         ],
     },
     "area.SealRock": {
