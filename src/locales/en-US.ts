@@ -36,7 +36,7 @@ const en_US: i18nObject = {
     sightseeingActGuide: "Sightseeing strategy",
     sightseeingActGuideSeeHere: "See Here.",
     sightseeingClickIntroduction: "Click the uncompleted line below to mark it as completed, and click the completed one to mark as uncompleted. ",
-    updatelog: "Due to the game update, \"Clear Skies\" and \"Fair Skies\", \"Rain\" and \"Showers\", \"Snow\" and \"Blizzards\" are now considered to be the same weather. This guide has been adapted to relevant changes.<br>With the 6.0 update, the following maps have been added to the weather forecast feature of this guide：The Diadem, Lichenweed, The Doman Enclave, Zadnor, Empyreum, Radz-at-Han, Thavnair, Garlemald, Old Sharlayan, Labyrinthos, ???, ???, ???",
+    updatelog: "<ul><li>Due to the game update, \"Clear Skies\" and \"Fair Skies\", \"Rain\" and \"Showers\", \"Snow\" and \"Blizzards\" are now considered to be the same weather. This guide has been adapted to relevant changes.</li><li>With the 6.0 update, the following maps have been added to the weather forecast feature of this guide：The Diadem, Lichenweed, The Doman Enclave, Zadnor, Empyreum, Radz-at-Han, Thavnair, Garlemald, Old Sharlayan, Labyrinthos, ???, ???, ???</li></ul>",
     introdution: {
         text: "This guide can calculate the forecast in Eorzea and find the sightseeings that match the weather and time condition.<br>This guide will alert you when there are new sightseeings that can be done via notifications come from right bottom. Then you can click the notifications to come to this page. (It needs your browser supports Notification API).<br>",
         button: "I got it.",
