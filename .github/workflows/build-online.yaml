@@ -24,7 +24,7 @@ jobs:
       env:
         CI: true
     - name: commit, push
-      uses: EndBug/add-and-commit@v5
+      uses: EndBug/add-and-commit@v9
       with:
         add: 'dist'
         author_name: GitHub Actions
