@@ -5,10 +5,12 @@ on:
     branches: [ master ]
     paths:
     - 'src/**'
+    - package-lock.json
   pull_request:
     branches: [ master ]
     paths:
     - 'src/**'
+    - package-lock.json
   workflow_dispatch:
 
 jobs:
