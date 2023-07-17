@@ -22,20 +22,3 @@ updates:
       gha:
         patterns:
           - "*"
-  - package-ecosystem: npm # See documentation for possible values
-    directory: / # Location of package manifests
-    schedule:
-      interval: daily
-      time: '07:30'
-      timezone: Asia/Shanghai
-    commit-message:
-      prefix: npm
-      include: scope
-    assignees:
-      - AnnAngela
-    reviewers:
-      - AnnAngela
-    groups:
-      npm:
-        patterns:
-          - "*"
