@@ -18,6 +18,10 @@ updates:
       - AnnAngela
     reviewers:
       - AnnAngela
+    groups:
+      gha:
+        patterns:
+          - "*"
   - package-ecosystem: npm # See documentation for possible values
     directory: / # Location of package manifests
     schedule:
@@ -31,3 +35,7 @@ updates:
       - AnnAngela
     reviewers:
       - AnnAngela
+    groups:
+      npm:
+        patterns:
+          - "*"
