@@ -21,6 +21,8 @@ jobs:
         node-version: ["lts/*"]
     steps:
     - uses: actions/checkout@v4
+      with:
+        show-progress: false
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
