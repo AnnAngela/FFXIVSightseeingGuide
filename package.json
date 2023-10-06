@@ -29,7 +29,7 @@
         "eslint": "^8.2.0",
         "eslint-webpack-plugin": "^3.1.1",
         "jquery": "^3.5.1",
-        "postcss": "^8.4.26",
+        "postcss": "^8.4.31",
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-i18n": "^8.23.0",
